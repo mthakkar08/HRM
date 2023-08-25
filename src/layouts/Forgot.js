@@ -1,11 +1,10 @@
 import React from 'react';
 
 import bg2 from '../assets/images/bg2.png';
-import hrmLogo from '../assets/images/hrmLogo.png';
+import Forgot_img from '../assets/images/Forgot_img.svg';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate } from 'react-router-dom';
-import logo from '../assets/images/logo.svg';
-
+import hrmLogo from '../assets/images/hrmLogo.png';
 export default function Forgot() {
     return (
         <><div className="container-fluid">
@@ -16,7 +15,7 @@ export default function Forgot() {
                             <div className="row">
                                 <div className="col-lg-10 col-xl-7 mx-auto  ">
                                     <div>
-                                        <img src={bg2} alt="BigCo Inc. logo" />
+                                        <img src={Forgot_img} alt="BigCo Inc. logo" />
                                     </div>
                                 </div>
                             </div>
@@ -36,13 +35,13 @@ export default function Forgot() {
 
                             <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                                 <Form.Group className="mb-3">
-                                    <Form.Control type="text" autoComplete="off" name="countryname" id="countryname" />
+                                <Form.Label className="mb-1">Email</Form.Label>
+                                    <Form.Control type="text" autoComplete="off" name="email" id="email" />
                                 </Form.Group>
 
                                 <Form.Group className='m-0'>
-                                    <input type="checkbox" name="remember" id="remember" />
                                     <Button type="button" className="btn btn-primary btn-block shadow-lg m-0" size="lg">Reset Password</Button>
-                                    <div className="text-right pt-4">Remember your password? <a href="/Forgot" target="_blank">Login</a>
+                                    <div className="text-right pt-4">Remember your password? <a href="/Login" >Login</a>
                                     </div>
                                 </Form.Group>
                             </div>

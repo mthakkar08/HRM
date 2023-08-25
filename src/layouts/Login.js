@@ -54,7 +54,7 @@ function Login() {
                                     <input type="checkbox" name="remember" id="remember" />
                                     <label for="remember" class="ml-2">Remember me</label>
                                     <Button type="button" className="btn btn-primary btn-block shadow-lg m-0" size="lg">Login</Button>
-                                    <div className="text-right pt-4"> <a href="/Forgot" target="_blank">Forgot Password</a>
+                                    <div className="text-right pt-4"> <a href="/Forgot" >Forgot Password</a>
 </div>
                                 </Form.Group>
                             </div>
