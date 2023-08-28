@@ -10,7 +10,9 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { getEmployeesList, deleteEmployee } from "../../services/EmployeeServices.js";
 import AddEditEmployee from './AddEditEmployee.js'
 import Bootbox from 'bootbox-react';
-import cellEditFactory from 'react-bootstrap-table2-editor';
+import { Notification } from "../../components/Notification.js";
+import { useLoading } from '../../LoadingContext.js';
+
 
 export default function Employee() {
   const [show, setShow] = useState(false);
@@ -25,10 +27,12 @@ export default function Employee() {
   const [designation, setDesignation] = useState("");
   const [status, setStatus] = useState("");
   const [email, setEmail] = useState("");
-  
+  const { setLoading } = useLoading();
+
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
+    setLoading(true);
     try {
       await deleteEmployee(currentemployeeId).then(res => { message = res });
     }
@@ -42,7 +46,7 @@ export default function Employee() {
         Notification(message, 'ERROR')
       }
       setCurrentemployeeId(null);
-    
+      setLoading(false);
     }
 
     getEmployeeDataList();
@@ -68,6 +72,7 @@ export default function Employee() {
   }
 
   async function getEmployeeDataList() {
+    setLoading(true);
 debugger;
     try {
       await getEmployeesList(employeeName, designation, status, email).then(res => {
@@ -78,7 +83,7 @@ debugger;
     catch (error) {
     }
     finally {
-    
+      setLoading(false);
     }
   }
 
@@ -270,8 +275,8 @@ debugger;
               id='tbl_employee'
               data={employeeList}
               columns={columns}
-              cellEdit={ cellEditFactory({ mode: 'click',
-              blurToSave: true }) }
+              // cellEdit={ cellEditFactory({ mode: 'click',
+              // blurToSave: true }) }
               striped
               hover
               condensed

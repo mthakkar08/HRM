@@ -18,7 +18,7 @@ export default function Header() {
    <>
         <Navbar bg="light">
           <Navbar.Brand href="#home" style={{ marginLeft: '20px' }}>
-            <img src={hrmLogo} width="130" height="40" className="d-inline-block align-top mt-2" alt="React Bootstrap logo" style={{ margin: '5px' }} />
+            <img src={hrmLogo} width="160" height="50" className="d-inline-block align-top mt-2" alt="React Bootstrap logo" style={{ margin: '5px' }} />
           </Navbar.Brand>
           <Navbar.Collapse className="justify-content-end">
           </Navbar.Collapse>

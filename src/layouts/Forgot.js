@@ -29,8 +29,8 @@ export default function Forgot() {
                     <Card className="login-form">
 
                         <Form className=''>
-                            <img src={hrmLogo} width={100} height={100} style={{ marginLeft: "200px" }} />
-                            <h3 class="mb-0" style={{ marginTop: "50px", marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Forgot Password?</h3><br></br>
+                            <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
+                            <h3 class="mb-0" style={{marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Forgot Password?</h3><br></br>
                             <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Enter your email to get a password reset link </h6>
 
                             <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >

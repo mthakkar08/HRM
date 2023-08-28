@@ -1,17 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getFuelTypeDetail, addFuelType } from "../../services/FuelTypeService.js";
+import { getEmployeeDetail, addEmployees } from "../../services/EmployeeServices.js";
 import { useLoading } from '../../LoadingContext.js';
-import { Notification } from '../../components/Sidebar/Notification.js'
+import { Notification } from '../../components/Notification.js'
 
 export default function AddEditEmployee(props) {
 
   const [show, setShow] = useState(true);
-  const currentFuelTypeId = props.fuelTypeId;
-  const [fuelType, setFuelType] = useState("");
-  const [description, setDescription] = useState("");
-  const [fueltypeErr, setFueltypeErr] = useState(false);
+  const currentemployeeId = props.employeeId;
+  const [employeeName, setEmployeeName] = useState("");
+  const [dob, setDob] = useState("");
+  const [employeeNameErr, setEmployeeNameErr] = useState(false);
   const handleClose = () => setShow(false);
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
@@ -27,10 +27,10 @@ export default function AddEditEmployee(props) {
       try {
         setLoading(true);
         setDataLoading(true);
-        if (currentFuelTypeId != null && currentFuelTypeId != 0) {
-          await getFuelTypeDetail(currentFuelTypeId).then(res => {
-            setFuelType(res.fuelType)
-            setDescription(res.description)
+        if (currentemployeeId != null && currentemployeeId != 0) {
+          await getEmployeeDetail(currentemployeeId).then(res => {
+            setEmployeeName(res.employeeName)
+            setDob(res.dob)
           });
         }
       }
@@ -44,36 +44,41 @@ export default function AddEditEmployee(props) {
         }, 1200);
       }
     })();
-  }, [currentFuelTypeId])
+  }, [currentemployeeId])
 
-  function FuleHandler(e) {
+  function EmployeeHandler(e) {
     let item = e.target.value;
     if (item == null || item == "") {
-      setFueltypeErr(true)
+      setEmployeeNameErr(true)
     } else {
-      setFueltypeErr(false)
+      setEmployeeNameErr(false)
     }
-    setFuelType(item);
+    setEmployeeName(item);
   }
 
-  async function SaveFuelType(e) {
+  async function SaveEmployee(e) {
     e.preventDefault();
     setLoading(true);
     let message = '';
     let validate = true;
 
     try {
-      if (fuelType == undefined || fuelType.trim() == null || fuelType.trim() == "") {
+      if (employeeName == undefined || employeeName.trim() == null || employeeName.trim() == "") {
         validate = false;
-        setFueltypeErr(true);
+        setEmployeeNameErr(true);
         return;
       }
       else {
-        setFueltypeErr(false);
+        setEmployeeNameErr(false);
       }
 
-      await addFuelType(currentFuelTypeId, fuelType, description).then(res => {
-        message = res.toString();
+      await addEmployees(currentemployeeId, employeeName, dob).then(res => {
+        debugger;
+        console.log(res.employeeName)
+        if(res!= null){
+         // message = res.toString();
+         message = "saved successfully";
+        }
       });
     }
     catch (error) {
@@ -102,24 +107,23 @@ export default function AddEditEmployee(props) {
         className="main-class"
       >
         <Modal.Header closeButton>
-          {currentFuelTypeId == null || currentFuelTypeId == 0 ? <Modal.Title>Add Fuel Type</Modal.Title> : <Modal.Title>Update Fuel Type</Modal.Title>}
+          {currentemployeeId == null || currentemployeeId == 0 ? <Modal.Title>Add Employee</Modal.Title> : <Modal.Title>Update Employee</Modal.Title>}
         </Modal.Header>
-        <Form onSubmit={SaveFuelType}>
+        <Form onSubmit={SaveEmployee}>
           <Modal.Body>
             <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Fuel Type</Form.Label>
-              <Form.Control type="text" autoComplete="off" name="fueltype" id="fueltype"
-                value={fuelType} disabled={currentFuelTypeId == null || currentFuelTypeId == 0 ? false : true} onChange={FuleHandler} />{fueltypeErr ? <span style={{ color: 'red' }}>Please enter fuel type</span> : null}
+              <Form.Label className="mb-1">Employee Name</Form.Label>
+              <Form.Control type="text" autoComplete="off" name="employeeName" id="employeeName"
+                value={employeeName}  onChange={EmployeeHandler} />{employeeNameErr ? <span style={{ color: 'red' }}>Please enter Employee Name</span> : null}
             </Form.Group>
 
             <Form.Group className="mb-3">
-              <Form.Label className="mb-1">Description</Form.Label>
-              <Form.Control type="description" autoComplete="off" name="description" id="description" 
-                as="textarea" value={description} onChange={(e) => { setDescription(e.target.value) }}
+              <Form.Label className="mb-1">dob</Form.Label>
+              <Form.Control type="dob" autoComplete="off" name="dob" id="dob" 
+                as="textarea" value={dob} onChange={(e) => { setDob(e.target.value) }}
                
               />
             </Form.Group>
-            
           </Modal.Body>
 
           <Modal.Footer>

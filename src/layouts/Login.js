@@ -16,10 +16,10 @@ function Login() {
                             <div className="row">
                                 <div className="col-lg-10 col-xl-7 mx-auto  ">
                                     <div>
-                                     {/* <img src={hrmLogo} width={300}  />  */}
-                                      
-                                        <img src={bg2} alt="BigCo Inc. logo"/>
-                                        <h6 className="display-6" style={{ color: "#191a5a" , marginLeft:"115px"}}><b>HR Management</b></h6>
+                                        {/* <img src={hrmLogo} width={300}  />  */}
+
+                                        <img src={bg2} alt="BigCo Inc. logo" />
+                                        <h6 className="display-6" style={{ color: "#191a5a", marginLeft: "115px" }}><b>HR Management</b></h6>
                                     </div>
                                     {/* {/ <Button type="button" className="btn btn-primary btn-block shadow-lg" size="lg">Login With OKTA</Button> /} */}
                                 </div>
@@ -34,11 +34,11 @@ function Login() {
                     <Card className="login-form">
 
                         <Form className=''>
-                             <img src={hrmLogo} width={100} height={100} style={{marginLeft:"200px"}}  /> 
-                             <h3 class="mb-0" style={{ marginTop: "50px",marginLeft:"82px",marginRight:"82px", color: "#383972" }}>Welcome to HRM!</h3><br></br>
-                             <h6 class="mb-0" style={{marginLeft:"82px",marginRight:"82px",marginBottom:"50px", color: "#383972" }}>Please sign-in to your account and start your journey. </h6>
-                          
-                            <div style={{ marginLeft:"82px",marginRight:"82px",marginBottom:"82px",marginTop:"30px" }} className='text-left' >
+                            <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
+                            <h3 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Welcome to HRM!</h3><br></br>
+                            <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Please sign-in to your account and start your journey. </h6>
+
+                            <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                                 <Form.Group className="mb-3">
                                     <Form.Label className="mb-1">Email</Form.Label>
                                     <Form.Control type="text" autoComplete="off" name="countryname" id="countryname"
@@ -55,7 +55,7 @@ function Login() {
                                     <label for="remember" class="ml-2">Remember me</label>
                                     <Button type="button" className="btn btn-primary btn-block shadow-lg m-0" size="lg">Login</Button>
                                     <div className="text-right pt-4"> <a href="/Forgot" >Forgot Password</a>
-</div>
+                                    </div>
                                 </Form.Group>
                             </div>
 

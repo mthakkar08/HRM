@@ -1,7 +1,7 @@
 import '../assets/styles/App.css';
 import Header from './Header';
 import Footer from './Footer';
-import SideBar from "../components/Sidebar/SideBar";
+import SideBar from "../components/SideBar.js";
 import React from 'react';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import Login from './Login';
@@ -17,11 +17,14 @@ import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import { useLoading } from "../LoadingContext";
+import Loader from '../components/Loader';
 
 export default function Layout() {
-
+  const { loading } = useLoading();
   return (
     <>
+      {loading && <Loader />}
       <Header /> 
        <Row> 
          <Col xs={12}> 
