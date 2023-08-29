@@ -147,8 +147,9 @@ const SideBar = ({ children }) => {
                   animate="show"
                   exit="hidden"
                   className="logo"
+                  style={{marginTop:"11px", marginLeft:"40px"}}
                 >
-                  DoSomeCoding
+                  HRM
                 </motion.h1>
               )}
             </AnimatePresence>

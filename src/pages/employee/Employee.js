@@ -151,19 +151,11 @@ debugger;
       }
     },
     {
-      dataField: "password",
-      text: "Password",
-      sort: true,
-      style: {
-        width: '8%'
-      }
-    },
-    {
       dataField: "address",
       text: "Address",
       sort: true,
       style: {
-        width: '5%'
+        width: '7%'
       }
     },
     {
@@ -171,7 +163,7 @@ debugger;
       text: "Designation",
       sort: true,
       style: {
-        width: '5%'
+        width: '6%'
       }
     },
     {
@@ -179,7 +171,7 @@ debugger;
       text: "Experience",
       sort: true,
       style: {
-        width: '5%'
+        width: '8%'
       }
     },
     {
@@ -211,7 +203,7 @@ debugger;
       text: "Termination Date",
       sort: true,
       style: {
-        width: '8%'
+        width: '10%'
       }
     },
     {
@@ -249,7 +241,8 @@ debugger;
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' variant="warning" type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
+             
               </Nav>
             </Navbar.Collapse>
           </Navbar >

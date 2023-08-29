@@ -6,7 +6,7 @@ export default function Footer() {
       <>
         <footer className='d-flex flex-wrap justify-content-between align-items-center'>
           <div className='col-md-4 d-flex align-items-center'>
-          <span className='text-muted'>©  {new Date().getFullYear()}  S&P Global, All Rights Reserved.</span>
+          <span className='text-muted'>©  {new Date().getFullYear()}  HR Manangement, All Rights Reserved.</span>
           </div>
         </footer>
       </>

@@ -5,31 +5,20 @@ import { apiUrl } from "../config";
 
 export async function getEmployeesList(employeeName, designation, status, email) {
   return await axios.get("http://192.168.1.106:8080/hrm/employee/list?employeeName=&designation=&status=0&email=").then((response) => response.data);
+ // return await axios.get("http://192.168.1.106:8080/hrm/employee/list?employeeName="+ employeeName + "&designation" + designation + "&status" + status +"&email" + email ).then((response) => response.data);
 }
 
-
 export async function getEmployeeDetail(employeeId) {
-  return axios.get( "http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
+  return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
 }
 
 export async function deleteEmployee(employeeId) {
-  var details = {
-    'employeeId': employeeId
-  };       
-
-  var formBody = [];
-  for (var property in details) {
-    var encodedKey = encodeURIComponent(property);
-    var encodedValue = encodeURIComponent(details[property]);
-    formBody.push(encodedKey + "=" + encodedValue);
-  }
-  formBody = formBody.join("&");
+ 
   try {
-    return axios.post("http://192.168.1.106:8080/hrm/employee/delete?employeeId=",
-      formBody,
+    return axios.delete("http://192.168.1.106:8080/hrm/employee/delete?employeeId=" + employeeId,
       {
         headers: {
-          'Content-Type': 'application/x-www-form-urlencoded;charset=UTF-8',
+          'Content-Type': 'application/json',
         }
       }
     ).then((res) => res.data);
@@ -39,7 +28,7 @@ export async function deleteEmployee(employeeId) {
   }
 }
 
-export function addEmployees(employeeId, employeeName, dob, gender,phoneNumber, email, password, address, designation, experience, status, hiringDate, joiningDate, terminationDate) {
+export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address, designation, experience, status, hiringDate, joiningDate, terminationDate) {
   var details = {
     'employeeId': employeeId,
     'employeeName': employeeName,
@@ -47,7 +36,6 @@ export function addEmployees(employeeId, employeeName, dob, gender,phoneNumber, 
     'gender': gender,
     'phoneNumber': phoneNumber,
     'email': email,
-    'password': password,
     'address': address,
     'designation': designation,
     'experience': experience,
@@ -58,7 +46,7 @@ export function addEmployees(employeeId, employeeName, dob, gender,phoneNumber, 
   };
   try {
     return axios.post("http://192.168.1.106:8080/hrm/employee/save",
-    details,
+      details,
       {
         headers: {
           'Content-Type': 'application/json',

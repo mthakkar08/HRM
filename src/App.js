@@ -6,14 +6,14 @@ import Layout from "./layouts/Layout";
 function App() {
   return (
     <LoadingProvider>
-<Router>
-  <Layout>
-    <>
+      <Router>
+        <Layout>
+          <>
 
-    </>
-  </Layout>
-</Router>
- </LoadingProvider>
+          </>
+        </Layout>
+      </Router>
+    </LoadingProvider>
   );
 }
 

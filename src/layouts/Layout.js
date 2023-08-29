@@ -3,7 +3,12 @@ import Header from './Header';
 import Footer from './Footer';
 import SideBar from "../components/SideBar.js";
 import React from 'react';
-import { Navigate, Route, Routes } from 'react-router-dom';
+
+import { useNavigate, Route, Routes } from 'react-router-dom';
+
+// import PrivateRoute from '../routes/PrivateRoute';
+import { Navigate } from 'react-router-dom';
+
 import Login from './Login';
 import axios from "axios";
 import Dashboard from '../pages/Dashboard';
@@ -15,8 +20,8 @@ import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
-import Row from 'react-bootstrap/Row';
-import Col from 'react-bootstrap/Col';
+
+import {Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
 
@@ -28,7 +33,7 @@ export default function Layout() {
       <Header /> 
        <Row> 
          <Col xs={12}> 
-           <main >
+         
              <SideBar> 
               <Routes>
             <Route path="/" element={<Login />} />
@@ -44,7 +49,7 @@ export default function Layout() {
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </SideBar> 
-           </main> 
+           
         </Col> 
        </Row> 
        <Footer /> 

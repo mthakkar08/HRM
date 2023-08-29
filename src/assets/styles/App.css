@@ -96,7 +96,7 @@ code {
 }
 
 .navbar-menu {
-  background-color:#696cf6;
+  background-color:#6e5cc2 ;
   height: 39px;
   /* //#8f3975 */
 }
@@ -222,7 +222,7 @@ code {
 main {
   min-height: 80vh !important;
   width: 100% !important;
-  padding-left: 20px !important;
+  padding: 20px !important;
 }
 
 #dropdown-basic {
@@ -234,7 +234,7 @@ main {
 }
 
 #dropdown-basic:hover {
-  background-color: #f1f1f1;
+  background-color: #BFCED496 !important;
 }
 .navbar-expand .navbar-nav, 
 .navbar-expand .navbar-nav .dropdown, .navbar-expand .navbar-nav .dropdown > li.show{
@@ -394,14 +394,15 @@ th .react-bootstrap-table-sort-order .caret {
   line-height: 1.5384616 !important;
   border-radius: 3px !important;
   user-select: none;
-  border-radius: 20px !important;
+  border-radius: 5px !important;
   color: white !important;
 }
 
 .btn-primary {
   color: #fff !important;
-  background: #696cf6 !important;
-  border: #696cf6 !important;
+  background: #6e5cc2 !important;
+  border: #6e5cc2  !important;
+  /* border: #696cf6 !important; */
 }
 
 .btn-dft {
@@ -451,7 +452,7 @@ textarea {
   background-color: #fff !important;
   background-clip: padding-box !important;
   border: 1px solid #ced4da !important;
-  border-radius: 20px !important;
+  border-radius: 5px !important;
   appearance: none;
   transition: border-color .15s ease-in-out, box-shadow .15s ease-in-out;
 }
@@ -828,6 +829,20 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
   border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color) !important;
   border-top-left-radius: var(--bs-modal-inner-border-radius) !important;
   border-top-right-radius: var(--bs-modal-inner-border-radius) !important;
+  background-color: #51438d !important;
+  color: white !important;
+}
+
+.btn-close{
+  color: white !important;
+  /* text-decoration: none; */
+  opacity: .75;
+}
+
+.btn-close:hover {
+  color: #ccc;
+  text-decoration: none;
+  opacity: .75;
 }
 
 @media (min-width: 576px){
@@ -913,9 +928,6 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
 .main-container {
   display: flex;
 }
-main {
-  padding: 10px;
-}
 
 .title {
   font-size: 3rem;
@@ -925,7 +937,7 @@ main {
 
 /* Sidebar */
 .sidebar {
-  background: #696cf6;
+  background: #6e5cc2 ;
   color: white;
   height: 100vh;
   overflow-y: auto;
@@ -1032,103 +1044,13 @@ main {
   background-color: #ffffff;
 }
 
-
-
-
-
-
-/* ===================================== Login ========================================== */
-/* 
-*{
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    font-family: 'Poppins', sans-serif;
-}
-body{
-    height: 100vh;
-    background: linear-gradient(to top, #c9c9ff 50%, #9090fa 90%) no-repeat;
-}
-.container{
-    margin: 50px auto;
-}
-.panel-heading{
-    text-align: center;
-    margin-bottom: 10px;
-}
-#forgot{
-    min-width: 100px;
-    margin-left: auto;
-    text-decoration: none;
-}
-a:hover{
-    text-decoration: none;
-}
-.form-inline label{
-    padding-left: 10px;
-    margin: 0;
-    cursor: pointer;
-}
-.btn.btn-primary{
-    margin-top: 20px;
-    border-radius: 15px;
-}
-.panel{
-    min-height: 380px;
-    box-shadow: 20px 20px 80px rgb(218, 218, 218);
-    border-radius: 12px;
-}
-.input-field{
-    border-radius: 5px;
-    padding: 5px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    border: 1px solid #ddd;
-    color: #4343ff;
-}
-input[type='text'],
-input[type='password']{
-    border: none;
-    outline: none;
-    box-shadow: none;
-    width: 100%; 
-}
-.fa-eye-slash.btn{
-    border: none;
-    outline: none;
-    box-shadow: none;
+.link{
+  text-decoration: none !important;
+  color: white !important;
 }
 
-a[target='_blank']{
-    position: relative;
-    transition: all 0.1s ease-in-out;
+.link:hover{
+  text-decoration: none !important;
+  color: white !important;
 }
 
-.bordert{
-    border-top: 1px solid #aaa;
-    position: relative;
-}
-.bordert:after{
-    content: "or connect with";
-    position: absolute;
-    top: -13px;
-    left: 33%;
-    background-color: #fff;
-    padding: 0px 8px;
-}
-@media(max-width: 360px){
-    #forgot{
-        margin-left: 0;
-        padding-top: 10px;
-    }
-    body{
-        height: 100%;
-    }
-    .container{
-        margin: 30px 0;
-    }
-    .bordert:after{
-        left: 25%;
-    }
-} */
