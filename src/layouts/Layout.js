@@ -20,6 +20,7 @@ import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
+import ResetPassword from '../layouts/ResetPassword';
 
 import {Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
@@ -46,6 +47,7 @@ export default function Layout() {
                 <Route path="/saved" element={<Saved />} />
                 <Route path="/settings" element={<Setting />} />
                 <Route path="/forgot" element={<Forgot />} />
+                <Route path="/resetPassword" element={<ResetPassword />} />
                 <Route path="*" element={<Navigate to="/" />} />
               </Routes>
             </SideBar> 
