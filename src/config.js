@@ -4,5 +4,8 @@
 const kenshoUrl = process.env.REACT_APP_KENSHO_URL;
 const kenshoRefreshUrl = process.env.REACT_APP_KENSHO_REFRESH_URL;
 const kenshoRefreshToken = process.env.REACT_APP_KENSHO_REFRESH_TOKEN;
-
-export { apiUrl, kenshoUrl, kenshoRefreshUrl, kenshoRefreshToken };
+const statusData = [
+    { label: "Active", value: "0" },
+    { label: "In-Active", value: "1" }
+  ];
+export { apiUrl, kenshoUrl, kenshoRefreshUrl, kenshoRefreshToken, statusData};
