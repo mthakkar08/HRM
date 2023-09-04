@@ -62,7 +62,6 @@ export default function FuelType() {
   }
 
   async function getfuelTypeList() {
-debugger;
     try {
       await getFuelList(fuelType).then(res => {
         setFuelTypeList(res)

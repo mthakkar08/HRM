@@ -4,10 +4,8 @@ import bg2 from '../assets/images/bg2.png';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import logo from '../assets/images/logo.svg';
 
 function Login() {
-
   const [email, setEmail] = useState("");
   const [password, setPasswrd] = useState("");
   // const [result, setResult] = useState("");
@@ -26,7 +24,6 @@ function Login() {
     setisSubmitted(true);
     let userProfile = { email, password };
 
-    debugger
     let result;
     await fetch("http://192.168.1.106:8080/hrm/employee/login", {
       method: "POST",
@@ -36,8 +33,6 @@ function Login() {
       },
     }).then((res) => res.json())
       .then((d) => {
-        debugger
-        // setResult(d);
         result = d;
 
       })
@@ -45,9 +40,8 @@ function Login() {
       });
 
 
-
     if (result) {
-      navigate('/Dashboard');
+      navigate('/Employee');
     }
     else {
       alert("Invalid email or password!")
@@ -56,6 +50,7 @@ function Login() {
   };
 
   function handleDisable() {
+    debugger;
     return email && password && matchPattern(password);
   }
 
@@ -80,7 +75,6 @@ function Login() {
                 <div className="col-lg-10 col-xl-7 mx-auto  ">
                   <div>
                     {/* <img src={hrmLogo} width={300}  />  */}
-
                     <img src={bg2} alt="BigCo Inc. logo" />
                     <h6 className="display-6" style={{ color: "#191a5a", marginLeft: "115px" }}><b>HR Management</b></h6>
                   </div>
@@ -92,15 +86,11 @@ function Login() {
         </div>
         <div className="col-md-4 d-none d-md-flex" style={{ backgroundColor: "#dbdbf3" }}>
 
-
-
           <Card className="login-form">
-
             <Form className='' onSubmit={handleSubmit}>
               <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
               <h3 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Welcome to HRM!</h3><br></br>
               <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Please sign-in to your account and start your journey. </h6>
-
               <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-1">Email</Form.Label>
@@ -138,14 +128,11 @@ function Login() {
                   </div>
                 </Form.Group>
               </div>
-
             </Form>
-
           </Card>
 
-
-
         </div>
+      
       </div>
     </div>
     </>
