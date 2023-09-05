@@ -50,7 +50,6 @@ function Login() {
   };
 
   function handleDisable() {
-    debugger;
     return email && password && matchPattern(password);
   }
 

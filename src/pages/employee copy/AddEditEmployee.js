@@ -72,14 +72,14 @@ export default function AddEditEmployee(props) {
             setPhoneNumber(res.phoneNumber)
             setEmail(res.email)
             setGender(res.gender)
-            setDesignationName(res.designationName)
+            setDesignationName(res.designationId)
             setExperience(res.experience)
             setAddress(res.address)
             
             setStatus(res.status)
             // setDesignationName(res.designationName)
 
-            setDesignationName( designationList?.find(x => x.value == res.designationId))
+            setDesignationName( designationList?.find(x => x.value == res.designation))
             
             // if (designationName) {
             //   setDesignationName(designation.designationName);
