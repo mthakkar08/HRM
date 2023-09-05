@@ -28,23 +28,22 @@ function Login() {
 
     debugger
     let result;
-    await fetch("http://192.168.1.106:8080/hrm/employee/login", {
+    await fetch("http://192.168.1.106:8081/hrm/employee/login", {
       method: "POST",
       body: JSON.stringify(userProfile),
       headers: {
         "Content-type": "application/json ",
       },
-    }).then((res) => res.json())
-      .then((d) => {
-        debugger
-        // setResult(d);
-        result = d;
-
+    }).then((response) => console.log(response.json().jwttoken))
+      .then((result) => {
+        console.log(result)
+        result = result;
       })
       .catch((err) => {
+        console.log(err)
       });
 
-
+    console.log("Result > " + result)
 
     if (result) {
       navigate('/Dashboard');
