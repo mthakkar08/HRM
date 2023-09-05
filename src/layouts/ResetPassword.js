@@ -1,27 +1,75 @@
 import React from 'react';
+import CryptoJS from "crypto-js";
 
 import bg2 from '../assets/images/bg2.png';
 import Forgot_img from '../assets/images/Forgot_img.svg';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
-import { Link, Navigate } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
+
+
 export default function ResetPassword() {
 
-
+    // const navigate = useNavigate();
 
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [isSubmitted, setIsSubmitted] = useState(false)
 
+    let email;
 
-    const handleSubmit = (e) => {
+    const secretPass = "XkhZG4fW2t2W";
+
+
+    const decryptData = (text) => {
+        let bytes = CryptoJS.AES.decrypt(text, secretPass);
+        email = bytes.toString(CryptoJS.enc.Utf8);
+        console.log(email)
+    };
+
+    const [searchParams] = useSearchParams();
+    let encEmail = searchParams.get('token');
+
+    console.log('encEmail > ' + encEmail)
+    decryptData(encEmail)
+    console.log('email > ' + email)
+    
+    const handleSubmit = async (e) => {
         console.log("inside handleSubmit")
         e.preventDefault();
         setIsSubmitted(true);
 
-        if (password && confirmPassword) {
 
+
+        let userProfile = { email, password };
+        let result;
+
+        if (password && confirmPassword) {
+            await fetch("http://192.168.1.106:8080/hrm/employee/reset", {
+                method: "POST",
+                body: JSON.stringify(userProfile),
+                headers: {
+                    "Content-type": "application/json ",
+                },
+            }).then((res) => console.log("response : > " + res.text))
+                .then((d) => {
+                    debugger
+                    result = d;
+                    console.log(d)
+
+                })
+                .catch((err) => {
+                    console.log(err)
+                });
+        }
+
+        console.log(result)
+
+        if(result === 'SUCCESS'){
+            alert('Password Changes Successfully...')
+            // navigate('/');
         }
 
 
@@ -54,6 +102,16 @@ export default function ResetPassword() {
                     <h3 class="mb-0" style={{ color: "#383972" }}>Reset Password</h3><br></br>
 
                     <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
+
+                        {/* <Form.Group className="mb-3">
+                            <Form.Label className="mb-1">Email</Form.Label>
+                            <Form.Control type="email" autoComplete="off" name="email" id="email"
+                                placeholder="example@xyz.com"
+                                value={data}
+                                disabled
+                            />
+                        </Form.Group> */}
+
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">New Password</Form.Label>
                             <Form.Control type="password" autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />

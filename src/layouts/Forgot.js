@@ -1,17 +1,69 @@
-import React, { useState } from 'react';
-
-import bg2 from '../assets/images/bg2.png';
+import React, { useRef, useState } from 'react';
+import emailjs from '@emailjs/browser';
 import Forgot_img from '../assets/images/Forgot_img.svg';
-import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
-import { Link, Navigate } from 'react-router-dom';
+import { Button, Form, Card } from 'react-bootstrap';
 import hrmLogo from '../assets/images/hrmLogo.png';
+import { Navigate } from 'react-router-dom';
+import CryptoJS from "crypto-js";
+
 export default function Forgot() {
 
     const [email, setEmail] = useState("")
+    const form = useRef();
 
-    const handleSubmit = () => {
-        
+    const secretPass = "XkhZG4fW2t2W";
+    let data;
+    const encryptData = () => {
+        data = CryptoJS.AES.encrypt(
+            email,
+            secretPass
+        ).toString();
+    };
+
+    const handleSubmit = async (e) => {
+
+        e.preventDefault();
+
+        let result;
+
+        await fetch("http://192.168.1.106:8080/hrm/employee/forget", {
+            method: "POST",
+            body: JSON.stringify({ email }),
+            headers: {
+                "Content-type": "application/json ",
+            },
+        }).then((res) => console.log("response : > " + res))
+            // .then((data) => {
+            //     result = data;
+            //     console.log(data)
+
+            // })
+            // .catch((err) => {
+            //     console.log(err)
+            // });
+
+        // check if email id is exist in db or not
+        // email
+
+        console.log("Result > " + result)
+
+        encryptData();
+
+        let mailBody = {
+            email,
+            encEmail: data
+        }
+
+        emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
+            .then(function (response) {
+
+                alert("Email sent to your emailId...")
+            }, function (error) {
+                alert("invalid Email...")
+            });
+
     }
+
 
 
     return (
@@ -36,7 +88,7 @@ export default function Forgot() {
 
                     <Card className="login-form">
 
-                        <Form className='' onSubmit={handleSubmit}>
+                        <Form ref={form} className='' onSubmit={handleSubmit}>
                             <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
                             <h3 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Forgot Password?</h3><br></br>
                             <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Enter your email to get a password reset link </h6>
@@ -44,14 +96,14 @@ export default function Forgot() {
                             <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                                 <Form.Group className="mb-3">
                                     <Form.Label className="mb-1">Email</Form.Label>
-                                    <Form.Control type="text" autoComplete="off" name="email" id="email"
+                                    <Form.Control type="email" autoComplete="off" name="email" id="email"
                                         placeholder="example@xyz.com"
                                         value={email}
                                         onChange={(e) => setEmail(e.target.value)} />
                                 </Form.Group>
 
                                 <Form.Group className='m-0'>
-                                    <Button type="button" className="btn btn-primary btn-block shadow-lg m-0" size="lg">Reset Password</Button>
+                                    <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!email}>Reset Password</Button>
                                     <div className="text-right pt-4">Remember your password? <a href="/Login" >Login</a>
                                     </div>
                                 </Form.Group>
