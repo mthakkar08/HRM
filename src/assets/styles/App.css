@@ -2,6 +2,10 @@
   margin: 20px !important;
 }
 
+.main-footer {
+  margin: 20px !important;
+}
+
 body {
   margin: 0;
   font-family: "Roboto", Helvetica Neue, Helvetica, Arial, sans-serif !important;
@@ -220,7 +224,7 @@ code {
 }
 
 main {
-  min-height: 80vh !important;
+  min-height: 83vh !important;
   width: 100% !important;
   padding: 20px !important;
 }
@@ -939,7 +943,7 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
 .sidebar {
   background: #6e5cc2 ;
   color: white;
-  height: 100vh;
+  /* height: 100vh; */
   overflow-y: auto;
   /* background: linear-gradient(#adb5bd 0%, rgba(251, 251, 251, 0.1) 100%), linear-gradient(90deg, #8f3975, #8f3975); */
 }
@@ -1052,4 +1056,27 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
 .link:hover{
   text-decoration: none !important;
   color: white !important;
+}
+
+
+.modal-header .btn-close {
+  width: 1px !important;
+  height: 17px !important;
+  padding: 0.25em 1.50em 0.25em 0.25em !important;
+  color: white !important;
+  box-sizing: content-box;
+  background: none;
+  border: 0;
+  border-radius: 0.375rem;
+  content: "\2716" !important; 
+  opacity: inherit !important;
+}
+
+.btn-close:after {
+  content: "\2716";
+  width: 0px !important;
+  height: 17px !important;
+  padding: 0.25em 0.25em 0.25em 0.25em !important;
+  color: white !important;
+  opacity: inherit !important;
 }

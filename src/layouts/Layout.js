@@ -33,8 +33,8 @@ export default function Layout() {
       {loading && <Loader />}
       <Header /> 
        <Row> 
-         <Col xs={12}> 
          
+         <Col xs={12}> 
              <SideBar> 
               <Routes>
             <Route path="/" element={<Login />} />

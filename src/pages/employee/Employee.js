@@ -7,13 +7,12 @@ import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getEmployeesList, deleteEmployee } from "../../services/EmployeeServices.js";
+import { getEmployeesList, deleteEmployee, bindDesignation, updateEmployeesStatus } from "../../services/EmployeeServices.js";
 import AddEditEmployee from './AddEditEmployee.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
-import {statusData} from '../../config.js';
 
 export default function Employee() {
   const [show, setShow] = useState(false);
@@ -23,41 +22,101 @@ export default function Employee() {
   const [employeeList, setEmployeeList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
-  
+
+
+  const [showConfirmStatus, setShowConfirmStatus] = useState(false);
+  const bootboxCloseStatus = () => setShowConfirmStatus(false);
+
+  const [employeeId,setEmployeeId] = useState(null);
   const [employeeName, setEmployeeName] = useState("");
   const [designation, setDesignation] = useState("");
-  // const [status, setStatus] = useState("");
+  const [designationId, setDesignationId] = useState("");
+  const [designationList, setDesignationList] = useState([]);
+  const [designationName, setDesignationName] = useState("");
+
+
   const [email, setEmail] = useState("");
   const { setLoading } = useLoading();
-  const [status, setStatus] = useState({label: "Active", value: "0" });
+  const [status, setStatus] = useState({ label: "All", value: "0" });
 
-  function StatusHandler(e) {    
-    setStatus(e);    
+  const statusData = [
+    { label: "All", value: "0" },
+    { label: "Active", value: "1" },
+    { label: "In-Active", value: "2" }
+
+  ];
+
+  function StatusHandler(e) {
+    setStatus(e);
   }
+
+  async function bindDesignationList() {
+    setLoading(true);
+    try {
+      await bindDesignation().then(res => {
+        debugger;
+        setDesignationList(res)
+      });
+    }
+    catch (error) {
+    }
+    finally {
+      setLoading(false);
+    }
+  }
+
+  function designationHandler(e) {
+    let item = e.value;
+
+    setDesignationId(item);
+    setDesignationName(designationList?.find(x => x.value === item))
+  }
+
+
 
   async function handleConfirm() {
     let message = '';
-    let errormsg = '';
     setShowConfirm(false);
     setLoading(true);
     try {
       await deleteEmployee(currentemployeeId).then(res => { message = res });
     }
     catch (error) {
-      errormsg = error.message;
+      message = error.message;
     }
     finally {
-      if (errormsg !== '') {
-        Notification(errormsg, 'ERROR')
-      } else {
+      if (message == 'SUCCESS') {
         Notification('Employee deleted successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
       }
       setCurrentemployeeId(null);
       setLoading(false);
     }
-
     getEmployeeDataList();
+  }
 
+
+  async function handleConfirmStatus() {
+    let message = '';
+    setShowConfirmStatus(false);
+    setLoading(true);
+    try {
+      await updateEmployeesStatus(employeeId,status).then(res => { message = res });
+    }
+    catch (error) {
+      message = error.message;
+    }
+    finally {
+      if (message == 'SUCCESS') {
+        Notification('Status update employee successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
+      }
+      setEmployeeId(null);
+      setLoading(false);
+    }
+    getEmployeeDataList();
   }
 
   const handleSearch = (e) => {
@@ -72,20 +131,20 @@ export default function Employee() {
   async function handleReset(e) {
     e.preventDefault();
     setEmployeeName("");
-    setDesignation("");
-    setStatus("");
+    setDesignationName("");
+    setStatus({ label: "All", value: "0" });
     setEmail("");
-    await getEmployeesList(employeeName, designation, status, email).then(res => { setEmployeeList(res) });
+    await getEmployeesList(employeeName, "", "", email).then(res => { setEmployeeList(res) });
+
   }
 
   async function getEmployeeDataList() {
     setLoading(true);
-debugger;
     try {
-      await getEmployeesList(employeeName, designation, status, email).then(res => {
-        debugger;
+      await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
         setEmployeeList(res)
       });
+      await bindDesignationList();
     }
     catch (error) {
     }
@@ -96,9 +155,9 @@ debugger;
 
   function onDataSave(isSubmitted, message) {
     handleClose();
-    if (isSubmitted && message.toUpperCase() !== 'ERROR') {
+    if (isSubmitted && message.toUpperCase() == 'SUCCESS') {
       Notification('Employee saved successfully!', 'SUCCESS')
-     getEmployeeDataList();
+      getEmployeeDataList();
     }
     else {
       Notification(message, 'ERROR')
@@ -139,7 +198,15 @@ debugger;
       sort: true,
       style: {
         width: '5%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          {
+            columns.gender == 1 ? (<span style={{ borderRadius: "2px", border: "none" }}>Male</span>) :
+              <span style={{ borderRadius: "2px", border: "none" }}>Female</span>
+          }
+        </div>
+      )
     },
     {
       dataField: "phoneNumber",
@@ -166,7 +233,7 @@ debugger;
       }
     },
     {
-      dataField: "designation",
+      dataField: "designationId",
       text: "Designation",
       sort: true,
       style: {
@@ -187,7 +254,15 @@ debugger;
       sort: true,
       style: {
         width: '5%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          {
+            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
+              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
+          }
+        </div>
+      )
     },
     {
       dataField: "hiringDate",
@@ -228,6 +303,7 @@ debugger;
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+            <button title='check' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
@@ -238,7 +314,7 @@ debugger;
 
   return (
     <>
-{show && <AddEditEmployee onDataSave={onDataSave} employeeId={currentemployeeId} />}
+      {show && <AddEditEmployee onDataSave={onDataSave} employeeId={currentemployeeId} />}
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
@@ -249,7 +325,7 @@ debugger;
               <Nav className="me-auto"></Nav>
               <Nav>
                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
-             
+
               </Nav>
             </Navbar.Collapse>
           </Navbar >
@@ -257,33 +333,31 @@ debugger;
         <ListGroup.Item>
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
-              {/* <Row className="main-class">
-                <Col xs={3} className='display-inline pl-0' >
-                  <Form.Label className='display-inline search-label'>Employee</Form.Label>
-                  <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
-                </Col>
-                <Col xs={8} className='display-inline pl-2'>
-                  <Button type="submit" className='btn btn-primary mr-5' onClick={(event) => handleSearch(event)} >Search</Button>
-                  <Button onClick={(event) => handleReset(event)} className='btn btn-dft'>Reset</Button>
-                </Col>
-              </Row> */}
-
-<Row className="main-class">
+              <Row className="main-class">
                 <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Employee Name</Form.Label>
-                  <Form.Control  type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
+                  <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
                 </Col>
 
-                <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Designation</Form.Label>
-                  <Form.Control className='defaultWidth' type="text" value={designation} onChange={(e) => setDesignation(e.target.value)} />
+                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
+                    <Select style={{ width: "60px" }}
+                      value={designationName}
+                      options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
+                      onChange={designationHandler}
+                      // defaultValue={{ label: designationName}}
+                      defaultMenuIsOpen={false}
+                      id="designationId">
+                    </Select>
+                  </Form.Group>
                 </Col>
 
-                <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Status</Form.Label>
-                  <Form.Group className='defaultWidth'>
-                    <Select
-                      value = {status}
+                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
+                    <Select style={{ width: "60px" }}
+                      value={status}
                       options={statusData.map(({ label, value }) => ({ label: label, value: value }))}
                       onChange={StatusHandler}
                       defaultMenuIsOpen={false}
@@ -293,8 +367,8 @@ debugger;
                 </Col>
 
                 <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
-                <Form.Label className='display-inline search-label'>Email</Form.Label>
-                  <Form.Control className='defaultWidth' style={{width:"250px"}} type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
+                  <Form.Label className='display-inline search-label'>Email</Form.Label>
+                  <Form.Control className='defaultWidth' style={{ width: "250px" }} type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
                 </Col>
 
                 <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '16px' }} >
@@ -302,9 +376,6 @@ debugger;
                   <Button onClick={(event) => handleReset(event)} type="submit" className='btn btn-dft'>Reset</Button>
                 </Col>
               </Row>
-
-
-
             </Form>
           </Card>
           <div className='tablecard'>
@@ -337,7 +408,15 @@ debugger;
         onClose={bootboxClose}
       />
 
-</>
+<Bootbox show={showConfirmStatus}
+        type={"confirm"}
+        message={"Are you sure you want to change this status?"}
+        onSuccess={handleConfirmStatus}
+        onCancel={bootboxCloseStatus}
+        onClose={bootboxCloseStatus}
+      />
+
+    </>
   )
 }
 
