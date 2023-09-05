@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from 'react';
-
+import axios from "axios";
 import bg2 from '../assets/images/bg2.png';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
@@ -24,30 +24,26 @@ function Login() {
     setisSubmitted(true);
     let userProfile = { email, password };
 
-    let result;
-    await fetch("http://192.168.1.106:8081/hrm/employee/login", {
-      method: "POST",
-      body: JSON.stringify(userProfile),
-      headers: {
-        "Content-type": "application/json ",
-      },
+    let accessToken;
 
-    }).then((response) => console.log(response.json().jwttoken))
-      .then((result) => {
-        console.log(result)
-        result = result;
+    try {
+      const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
+        JSON.stringify(userProfile),
+        {
+          headers: {
+            'Content-Type': 'application/json',
+          }
+        }
+      );
+      console.log(JSON.stringify(response?.data));
+      accessToken = response?.data?.jwttoken;
+    }
+    catch (error) {
+      console.log("error > " > error)
+    }
 
-    }).then((res) => res.json())
-      .then((d) => {
-        result = d;
-
-      })
-      .catch((err) => {
-        console.log(err)
-      });
-
-    if (result) {
-      navigate('/Employee');
+    if (accessToken) {
+      navigate('/Dashboard');
     }
     else {
       alert("Invalid email or password!")
@@ -56,7 +52,6 @@ function Login() {
   };
 
   function handleDisable() {
-    debugger;
     return email && password && matchPattern(password);
   }
 
@@ -138,7 +133,7 @@ function Login() {
           </Card>
 
         </div>
-      
+
       </div>
     </div>
     </>

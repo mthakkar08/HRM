@@ -1,6 +1,6 @@
 import React from 'react';
 import CryptoJS from "crypto-js";
-
+import axios from "axios";
 import bg2 from '../assets/images/bg2.png';
 import Forgot_img from '../assets/images/Forgot_img.svg';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
@@ -12,7 +12,7 @@ import { useSearchParams } from 'react-router-dom';
 
 export default function ResetPassword() {
 
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
 
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
@@ -35,7 +35,7 @@ export default function ResetPassword() {
     console.log('encEmail > ' + encEmail)
     decryptData(encEmail)
     console.log('email > ' + email)
-    
+
     const handleSubmit = async (e) => {
         console.log("inside handleSubmit")
         e.preventDefault();
@@ -47,33 +47,28 @@ export default function ResetPassword() {
         let result;
 
         if (password && confirmPassword) {
-            await fetch("http://192.168.1.106:8080/hrm/employee/reset", {
-                method: "POST",
-                body: JSON.stringify(userProfile),
-                headers: {
-                    "Content-type": "application/json ",
-                },
-            }).then((res) => console.log("response : > " + res.text))
-                .then((d) => {
-                    debugger
-                    result = d;
-                    console.log(d)
 
-                })
-                .catch((err) => {
-                    console.log(err)
-                });
+            try {
+                const response = await axios.post("http://192.168.1.106:8080/hrm/employee/reset",
+                    JSON.stringify(userProfile),
+                    {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        }
+                    }
+                );
+                console.log(response?.data);
+                result = response?.data
+            } catch (error) {
+                console.log("error in reset")
+            }
+
         }
 
-        console.log(result)
-
-        if(result === 'SUCCESS'){
+        if (result === 'SUCCESS') {
             alert('Password Changes Successfully...')
-            // navigate('/');
+            navigate('/');
         }
-
-
-
 
     }
 

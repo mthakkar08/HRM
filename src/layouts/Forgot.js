@@ -1,4 +1,5 @@
 import React, { useRef, useState } from 'react';
+import axios from "axios";
 import emailjs from '@emailjs/browser';
 import Forgot_img from '../assets/images/Forgot_img.svg';
 import { Button, Form, Card } from 'react-bootstrap';
@@ -26,41 +27,39 @@ export default function Forgot() {
 
         let result;
 
-        await fetch("http://192.168.1.106:8080/hrm/employee/forget", {
-            method: "POST",
-            body: JSON.stringify({ email }),
-            headers: {
-                "Content-type": "application/json ",
-            },
-        }).then((res) => console.log("response : > " + res))
-            // .then((data) => {
-            //     result = data;
-            //     console.log(data)
-
-            // })
-            // .catch((err) => {
-            //     console.log(err)
-            // });
-
-        // check if email id is exist in db or not
-        // email
-
-        console.log("Result > " + result)
-
-        encryptData();
-
-        let mailBody = {
-            email,
-            encEmail: data
+        try {
+            const response = await axios.post("http://192.168.1.106:8080/hrm/employee/forget",
+                { email },
+                {
+                    headers: {
+                        'Content-Type': 'application/json',
+                    }
+                }
+            );
+            console.log(response?.data);
+            result = response?.data
+        }
+        catch (error) {
+            console.log("error > " > error)
         }
 
-        emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
-            .then(function (response) {
+       
+        if (result === 'true') {
+            encryptData();
 
-                alert("Email sent to your emailId...")
-            }, function (error) {
-                alert("invalid Email...")
-            });
+            let mailBody = {
+                email,
+                encEmail: data
+            }
+
+            emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
+                .then(function (response) {
+
+                    alert("Email sent to your emailId...")
+                }, function (error) {
+                    alert("invalid Email...")
+                });
+        }
 
     }
 
