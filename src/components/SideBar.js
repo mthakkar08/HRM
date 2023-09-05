@@ -8,7 +8,7 @@ import { BsCartCheck } from "react-icons/bs";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
-const routes = [
+const Routes = [
   {
     path: "/dashboard",
     name: "Dashboard",
@@ -20,8 +20,8 @@ const routes = [
     icon: <FaUser />,
   },
   {
-    path: "/messages",
-    name: "Messages",
+    path: "/holiday",
+    name: "Holiday",
     icon: <MdMessage />,
   },
   {
@@ -176,7 +176,7 @@ const SideBar = ({ children }) => {
             </AnimatePresence>
           </div>
           <section className="routes">
-            {routes.map((route, index) => {
+            {Routes.map((route, index) => {
               if (route.subRoutes) {
                 return (
                   <SidebarMenu

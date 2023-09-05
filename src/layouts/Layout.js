@@ -16,6 +16,7 @@ import Messages from "../pages/Messages";
 import FileManager from "../pages/FileManager";
 import FuelType from "../pages/fuelType/FuelType";
 import Employee from '../pages/employee/Employee';
+import Holiday from '../pages/holiday/Holiday';
 import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
@@ -40,7 +41,7 @@ export default function Layout() {
             <Route path="/" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employee" element={<Employee />} />
-                <Route path="/messages" element={<Messages />} />
+                <Route path="/holiday" element={<Holiday />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />
                 <Route path="/order" element={<Order />} />
