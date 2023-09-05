@@ -113,7 +113,6 @@ export default function Employee() {
         Notification(message, 'ERROR')
       }
       setEmployeeId(null);
-      
       setLoading(false);
     }
     getEmployeeDataList();
@@ -134,7 +133,7 @@ export default function Employee() {
     setDesignationName("");
     setStatus({ label: "All", value: "0" });
     setEmail("");
-    await getEmployeesList("", "", "", "").then(res => { setEmployeeList(res) });
+    await getEmployeesList(employeeName, "", "", email).then(res => { setEmployeeList(res) });
 
   }
 
@@ -142,7 +141,6 @@ export default function Employee() {
     setLoading(true);
     try {
       await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
-        debugger;
         setEmployeeList(res)
       });
       await bindDesignationList();
@@ -304,7 +302,7 @@ export default function Employee() {
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status==1? 2:1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+            <button title='check' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
