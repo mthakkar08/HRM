@@ -64,25 +64,27 @@ export default function AddEditEmployee(props) {
         setDataLoading(true);
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
+            setHiringDate(res.hiringDate)
+            setJoiningDate(res.joiningDate)
+            setTerminationDate(res.terminationDate)
             setEmployeeName(res.employeeName)
             setDob(res.dob)
             setPhoneNumber(res.phoneNumber)
             setEmail(res.email)
             setGender(res.gender)
-            setDesignationName(res.designation.designationName)
+            setDesignationName(res.designationId)
             setExperience(res.experience)
             setAddress(res.address)
-            setHiringDate(res.hiringDate)
-            setJoiningDate(res.joiningDate)
-            setTerminationDate(res.terminationDate)
+            
             setStatus(res.status)
             // setDesignationName(res.designationName)
 
-            setDesignationName( designationList?.find(x => x.value == res.designation.designationName))
+            setDesignationName( designationList?.find(x => x.value == res.designation))
             
             // if (designationName) {
             //   setDesignationName(designation.designationName);
             // }
+            debugger;
             const gender = genderData?.find(x => x.value == res.gender);
             if (gender) {
               setDefaultGender(gender);

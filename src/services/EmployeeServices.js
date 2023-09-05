@@ -32,9 +32,6 @@ export async function getEmployeesList(employeeName, designationId, status, emai
   }
 }
 
-
-
-
 export async function getEmployeeDetail(employeeId) {
   return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
 }
@@ -54,6 +51,28 @@ export async function deleteEmployee(employeeId) {
     return error;
   }
 }
+
+export async function updateEmployeesStatus(employeeId, status) {
+  debugger;
+  var details = {
+    'employeeId': employeeId,
+    'status': status
+  };
+  try {
+    return await axios.post("http://192.168.1.106:8080/hrm/employee/status",
+      details,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
+
 
 export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address,designationId, experience, status, hiringDate, joiningDate, terminationDate) {
   var details = {
