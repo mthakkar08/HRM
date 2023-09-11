@@ -9,15 +9,13 @@
 // // }
 
 
-// export async function getEmployeesList(employeeName, designationId, status, email) {
+// export async function getHolidayList(fromDate, toDate) {
 //   var details = {
-//     'employeeName': employeeName,
-//     'designation': designationId,
-//     'status': status,
-//     'email': email
+//     'fromDate': fromDate,
+//     'toDate': toDate
 //   };
 //   try {
-//     return await axios.post("http://192.168.1.106:8080/hrm/employee/list",
+//     return await axios.post("http://localhost:8080/hrm/holiday/list",
 //       details,
 //       {
 //         headers: {
@@ -31,9 +29,9 @@
 //   }
 // }
 
-// export async function getEmployeeDetail(employeeId) {
-//   return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
-// }
+// // export async function getHolidayDetail(employeeId) {
+// //   return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
+// // }
 
 // export async function deleteEmployee(employeeId) {
  
@@ -51,29 +49,29 @@
 //   }
 // }
 
-// export async function updateEmployeesStatus(employeeId, status) {
-//   debugger;
-//   var details = {
-//     'employeeId': employeeId,
-//     'status': status
-//   };
-//   try {
-//     return await axios.post("http://192.168.1.106:8080/hrm/employee/status",
-//       details,
-//       {
-//         headers: {
-//           'Content-Type': 'application/json',
-//         }
-//       }
-//     ).then((res) => res.data);
-//   }
-//   catch (error) {
-//     return error;
-//   }
-// }
+// // export async function updateEmployeesStatus(employeeId, status) {
+// //   debugger;
+// //   var details = {
+// //     'employeeId': employeeId,
+// //     'status': status
+// //   };
+// //   try {
+// //     return await axios.post("http://192.168.1.106:8080/hrm/employee/status",
+// //       details,
+// //       {
+// //         headers: {
+// //           'Content-Type': 'application/json',
+// //         }
+// //       }
+// //     ).then((res) => res.data);
+// //   }
+// //   catch (error) {
+// //     return error;
+// //   }
+// // }
 
 
-// export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address,designationId, experience, status, hiringDate, joiningDate, terminationDate) {
+// export function addHoliday(employeeId, employeeName, dob, gender, phoneNumber, email, address,designationId, experience, status, hiringDate, joiningDate, terminationDate) {
 //   var details = {
 //     'employeeId': employeeId,
 //     'employeeName': employeeName,
@@ -92,7 +90,7 @@
 //     'terminationDate': terminationDate
 //   };
 //   try {
-//     return axios.post("http://192.168.1.106:8080/hrm/employee/save",
+//     return axios.post("http://localhost:8080/hrm/holiday/save",
 //       details,
 //       {
 //         headers: {

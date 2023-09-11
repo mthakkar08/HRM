@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../config";
 
-//  axios.defaults.headers.common = {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5kQGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjkzODQzMDM2LCJpYXQiOjE2OTM4MjUwMzZ9.TpcXa64RF708o7p59rRuyJjE7r-YXWrrkKtYpC6hB8eiVH3j5ySofPaNKhNoFLOZwCbn22hOHGaO012w59PcYA'}
+ //axios.defaults.headers.common = {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5kQGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjkzODQzMDM2LCJpYXQiOjE2OTM4MjUwMzZ9.TpcXa64RF708o7p59rRuyJjE7r-YXWrrkKtYpC6hB8eiVH3j5ySofPaNKhNoFLOZwCbn22hOHGaO012w59PcYA'}
 
 // export async function getEmployeesList(employeeName, designation, status, email) {
 //  return await axios.get("http://192.168.1.106:8080/hrm/employee/list?employeeName=&designation=&status=0&email=").then((response) => response.data);
@@ -82,9 +82,7 @@ export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, 
     'phoneNumber': phoneNumber,
     'email': email,
     'address': address,
-    'designation':{
-      'designationId':designationId
-    },
+    'designationId':designationId,
     'experience': experience,
     'status': status,
     'hiringDate': hiringDate,

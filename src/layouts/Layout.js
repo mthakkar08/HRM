@@ -56,7 +56,6 @@ export default function Layout() {
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
-                <Route path="/messages" element={<Messages />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />
                 <Route path="/order" element={<Order />} />

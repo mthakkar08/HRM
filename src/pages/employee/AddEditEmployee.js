@@ -25,8 +25,7 @@ export default function AddEditEmployee(props) {
   const [designationId, setDesignationId] = useState("");
   const [designationList, setDesignationList] = useState([]);
   const [designationName, setDesignationName] = useState("");
-  // const [designation, setDesignation] = useState("");
-  //const [defaultDesignation,setDefaultDesignation] = useState(""); 
+ 
   const [hiringDate, setHiringDate] = useState("");
   const [status, setStatus] = useState(1);
   const [joiningDate, setJoiningDate] = useState("");
@@ -45,13 +44,14 @@ export default function AddEditEmployee(props) {
   const handleClose = () => setShow(false);
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
-
+  let designationdata = [];
   const genderData = [
     { label: "Male", value: "1" },
     { label: "Female", value: "2" }
   ];
 
   useEffect(() => {
+
     if (!show) {
       props.onDataSave(false);
     }
@@ -62,6 +62,7 @@ export default function AddEditEmployee(props) {
       try {
         setLoading(true);
         setDataLoading(true);
+        let designationvalue;
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
             setHiringDate(res.hiringDate)
@@ -72,28 +73,23 @@ export default function AddEditEmployee(props) {
             setPhoneNumber(res.phoneNumber)
             setEmail(res.email)
             setGender(res.gender)
-            setDesignationName(res.designationName)
+            setDesignationName(res.designationId)
             setExperience(res.experience)
             setAddress(res.address)
-            
+            setDesignationId(res.designationId)
             setStatus(res.status)
-            // setDesignationName(res.designationName)
-
-            setDesignationName( designationList?.find(x => x.value == res.designationId))
-            
-            // if (designationName) {
-            //   setDesignationName(designation.designationName);
-            // }
+            designationvalue = res.designationId
+          
             const gender = genderData?.find(x => x.value == res.gender);
             if (gender) {
               setDefaultGender(gender);
             }
-
-
-
           });
         }
         await bindDesignationList();
+        const designationListData = designationdata?.find(x => x.designationId == designationvalue);
+      
+        setDesignationName({ label: designationListData.designationName, value: designationvalue })
       }
       catch (error) {
 
@@ -112,6 +108,7 @@ export default function AddEditEmployee(props) {
     try {
       await bindDesignation().then(res => {
         setDesignationList(res)
+        designationdata = res;
       });
     }
     catch (error) {
@@ -120,8 +117,6 @@ export default function AddEditEmployee(props) {
       setLoading(false);
     }
   }
-
-
 
   function EmployeeHandler(e) {
     let item = e.target.value;
@@ -202,6 +197,7 @@ export default function AddEditEmployee(props) {
   }
 
   function designationHandler(e) {
+    debugger;
     let item = e.value;
     if (item == null || item == "") {
       setDesignationErr(true);
@@ -209,13 +205,15 @@ export default function AddEditEmployee(props) {
       setDesignationErr(false)
     }
     setDesignationId(item);
-    setDesignationName(designationList?.find(x => x.value === item));
-    if (designationName) {
-      setDesignationName(designationName);
+
+    const DesignationData = designationList?.find(x => x.value === item);
+    if (DesignationData) {
+      setDesignationName(DesignationData);
     }
   }
 
   async function SaveEmployee(e) {
+    debugger;
     e.preventDefault();
     setLoading(true);
     let message = '';
@@ -299,7 +297,7 @@ export default function AddEditEmployee(props) {
       else {
         setGenderErr(false);
       }
-    
+
       await addEmployee(currentemployeeId, employeeName, dob, gender, phoneNumber, email, address, designationId, experience, status, hiringDate, joiningDate, terminationDate).then(res => {
         message = res.toString();
       });
@@ -345,7 +343,7 @@ export default function AddEditEmployee(props) {
               <Form.Group className="mb-3 col-md-6">
                 <Form.Label className="mb-1">Dob</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="dob" id="dob"
-                  value={dob?.replace("/","-")?.substring(0,10)} onChange={DoBHandler} />{dobErr ? <span style={{ color: 'red' }} dateFormat="yyyy/MM/DD">Please select dob</span> : null}
+                  value={dob?.replace("/", "-")?.substring(0, 10)} onChange={DoBHandler} />{dobErr ? <span style={{ color: 'red' }} dateFormat="yyyy/MM/DD">Please select dob</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-6">
@@ -366,7 +364,7 @@ export default function AddEditEmployee(props) {
                   value={defaultGender}
                   options={genderData.map(({ label, value }) => ({ label: label, value: value }))}
                   onChange={genderHandler}
-                 defaultValue={defaultGender}
+                  defaultValue={defaultGender}
                   defaultMenuIsOpen={false}
                   id="genderId">
                 </Select>{genderErr ? <span style={{ color: 'red' }}>Please select gender</span> : null}
@@ -375,11 +373,11 @@ export default function AddEditEmployee(props) {
               <Form.Group className='defaultWidth mb-3 col-md-6'>
                 <Form.Label className='display-inline search-label mb-1'>Designation</Form.Label>
                 <Select
-                  value={designationName}
+                  //  value={designationName}
                   //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
                   options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
                   onChange={designationHandler}
-                    defaultValue={{designationName}}
+                  defaultValue={designationName}
                   defaultMenuIsOpen={false}
                   id="designationId">
                 </Select>
@@ -403,7 +401,7 @@ export default function AddEditEmployee(props) {
               <Form.Group className="mb-3 col-md-4">
                 <Form.Label className="mb-1">Hiring Date</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="hiringDate" id="hiringDate"
-                  value={hiringDate?.replace("/","-")?.substring(0,10)} onChange={hiringDateHandler} />{hiringDateErr ? <span style={{ color: 'red' }}>Please enter hiring date</span> : null}
+                  value={hiringDate?.replace("/", "-")?.substring(0, 10)} onChange={hiringDateHandler} />{hiringDateErr ? <span style={{ color: 'red' }}>Please enter hiring date</span> : null}
               </Form.Group>
 
 
@@ -411,13 +409,13 @@ export default function AddEditEmployee(props) {
               <Form.Group className="mb-3 col-md-4">
                 <Form.Label className="mb-1">Joining Date</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="joiningDate" id="joiningDate"
-                  value={joiningDate?.replace("/","-")?.substring(0,10)} onChange={(e) => setJoiningDate(e.target.value)} />
+                  value={joiningDate?.replace("/", "-")?.substring(0, 10)} onChange={(e) => setJoiningDate(e.target.value)} />
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-4">
                 <Form.Label className="mb-1">Termination Date</Form.Label>
-                <Form.Control type="date" autoComplete="off" name="terminationDate" id="terminationDate" 
-                  value={terminationDate?.replace("/","-")?.substring(0,10)} onChange={(e) => setTerminationDate(e.target.value)} />
+                <Form.Control type="date" autoComplete="off" name="terminationDate" id="terminationDate"
+                  value={terminationDate?.replace("/", "-")?.substring(0, 10)} onChange={(e) => setTerminationDate(e.target.value)} />
               </Form.Group>
             </div>
           </Modal.Body>

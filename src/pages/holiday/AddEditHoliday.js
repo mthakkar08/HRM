@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from "react";
 // import { Button, Form, Modal } from 'react-bootstrap';
 // import { ToastContainer, toast } from 'react-toastify';
-// import { getEmployeeDetail, addEmployee, bindDesignation } from "../../services/EmployeeService.js";
+// import { getHolidayDetail, addEmployee, bindDesignation } from "../../services/EmployeeService.js";
 // import { useLoading } from '../../LoadingContext.js';
 // import { Notification } from '../../components/Notification.js'
 // import Select from 'react-select';
@@ -63,7 +63,7 @@
 //         setLoading(true);
 //         setDataLoading(true);
 //         if (currentemployeeId != null && currentemployeeId != 0) {
-//           await getEmployeeDetail(currentemployeeId).then(res => {
+//           await getHolidayDetail(currentemployeeId).then(res => {
 //             setHiringDate(res.hiringDate)
 //             setJoiningDate(res.joiningDate)
 //             setTerminationDate(res.terminationDate)

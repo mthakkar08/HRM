@@ -7,7 +7,7 @@
 // import BootstrapTable from "react-bootstrap-table-next";
 // import paginationFactory from "react-bootstrap-table2-paginator";
 // import { BsFileEarmarkText } from "react-icons/bs";
-// import { getEmployeesList, deleteEmployee, bindDesignation, updateEmployeesStatus } from "../../services/EmployeeService.js";
+// import { getHolidayList, deleteEmployee, bindDesignation, updateEmployeesStatus } from "../../services/EmployeeService.js";
 // import AddEditEmployee from './AddEditHoliday.js'
 // import Bootbox from 'bootbox-react';
 // import Select from 'react-select';
@@ -133,14 +133,14 @@
 //     setDesignationName("");
 //     setStatus({ label: "All", value: "0" });
 //     setEmail("");
-//     await getEmployeesList(employeeName, "", "", email).then(res => { setEmployeeList(res) });
+//     await getHolidayList(employeeName, "", "", email).then(res => { setEmployeeList(res) });
 
 //   }
 
 //   async function getEmployeeDataList() {
 //     setLoading(true);
 //     try {
-//       await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
+//       await getHolidayList(employeeName, designationId, status.value, email).then(res => {
 //         setEmployeeList(res)
 //       });
 //       await bindDesignationList();
@@ -165,8 +165,8 @@
 
 //   const columns = [
 //     {
-//       dataField: "employeeId",
-//       text: "employeeId ",
+//       dataField: "holidayId",
+//       text: "holidayId",
 //       sort: true,
 //       hidden: true,
 //       style: {
@@ -175,16 +175,16 @@
 //       }
 //     },
 //     {
-//       dataField: "employeeName",
-//       text: "Employee Name",
+//       dataField: "holidayName",
+//       text: "Holiday Name",
 //       sort: true,
 //       style: {
 //         width: '10%'
 //       }
 //     },
 //     {
-//       dataField: "dob",
-//       text: "Dob",
+//       dataField: "holidayDate",
+//       text: "Holiday Date",
 //       sort: true,
 //       style: {
 //         width: '10%',
@@ -192,59 +192,11 @@
 //       }
 //     },
 //     {
-//       dataField: "gender",
-//       text: "Gender",
+//       dataField: "description",
+//       text: "Description",
 //       sort: true,
 //       style: {
 //         width: '5%'
-//       },
-//       formatter: (cell, columns, rowIndex, extraData) => (
-//         <div>
-//           {
-//             columns.gender == 1 ? (<span style={{ borderRadius: "2px", border: "none" }}>Male</span>) :
-//               <span style={{ borderRadius: "2px", border: "none" }}>Female</span>
-//           }
-//         </div>
-//       )
-//     },
-//     {
-//       dataField: "phoneNumber",
-//       text: "Phone Number",
-//       sort: true,
-//       style: {
-//         width: '10%'
-//       }
-//     },
-//     {
-//       dataField: "email",
-//       text: "Email",
-//       sort: true,
-//       style: {
-//         width: '8%'
-//       }
-//     },
-//     {
-//       dataField: "address",
-//       text: "Address",
-//       sort: true,
-//       style: {
-//         width: '7%'
-//       }
-//     },
-//     {
-//       dataField: "designationId",
-//       text: "Designation",
-//       sort: true,
-//       style: {
-//         width: '6%'
-//       }
-//     },
-//     {
-//       dataField: "experience",
-//       text: "Experience",
-//       sort: true,
-//       style: {
-//         width: '8%'
 //       }
 //     },
 //     {
@@ -262,30 +214,6 @@
 //           }
 //         </div>
 //       )
-//     },
-//     {
-//       dataField: "hiringDate",
-//       text: "Hiring Date",
-//       sort: true,
-//       style: {
-//         width: '5%'
-//       }
-//     },
-//     {
-//       dataField: "joiningDate",
-//       text: "Joining Date",
-//       sort: true,
-//       style: {
-//         width: '8%'
-//       }
-//     },
-//     {
-//       dataField: "terminationDate",
-//       text: "Termination Date",
-//       sort: true,
-//       style: {
-//         width: '10%'
-//       }
 //     },
 //     {
 //       dataField: 'Action',
@@ -318,12 +246,12 @@
 //       <ListGroup>
 //         <ListGroup.Item>
 //           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-//             <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Employee </Navbar.Brand>
+//             <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Holiday </Navbar.Brand>
 //             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
 //             <Navbar.Collapse id="responsive-navbar-nav">
 //               <Nav className="me-auto"></Nav>
 //               <Nav>
-//                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
+//                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Holiday</Button></Navbar.Brand>
 
 //               </Nav>
 //             </Navbar.Collapse>
@@ -334,7 +262,7 @@
 //             <Form onSubmit={(event) => handleSearch(event)}>
 //               <Row className="main-class">
 //                 <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
-//                   <Form.Label className='display-inline search-label'>Employee Name</Form.Label>
+//                   <Form.Label className='display-inline search-label'>Holiday Name</Form.Label>
 //                   <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
 //                 </Col>
 
