@@ -20,16 +20,19 @@ export default function Header() {
 
   const [currEmployee, setCurrEmployee] = useState({})
   let email;
+
+
   if (token) {
-    const cryptoEmail = ReactSession.get("email");
-    // console.log(cryptoEmail)
-    cryptoEmail && (email = decryptData(cryptoEmail));
+    const cryptoEmail = localStorage.getItem('email')
+    // const cryptoEmail = ReactSession.get('email');
+    email = decryptData(cryptoEmail);
+
+    console.log("email > " + email)
   }
 
-  useEffect(() => {
-    getEmployeeDataList();
-    console.log(email)
-  }, [])
+
+
+
 
 
 
@@ -37,10 +40,9 @@ export default function Header() {
 
   async function getEmployeeDataList() {
     try {
-      debugger
       await getEmployeesList("", "", "", email).then(res => {
         // debugger;
-        console.log("name : " + res)
+        console.log(res)
         setCurrEmployee(res)
       });
     }

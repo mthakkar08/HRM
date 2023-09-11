@@ -36,7 +36,7 @@ export default function ResetPassword() {
 
     console.log('encEmail > ' + encEmail)
     // debugger
-    email = decryptData(encEmail)
+    encEmail && (email = decryptData(encEmail))
     console.log('email > ' + email)
 
     const handleSubmit = async (e) => {

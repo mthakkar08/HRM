@@ -46,9 +46,9 @@ export default function Layout() {
     <>
       {loading && <Loader />}
       <Header />
-        <Row>
+        <Row style={{margin: 0}}>
 
-          <Col xs={12}>
+          <Col xs={12} style={{padding: 0}} >
             <SideBar>
               <Routes>
                 <Route path="/" element={<Login />} />
