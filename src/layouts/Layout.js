@@ -45,8 +45,7 @@ export default function Layout() {
   return (
     <>
       {loading && <Loader />}
-      {token && <Header />}
-      {/* <Header /> */}
+      <Header />
         <Row>
 
           <Col xs={12}>

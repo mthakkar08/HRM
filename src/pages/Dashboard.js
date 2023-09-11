@@ -11,8 +11,10 @@ export default function Dashboard() {
 
   const navigate = useNavigate();
 
-  
-  let email;
+
+
+  // const cryptoEmail = ReactSession.get("email");
+  // let email = decryptData(cryptoEmail);
   // const email = ReactSession.get("email");
 
   useEffect(() => {
@@ -21,15 +23,11 @@ export default function Dashboard() {
     if (!authtoken) {
       navigate('/login');
     }
-    else{
-      const cryptoEmail =ReactSession.get("email");
-      email = decryptData(cryptoEmail);
-    }
   }, []);
 
   return (
     <>
-    <p>email : {email}</p>
+      
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
