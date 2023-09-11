@@ -1,7 +1,7 @@
 // import React, { useState, useEffect } from "react";
 // import { Button, Form, Modal } from 'react-bootstrap';
 // import { ToastContainer, toast } from 'react-toastify';
-// import { getHolidayDetail, addEmployee, bindDesignation } from "../../services/EmployeeService.js";
+// import { getHolidayDetail, addHoliday, bindDesignation } from "../../services/EmployeeService.js";
 // import { useLoading } from '../../LoadingContext.js';
 // import { Notification } from '../../components/Notification.js'
 // import Select from 'react-select';
@@ -9,11 +9,11 @@
 
 // import "react-datepicker/dist/react-datepicker.css";
 
-// export default function AddEditEmployee(props) {
+// export default function AddEditHoliday(props) {
 
 //   const [show, setShow] = useState(true);
-//   const currentemployeeId = props.employeeId;
-//   const [employeeName, setEmployeeName] = useState("");
+//   const currentHolidayId = props.employeeId;
+//   const [holidayName, setHolidayName] = useState("");
 //   const [dob, setDob] = useState("");
 
 //   const [phoneNumber, setPhoneNumber] = useState("");
@@ -31,7 +31,7 @@
 //   const [status, setStatus] = useState(1);
 //   const [joiningDate, setJoiningDate] = useState("");
 //   const [terminationDate, setTerminationDate] = useState("");
-//   const [employeeNameErr, setEmployeeNameErr] = useState(false);
+//   const [holidayNameErr, setHolidayNameErr] = useState(false);
 //   const [dobErr, setDobErr] = useState(false);
 //   const [phoneNumberErr, setPhoneNumberErr] = useState(false);
 //   const [numberValidation, setNumberValidation] = useState("");
@@ -62,12 +62,12 @@
 //       try {
 //         setLoading(true);
 //         setDataLoading(true);
-//         if (currentemployeeId != null && currentemployeeId != 0) {
-//           await getHolidayDetail(currentemployeeId).then(res => {
+//         if (currentHolidayId != null && currentHolidayId != 0) {
+//           await getHolidayDetail(currentHolidayId).then(res => {
 //             setHiringDate(res.hiringDate)
 //             setJoiningDate(res.joiningDate)
 //             setTerminationDate(res.terminationDate)
-//             setEmployeeName(res.employeeName)
+//             setHolidayName(res.holidayName)
 //             setDob(res.dob)
 //             setPhoneNumber(res.phoneNumber)
 //             setEmail(res.email)
@@ -105,7 +105,7 @@
 //         }, 1200);
 //       }
 //     })();
-//   }, [currentemployeeId])
+//   }, [currentHolidayId])
 
 //   async function bindDesignationList() {
 //     setLoading(true);
@@ -300,7 +300,7 @@
 //         setGenderErr(false);
 //       }
     
-//       await addEmployee(currentemployeeId, employeeName, dob, gender, phoneNumber, email, address, designationId, experience, status, hiringDate, joiningDate, terminationDate).then(res => {
+//       await addHoliday(currentHolidayId, holidayName, holidayDate, description, status).then(res => {
 //         message = res.toString();
 //       });
 //     }
@@ -331,15 +331,15 @@
 //         className="main-class lg2"
 //       >
 //         <Modal.Header closeButton>
-//           {currentemployeeId == null || currentemployeeId == 0 ? <Modal.Title>Add Employee</Modal.Title> : <Modal.Title>Update Employee</Modal.Title>}
+//           {currentHolidayId == null || currentHolidayId == 0 ? <Modal.Title>Add Holiday</Modal.Title> : <Modal.Title>Update Holiday</Modal.Title>}
 //         </Modal.Header>
-//         <Form onSubmit={SaveEmployee}>
+//         <Form onSubmit={SaveHoliday}>
 //           <Modal.Body>
 //             <div className="row">
 //               <Form.Group className="mb-3 col-md-6">
-//                 <Form.Label className="mb-1">Employee Name</Form.Label>
-//                 <Form.Control type="text" autoComplete="off" name="employeeName" id="employeeName"
-//                   value={employeeName} onChange={EmployeeHandler} />{employeeNameErr ? <span style={{ color: 'red' }}>Please enter employee name</span> : null}
+//                 <Form.Label className="mb-1">Holiday Name</Form.Label>
+//                 <Form.Control type="text" autoComplete="off" name="holidayName" id="holidayName"
+//                   value={holidayName} onChange={EmployeeHandler} />{holidayNameErr ? <span style={{ color: 'red' }}>Please enter holiday name</span> : null}
 //               </Form.Group>
 
 //               <Form.Group className="mb-3 col-md-6">

@@ -7,8 +7,9 @@
 // import BootstrapTable from "react-bootstrap-table-next";
 // import paginationFactory from "react-bootstrap-table2-paginator";
 // import { BsFileEarmarkText } from "react-icons/bs";
-// import { getHolidayList, deleteEmployee, bindDesignation, updateEmployeesStatus } from "../../services/EmployeeService.js";
-// import AddEditEmployee from './AddEditHoliday.js'
+// import { getHolidayList, deleteHoliday } from "../../services/HolidayService.js";
+// // import { getHolidayList, deleteHoliday, bindDesignation, updateEmployeesStatus } from "../../services/HolidayService.js";
+// import AddEditHoliday from './AddEditHoliday.js'
 // import Bootbox from 'bootbox-react';
 // import Select from 'react-select';
 // import { Notification } from "../../components/Notification.js";
@@ -18,7 +19,7 @@
 //   const [show, setShow] = useState(false);
 //   const handleClose = () => setShow(false);
 //   const handleShow = () => setShow(true);
-//   const [currentemployeeId, setCurrentemployeeId] = useState(null);
+//   const [currentHolidayId, setCurrentHolidayId] = useState(null);
 //   const [employeeList, setEmployeeList] = useState([]);
 //   const [showConfirm, setShowConfirm] = useState(false);
 //   const bootboxClose = () => setShowConfirm(false);
@@ -50,19 +51,19 @@
 //     setStatus(e);
 //   }
 
-//   async function bindDesignationList() {
-//     setLoading(true);
-//     try {
-//       await bindDesignation().then(res => {
-//         setDesignationList(res)
-//       });
-//     }
-//     catch (error) {
-//     }
-//     finally {
-//       setLoading(false);
-//     }
-//   }
+// //   async function bindDesignationList() {
+// //     setLoading(true);
+// //     try {
+// //       await bindDesignation().then(res => {
+// //         setDesignationList(res)
+// //       });
+// //     }
+// //     catch (error) {
+// //     }
+// //     finally {
+// //       setLoading(false);
+// //     }
+// //   }
 
 //   function designationHandler(e) {
 //     let item = e.value;
@@ -78,7 +79,7 @@
 //     setShowConfirm(false);
 //     setLoading(true);
 //     try {
-//       await deleteEmployee(currentemployeeId).then(res => { message = res });
+//       await deleteHoliday(currentHolidayId).then(res => { message = res });
 //     }
 //     catch (error) {
 //       message = error.message;
@@ -89,7 +90,7 @@
 //       } else {
 //         Notification(message, 'ERROR')
 //       }
-//       setCurrentemployeeId(null);
+//       setCurrentHolidayId(null);
 //       setLoading(false);
 //     }
 //     getEmployeeDataList();
@@ -101,7 +102,7 @@
 //     setShowConfirmStatus(false);
 //     setLoading(true);
 //     try {
-//       await updateEmployeesStatus(employeeId,status).then(res => { message = res });
+//     //   await updateEmployeesStatus(employeeId,status).then(res => { message = res });
 //     }
 //     catch (error) {
 //       message = error.message;
@@ -143,7 +144,7 @@
 //       await getHolidayList(employeeName, designationId, status.value, email).then(res => {
 //         setEmployeeList(res)
 //       });
-//       await bindDesignationList();
+//     //   await bindDesignationList();
 //     }
 //     catch (error) {
 //     }
@@ -228,9 +229,9 @@
 //       formatter: (cell, columns, rowIndex, extraData) => (
 //         <div>
 //           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
-//             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
-//             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-//             <button title='check' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+//             <button title="Edit" type="button" onClick={() => { setCurrentHolidayId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
+//             <button title='Delete' type="button" onClick={() => { setCurrentHolidayId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+//             <button title='check' type="button" onClick={() => { setCurrentHolidayId(columns.employeeId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
 //           </a>
 //         </div>
 //       )
@@ -241,7 +242,7 @@
 
 //   return (
 //     <>
-//       {show && <AddEditEmployee onDataSave={onDataSave} employeeId={currentemployeeId} />}
+//       {show && <AddEditHoliday onDataSave={onDataSave} employeeId={currentHolidayId} />}
 //       <ToastContainer />
 //       <ListGroup>
 //         <ListGroup.Item>
@@ -251,7 +252,7 @@
 //             <Navbar.Collapse id="responsive-navbar-nav">
 //               <Nav className="me-auto"></Nav>
 //               <Nav>
-//                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Holiday</Button></Navbar.Brand>
+//                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentHolidayId(0); handleShow() }} >+ Add Holiday</Button></Navbar.Brand>
 
 //               </Nav>
 //             </Navbar.Collapse>
