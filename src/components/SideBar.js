@@ -87,6 +87,9 @@ const Routes = [
 ];
 
 const SideBar = ({ children }) => {
+
+  let token = localStorage.getItem('accessToken')
+
   const [isOpen, setIsOpen] = useState(false);
   const toggle = () => setIsOpen(!isOpen);
   const inputAnimation = {
@@ -124,9 +127,10 @@ const SideBar = ({ children }) => {
   };
 
   return (
+    // !token ? (<></>):
     <>
       <div className="main-container">
-        <motion.div
+        {token && <motion.div
           animate={{
             width: isOpen ? "200px" : "45px",
 
@@ -213,7 +217,7 @@ const SideBar = ({ children }) => {
               );
             })}
           </section>
-        </motion.div>
+        </motion.div>}
 
         <main>{children}</main>
       </div>

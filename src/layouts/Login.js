@@ -41,18 +41,18 @@ function Login() {
 
     let accessToken;
     try {
-      debugger
-      const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
-        JSON.stringify(userProfile),
-        {
-          headers: {
-            'Content-Type': 'application/json',
-          }
-        }
-      );
-      console.log(response?.data)
-      accessToken = response?.data?.jwttoken;
-      // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
+      // debugger
+      // const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
+      //   JSON.stringify(userProfile),
+      //   {
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     }
+      //   }
+      // );
+      // console.log(response?.data)
+      // accessToken = response?.data?.jwttoken;
+      accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
       console.log("accesstoken :" + accessToken)
     }
     catch (error) {
