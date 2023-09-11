@@ -13,8 +13,21 @@ import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
+import { useNavigate } from 'react-router-dom';
 
 export default function Employee() {
+
+  const navigate = useNavigate();
+
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    // console.log(token)
+    if (!token) {
+      navigate('/login');
+    }
+  }, []);
+
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -27,7 +40,7 @@ export default function Employee() {
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
-  const [employeeId,setEmployeeId] = useState(null);
+  const [employeeId, setEmployeeId] = useState(null);
   const [employeeName, setEmployeeName] = useState("");
   const [designation, setDesignation] = useState("");
   const [designationId, setDesignationId] = useState("");
@@ -101,7 +114,7 @@ export default function Employee() {
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-      await updateEmployeesStatus(employeeId,status).then(res => { message = res });
+      await updateEmployeesStatus(employeeId, status).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
@@ -113,7 +126,7 @@ export default function Employee() {
         Notification(message, 'ERROR')
       }
       setEmployeeId(null);
-      
+
       setLoading(false);
     }
     getEmployeeDataList();
@@ -142,7 +155,7 @@ export default function Employee() {
     setLoading(true);
     try {
       await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
-        debugger;
+        // debugger;
         setEmployeeList(res)
       });
       await bindDesignationList();
@@ -304,7 +317,7 @@ export default function Employee() {
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status==1? 2:1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
@@ -409,8 +422,8 @@ export default function Employee() {
         onClose={bootboxClose}
       />
 
-<Bootbox show={showConfirmStatus}
-           type={"confirm"}
+      <Bootbox show={showConfirmStatus}
+        type={"confirm"}
         message={"Are you sure you want to change this status?"}
         onSuccess={handleConfirmStatus}
         onCancel={bootboxCloseStatus}

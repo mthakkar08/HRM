@@ -6,6 +6,7 @@ import { Button, Form, Card } from 'react-bootstrap';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Navigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
+import { encryptData } from '../services/EncryptDecrypt';
 
 export default function Forgot() {
 
@@ -36,29 +37,30 @@ export default function Forgot() {
                     }
                 }
             );
-            console.log(response?.data);
             result = response?.data
         }
         catch (error) {
             console.log("error > " > error)
         }
+        
 
-       
-        if (result === 'true') {
-            encryptData();
+        if (result) {
+
 
             let mailBody = {
                 email,
-                encEmail: data
+                encEmail: encryptData(email)
             }
 
             emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
                 .then(function (response) {
-
                     alert("Email sent to your emailId...")
                 }, function (error) {
-                    alert("invalid Email...")
+                    alert("invalid Email..." + error)
                 });
+        }
+        else{
+            alert("invalid emailid")
         }
 
     }

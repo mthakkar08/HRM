@@ -1,16 +1,30 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import axios from "axios";
 import bg2 from '../assets/images/bg2.png';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
+import { encryptData } from '../services/EncryptDecrypt';
+
+import { ReactSession } from 'react-client-session';
 
 function Login() {
+
+
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    console.log(token)
+    if (token) {
+      navigate('/');
+    }
+  }, []);
+
   const [email, setEmail] = useState("");
   const [password, setPasswrd] = useState("");
-  // const [result, setResult] = useState("");
   const [isSubmitted, setisSubmitted] = useState(false);
-  const navigate = useNavigate();
 
   const emailInput = useCallback((email) => {
     if (email) {
@@ -19,14 +33,15 @@ function Login() {
   }, []);
 
 
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     setisSubmitted(true);
     let userProfile = { email, password };
 
     let accessToken;
-
     try {
+      debugger
       const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
         JSON.stringify(userProfile),
         {
@@ -35,15 +50,21 @@ function Login() {
           }
         }
       );
-      console.log(JSON.stringify(response?.data));
+      console.log(response?.data)
       accessToken = response?.data?.jwttoken;
+      // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
+      console.log("accesstoken :" + accessToken)
     }
     catch (error) {
       console.log("error > " > error)
     }
 
     if (accessToken) {
-      navigate('/Dashboard');
+      ReactSession.setStoreType("sessionStorage");
+      let cryptoEmail = encryptData(email);
+      ReactSession.set("email", cryptoEmail);
+      localStorage.setItem('accessToken', accessToken);
+      navigate('/dashboard');
     }
     else {
       alert("Invalid email or password!")
@@ -112,7 +133,7 @@ function Login() {
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPasswrd(e.target.value)}
-                    autofocus
+                    autoFocus
                   />
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>

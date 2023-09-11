@@ -8,13 +8,31 @@ import { RxGear, RxStack } from 'react-icons/rx';
 import { BsFileEarmarkText, BsFileEarmarkCode } from "react-icons/bs";
 import { HiOutlineBellAlert } from "react-icons/hi2";
 import { RiHome2Line } from "react-icons/ri";
-import React from 'react';
-import { Link, Navigate } from 'react-router-dom';
+import React, { useEffect } from 'react';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { MdMessage } from "react-icons/md";
+import { ReactSession } from 'react-client-session';
+import { decryptData } from '../services/EncryptDecrypt';
 
 export default function Header() {
 
+
+  // const cryptoEmail = ReactSession.get("email");
+  // let email = decryptData(cryptoEmail);
+  const email = ReactSession.get("email");
+
+  const navigate = useNavigate();
+  const handleLogout = (e) => {
+    e.preventDefault();
+    localStorage.removeItem('accessToken');
+    navigate('/login');
+    ReactSession.remove("email")
+  }
+
+
+
   return (
+
     <>
       <Navbar style={{ backgroundColor: "#51438d" }}>
         <Navbar.Brand href="#home" style={{ marginLeft: '20px', display: "inline-flex" }}>
@@ -29,10 +47,10 @@ export default function Header() {
         <Dropdown style={{ marginRight: "20px" }}>
           <Dropdown.Toggle variant="bg-primary" id="dropdown-basic" className='action-top' >
             <Badge bg="primary" className='img-cricle' >BS</Badge>
-            <span>Bhoomi Sapariya</span>
+            <span>{email}</span>
           </Dropdown.Toggle>
           <Dropdown.Menu className="action-dropdown" style={{ marginLeft: "106px", marginTop: "0px", borderRadius: "inherit", fontSize: "13px" }}>
-            <Dropdown.Item as={Link}><AiOutlineLogout style={{ marginRight: "6px" }} /> Logout</Dropdown.Item>
+            <Dropdown.Item as={Link} onClick={handleLogout}><AiOutlineLogout style={{ marginRight: "6px" }} /> Logout</Dropdown.Item>
           </Dropdown.Menu>
         </Dropdown>
       </Navbar>

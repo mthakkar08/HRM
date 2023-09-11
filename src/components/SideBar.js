@@ -1,5 +1,5 @@
 import { NavLink } from "react-router-dom";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser } from "react-icons/fa";
+import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaGift } from "react-icons/fa";
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
@@ -18,6 +18,11 @@ const routes = [
     path: "/employee",
     name: "Employee",
     icon: <FaUser />,
+  },
+  {
+    path: "/holiday",
+    name: "Holiday",
+    icon: <FaGift />,
   },
   {
     path: "/messages",

@@ -8,6 +8,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { decryptData } from '../services/EncryptDecrypt';
 
 
 export default function ResetPassword() {
@@ -20,20 +21,22 @@ export default function ResetPassword() {
 
     let email;
 
-    const secretPass = "XkhZG4fW2t2W";
+    // const secretPass = "XkhZG4fW2t2W";
 
 
-    const decryptData = (text) => {
-        let bytes = CryptoJS.AES.decrypt(text, secretPass);
-        email = bytes.toString(CryptoJS.enc.Utf8);
-        console.log(email)
-    };
+    // const decryptData = (text) => {
+    //     let bytes = CryptoJS.AES.decrypt(text, secretPass);
+    //     email = bytes.toString(CryptoJS.enc.Utf8);
+    //     // console.log(email)
+    // };
+
 
     const [searchParams] = useSearchParams();
     let encEmail = searchParams.get('token');
 
     console.log('encEmail > ' + encEmail)
-    decryptData(encEmail)
+    // debugger
+    email = decryptData(encEmail)
     console.log('email > ' + email)
 
     const handleSubmit = async (e) => {
@@ -57,14 +60,13 @@ export default function ResetPassword() {
                         }
                     }
                 );
-                console.log(response?.data);
                 result = response?.data
             } catch (error) {
                 console.log("error in reset")
             }
 
         }
-
+        
         if (result === 'SUCCESS') {
             alert('Password Changes Successfully...')
             navigate('/');
