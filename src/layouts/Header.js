@@ -56,6 +56,7 @@ export default function Header() {
     e.preventDefault();
     // localStorage.clear();
     localStorage.removeItem('accessToken');
+    localStorage.removeItem('email');
     navigate('/login');
     ReactSession.remove("email")
   }

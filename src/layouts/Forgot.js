@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import axios from "axios";
 import emailjs from '@emailjs/browser';
 import Forgot_img from '../assets/images/Forgot_img.svg';
@@ -6,13 +6,18 @@ import { Button, Form, Card } from 'react-bootstrap';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Navigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
-import { encryptData } from '../services/EncryptDecrypt';
-import { Link} from 'react-router-dom';
+import { decryptData, encryptData } from '../services/EncryptDecrypt';
+import { Link } from 'react-router-dom';
 
 export default function Forgot() {
 
     const [email, setEmail] = useState("")
     const form = useRef();
+
+    useEffect(() => {
+        localStorage.getItem('myapp-email') && setEmail(decryptData(localStorage.getItem('myapp-email')))
+    }, [])
+
 
     const secretPass = "XkhZG4fW2t2W";
     let data;
@@ -43,7 +48,7 @@ export default function Forgot() {
         catch (error) {
             console.log("error > " > error)
         }
-        
+
 
         if (result) {
 
@@ -60,7 +65,7 @@ export default function Forgot() {
                     alert("invalid Email..." + error)
                 });
         }
-        else{
+        else {
             alert("invalid emailid")
         }
 

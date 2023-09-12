@@ -16,21 +16,13 @@ export default function ResetPassword() {
 
     const navigate = useNavigate();
     const [passwordType, setPasswordType] = useState("password")
-    const [icon, setIcon] = useState(FaEyeSlash)
+    const [passwordType2, setPasswordType2] = useState("password")
+    // const [icon, setIcon] = useState(FaEyeSlash)
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [isSubmitted, setIsSubmitted] = useState(false)
 
     let email;
-
-    // const secretPass = "XkhZG4fW2t2W";
-
-
-    // const decryptData = (text) => {
-    //     let bytes = CryptoJS.AES.decrypt(text, secretPass);
-    //     email = bytes.toString(CryptoJS.enc.Utf8);
-    //     // console.log(email)
-    // };
 
 
     const [searchParams] = useSearchParams();
@@ -50,8 +42,8 @@ export default function ResetPassword() {
 
         let userProfile = { email, password };
         let result;
-
-        if (password && confirmPassword) {
+        debugger
+        if (password && confirmPassword && password === confirmPassword) {
 
             try {
                 const response = await axios.post("http://192.168.1.106:8080/hrm/employee/reset",
@@ -68,16 +60,16 @@ export default function ResetPassword() {
             }
 
         }
-        
+
         if (result === 'SUCCESS') {
-            alert('Password Changes Successfully...')
+            Notification('Status update employee successfully!', 'success')
             navigate('/');
         }
 
     }
 
     function handleDisable() {
-        return confirmPassword && matchPattern(password) && password && confirmPassword === password;
+        return confirmPassword && matchPattern(password) && password;
     }
 
     function matchPattern(password) {
@@ -113,20 +105,24 @@ export default function ResetPassword() {
 
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">New Password</Form.Label>
-                            <Form.Control type="password" autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <Form.Control type={passwordType} autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
                             {!password && isSubmitted && (<span style={{ color: "red" }}>Please Enter Password</span>)}
                             {password && isSubmitted && !matchPattern(password) && (<span style={{ color: "red" }}>password should contain atleast one number and special character</span>)}
+                            <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }}>
+                                {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                            </button>
 
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">Confirm Password</Form.Label>
-                            <Form.Control type={passwordType} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                            <button type="button">
-                            { passwordType==="password"? <i className="bi bi-eye-slash"></i> :<i className="bi bi-eye"></i> }
+                            <Form.Control type={passwordType2} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                            {/* <Form.button type="button">{ passwordType==="password"? <FaEyeSlash/> : <FaEye/>}</Form.button> */}
+                            <button type="button" onClick={() => passwordType2 === 'password' ? setPasswordType2("text") : setPasswordType2("password")} style={{ cursor: "pointer" }}>
+                                {passwordType2 === "password" ? <FaEye /> : <FaEyeSlash />}
                             </button>
                             {!confirmPassword && isSubmitted && (<span style={{ color: "red" }}>Please Enter confirm Password</span>)}
-                            {confirmPassword && password && confirmPassword !== password && (<span style={{ color: "red" }}>Confirm password should match password</span>)}
+                            {confirmPassword && password && isSubmitted && (confirmPassword !== password) && (<span style={{ color: "red" }}>Confirm password should match password</span>)}
                         </Form.Group>
 
 
