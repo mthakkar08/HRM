@@ -247,7 +247,7 @@ export default function Employee() {
       }
     },
     {
-      dataField: "designationId",
+      dataField: "designationName",
       text: "Designation",
       sort: true,
       style: {

@@ -36,7 +36,7 @@ export async function getHolidayDetail(holidayId) {
 export async function deleteHoliday(holidayId) {
  
   try {
-    return axios.delete("http://localhost:8080/hrm/holiday/delete?holidayId=" + holidayId,
+    return axios.delete("http://192.168.1.40:8080/hrm/holiday/delete?holidayId=" + holidayId,
       {
         headers: {
           'Content-Type': 'application/json',

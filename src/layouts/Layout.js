@@ -15,6 +15,7 @@ import Dashboard from '../pages/Dashboard';
 import Messages from "../pages/Messages";
 import FileManager from "../pages/FileManager";
 import FuelType from "../pages/fuelType/FuelType";
+ import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile';
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
 import Order from "../pages/Order";
@@ -53,6 +54,7 @@ export default function Layout() {
             <Routes>
               <Route path="/" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
+                <Route path="/employeeProfile" element={<EmployeeProfile />} />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
                 <Route path="/FuelType" element={<FuelType />} />
