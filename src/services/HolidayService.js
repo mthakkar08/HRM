@@ -1,11 +1,11 @@
 import axios from "axios";
 import { apiUrl } from "../config";
 
- axios.defaults.headers.common = {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5kQGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjkzODQzMDM2LCJpYXQiOjE2OTM4MjUwMzZ9.TpcXa64RF708o7p59rRuyJjE7r-YXWrrkKtYpC6hB8eiVH3j5ySofPaNKhNoFLOZwCbn22hOHGaO012w59PcYA'}
+// axios.defaults.headers.common = {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5kQGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjkzODQzMDM2LCJpYXQiOjE2OTM4MjUwMzZ9.TpcXa64RF708o7p59rRuyJjE7r-YXWrrkKtYpC6hB8eiVH3j5ySofPaNKhNoFLOZwCbn22hOHGaO012w59PcYA'}
 
 // export async function getEmployeesList(employeeName, designation, status, email) {
-//  return await axios.get("http://192.168.1.106:8080/hrm/employee/list?employeeName=&designation=&status=0&email=").then((response) => response.data);
-//  return await axios.get("http://192.168.1.106:8080/hrm/employee/list?employeeName="+ employeeName + "&designation=" + "1" + "&status=" + "0" +"&email=" + email).then((response) => response.data);
+//  return await axios.get("http://192.168.1.40:8080/hrm/employee/list?employeeName=&designation=&status=0&email=").then((response) => response.data);
+//  return await axios.get("http://192.168.1.40:8080/hrm/employee/list?employeeName="+ employeeName + "&designation=" + "1" + "&status=" + "0" +"&email=" + email).then((response) => response.data);
 // }
 
 
@@ -15,7 +15,7 @@ export async function getHolidayList(fromDate, toDate) {
     'toDate': toDate
   };
   try {
-    return await axios.post("http://localhost:8080/hrm/holiday/list",
+    return await axios.post("http://192.168.1.40:8080/hrm/holiday/list",
       details,
       {
         headers: {
@@ -30,7 +30,7 @@ export async function getHolidayList(fromDate, toDate) {
 }
 
 export async function getHolidayDetail(holidayId) {
-  return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + holidayId).then((response) => response.data);
+  return axios.get("http://192.168.1.40:8080/hrm/employee/get?employeeId=" + holidayId).then((response) => response.data);
 }
 
 export async function deleteHoliday(holidayId) {
@@ -56,7 +56,7 @@ export async function deleteHoliday(holidayId) {
 //     'status': status
 //   };
 //   try {
-//     return await axios.post("http://192.168.1.106:8080/hrm/employee/status",
+//     return await axios.post("http://192.168.1.40:8080/hrm/employee/status",
 //       details,
 //       {
 //         headers: {
@@ -80,7 +80,7 @@ export function addHoliday(holidayId, holidayName, holidayDate, description, sta
     'status': status
   };
   try {
-    return axios.post("http://localhost:8080/hrm/holiday/save",
+    return axios.post("http://192.168.1.40:8080/hrm/holiday/save",
       details,
       {
         headers: {
@@ -95,5 +95,5 @@ export function addHoliday(holidayId, holidayName, holidayDate, description, sta
 }
 
 // export async function bindDesignation() {
-//   return await axios.get("http://192.168.1.106:8080/hrm/designation/bindlist").then((response) => response.data);
+//   return await axios.get("http://192.168.1.40:8080/hrm/designation/bindlist").then((response) => response.data);
 // }

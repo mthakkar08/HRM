@@ -18,7 +18,7 @@ function Login() {
     const token = localStorage.getItem('accessToken')
     console.log(token)
     if (token) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, []);
 

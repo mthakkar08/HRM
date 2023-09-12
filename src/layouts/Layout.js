@@ -33,25 +33,25 @@ export default function Layout() {
 
   const navigate = useNavigate();
   let token;
-  useEffect(() => {
-   token = localStorage.getItem('accessToken')
-    console.log("token > " + !token && "is null")
-    if (!token) {
-      navigate('/login');
-    }
-  }, []);
-  
+  // useEffect(() => {
+  //   token = localStorage.getItem('accessToken')
+  //   console.log("token > " + !token && "is null")
+  //   if (!token) {
+  //     navigate('/');
+  //   }
+  // }, []);
+
   const { loading } = useLoading();
   return (
     <>
       {loading && <Loader />}
       <Header />
-        <Row style={{margin: 0}}>
+      <Row style={{ margin: 0 }}>
 
-          <Col xs={12} style={{padding: 0}} >
-            <SideBar>
-              <Routes>
-                <Route path="/" element={<Login />} />
+        <Col xs={12} style={{ padding: 0 }} >
+          <SideBar>
+            <Routes>
+              <Route path="/" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
@@ -63,12 +63,12 @@ export default function Layout() {
                 <Route path="/forgot" element={<Forgot />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />
                 <Route path="*" element={<Navigate to="/" />} />
-              </Routes>
-            </SideBar>
+            </Routes>
+          </SideBar>
 
-          </Col>
-        </Row>
-        <Footer />
+        </Col>
+      </Row>
+      <Footer />
     </>
   );
 }

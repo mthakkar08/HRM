@@ -46,6 +46,13 @@ export default function Holiday() {
     setStatus(e);
   }
 
+  function FromDateHandler(e){
+    setFromDate(e)
+  }
+
+  function ToDateHandler(e){
+    setToDate(e)
+  }
 //   async function bindDesignationList() {
 //     setLoading(true);
 //     try {
@@ -60,10 +67,6 @@ export default function Holiday() {
 //     }
 //   }
 
-  
-
-
-
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
@@ -76,7 +79,7 @@ export default function Holiday() {
     }
     finally {
       if (message == 'SUCCESS') {
-        Notification('Employee deleted successfully!', 'success')
+        Notification('Holiday deleted successfully!', 'success')
       } else {
         Notification(message, 'ERROR')
       }
@@ -124,7 +127,6 @@ export default function Holiday() {
     setStatus({ label: "All", value: "0" });
 
     await getHolidayList(fromDate, toDate).then(res => { setHolidayList(res) });
-
   }
 
   async function getHolidayDataList() {
@@ -251,24 +253,17 @@ export default function Holiday() {
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
               <Row className="main-class">
-                <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Holiday Name</Form.Label>
-                  <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
+                <Col className='display-inline pl-0' style={{ width: '356px', marginLeft: '0px' }}>
+                <Form.Label className="mb-1">From Date</Form.Label>
+                <Form.Control type="date" autoComplete="off" name="fromDate" id="fromDate"
+                  value={fromDate} onChange={FromDateHandler}  dateFormat="yyyy/MM/DD" />
                 </Col>
 
-                {/* <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Designation</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
-                    <Select style={{ width: "60px" }}
-                      value={designationName}
-                      options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
-                      onChange={designationHandler}
-                      // defaultValue={{ label: designationName}}
-                      defaultMenuIsOpen={false}
-                      id="designationId">
-                    </Select>
-                  </Form.Group>
-                </Col> */}
+                <Col className='display-inline pl-0' style={{ width: '356px', marginLeft: '0px' }}>
+                <Form.Label className="mb-1">To Date</Form.Label>
+                <Form.Control type="date" autoComplete="off" name="toDate" id="toDate"
+                  value={toDate} onChange={ToDateHandler}  dateFormat="yyyy/MM/DD" />
+                </Col>
 
                 <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Status</Form.Label>
