@@ -9,12 +9,14 @@ import hrmLogo from '../assets/images/hrmLogo.png';
 import { useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
 import { decryptData } from '../services/EncryptDecrypt';
+import { FaEyeSlash, FaEye } from "react-icons/fa";
 
 
 export default function ResetPassword() {
 
     const navigate = useNavigate();
-
+    const [passwordType, setPasswordType] = useState("password")
+    const [icon, setIcon] = useState(FaEyeSlash)
     const [password, setPassword] = useState("")
     const [confirmPassword, setConfirmPassword] = useState("")
     const [isSubmitted, setIsSubmitted] = useState(false)
@@ -119,7 +121,10 @@ export default function ResetPassword() {
 
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">Confirm Password</Form.Label>
-                            <Form.Control type="password" autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                            <Form.Control type={passwordType} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
+                            <button type="button">
+                            { passwordType==="password"? <i className="bi bi-eye-slash"></i> :<i className="bi bi-eye"></i> }
+                            </button>
                             {!confirmPassword && isSubmitted && (<span style={{ color: "red" }}>Please Enter confirm Password</span>)}
                             {confirmPassword && password && confirmPassword !== password && (<span style={{ color: "red" }}>Confirm password should match password</span>)}
                         </Form.Group>
