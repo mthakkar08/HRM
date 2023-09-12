@@ -135,13 +135,13 @@ export default function AddEditHoliday(props) {
           <Modal.Body>
         
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Holiday Name</Form.Label>
+                <Form.Label className="mb-1 required">Holiday Name</Form.Label>
                 <Form.Control type="text" autoComplete="off" name="holidayName" id="holidayName"
                   value={holidayName} onChange={HolidayHandler} />{holidayNameErr ? <span style={{ color: 'red' }}>Please enter holiday name</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Holiday Date</Form.Label>
+                <Form.Label className="mb-1 required">Holiday Date</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="holidayDate" id="holidayDate"
                   value={holidayDate?.replace("/","-")?.substring(0,10)} onChange={holidayDateHandler} />{holidayDateErr ? <span style={{ color: 'red' }} dateFormat="yyyy/MM/DD">Please select holiday date</span> : null}
               </Form.Group>

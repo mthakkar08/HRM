@@ -335,31 +335,31 @@ export default function AddEditEmployee(props) {
           <Modal.Body>
             <div className="row">
               <Form.Group className="mb-3 col-md-6">
-                <Form.Label className="mb-1">Employee Name</Form.Label>
+                <Form.Label className="mb-1 required">Employee Name</Form.Label>
                 <Form.Control type="text" autoComplete="off" name="employeeName" id="employeeName"
                   value={employeeName} onChange={EmployeeHandler} />{employeeNameErr ? <span style={{ color: 'red' }}>Please enter employee name</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-6">
-                <Form.Label className="mb-1">Dob</Form.Label>
+                <Form.Label className="mb-1 required">Dob</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="dob" id="dob"
                   value={dob?.replace("/", "-")?.substring(0, 10)} onChange={DoBHandler} />{dobErr ? <span style={{ color: 'red' }} dateFormat="yyyy/MM/DD">Please select dob</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-6">
-                <Form.Label className="mb-1">Phone Number</Form.Label>
+                <Form.Label className="mb-1 required">Phone Number</Form.Label>
                 <Form.Control type="text" autoComplete="off" name="phoneNumber" id="phoneNumber"
                   value={phoneNumber} onChange={phoneNumberHandler} />{phoneNumberErr ? <span style={{ color: 'red' }}>{numberValidation}</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-6">
-                <Form.Label className="mb-1">Email Address</Form.Label>
+                <Form.Label className="mb-1 required">Email Address</Form.Label>
                 <Form.Control type="text" autoComplete="off" name="email" id="email"
                   value={email} onChange={EmailHandler} />{emailErr ? <span style={{ color: 'red' }}>{emailAddressValidation} </span> : null}
               </Form.Group>
 
               <Form.Group className='defaultWidth mb-3 col-md-6'>
-                <Form.Label className='display-inline search-label mb-1'>Gender</Form.Label>
+                <Form.Label className='display-inline search-label mb-1 required'>Gender</Form.Label>
                 <Select
                   value={defaultGender}
                   options={genderData.map(({ label, value }) => ({ label: label, value: value }))}
@@ -371,7 +371,7 @@ export default function AddEditEmployee(props) {
               </Form.Group>
 
               <Form.Group className='defaultWidth mb-3 col-md-6'>
-                <Form.Label className='display-inline search-label mb-1'>Designation</Form.Label>
+                <Form.Label className='display-inline search-label mb-1 required'>Designation</Form.Label>
                 <Select
                   //  value={designationName}
                   //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
@@ -385,7 +385,7 @@ export default function AddEditEmployee(props) {
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-6">
-                <Form.Label className="mb-1">Experience</Form.Label>
+                <Form.Label className="mb-1 required">Experience</Form.Label>
                 <Form.Control type="text" autoComplete="off" name="experience" id="experience"
                   value={experience} onChange={experienceHandler} />
                 {experienceErr ? <span style={{ color: 'red' }}>Please enter experience</span> : null}
@@ -399,7 +399,7 @@ export default function AddEditEmployee(props) {
               </Form.Group>
 
               <Form.Group className="mb-3 col-md-4">
-                <Form.Label className="mb-1">Hiring Date</Form.Label>
+                <Form.Label className="mb-1 required">Hiring Date</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="hiringDate" id="hiringDate"
                   value={hiringDate?.replace("/", "-")?.substring(0, 10)} onChange={hiringDateHandler} />{hiringDateErr ? <span style={{ color: 'red' }}>Please enter hiring date</span> : null}
               </Form.Group>
