@@ -42,6 +42,7 @@ export default function Holiday() {
 
   ];
 
+ 
   function StatusHandler(e) {
     setStatus(e);
   }
@@ -253,21 +254,25 @@ export default function Holiday() {
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
               <Row className="main-class">
-                <Col className='display-inline pl-0' style={{ width: '356px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }}>
                 <Form.Label className="mb-1">From Date</Form.Label>
+                <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }} >
                 <Form.Control type="date" autoComplete="off" name="fromDate" id="fromDate"
                   value={fromDate} onChange={FromDateHandler}  dateFormat="yyyy/MM/DD" />
+                    </Form.Group>
                 </Col>
 
-                <Col className='display-inline pl-0' style={{ width: '356px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }} >
                 <Form.Label className="mb-1">To Date</Form.Label>
+                <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }}>
                 <Form.Control type="date" autoComplete="off" name="toDate" id="toDate"
                   value={toDate} onChange={ToDateHandler}  dateFormat="yyyy/MM/DD" />
+                   </Form.Group>
                 </Col>
 
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '-20px' }}>
                   <Form.Label className='display-inline search-label'>Status</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
+                  <Form.Group className='defaultWidth' style={{ width: "350px" }}>
                     <Select style={{ width: "60px" }}
                       value={status}
                       options={statusData.map(({ label, value }) => ({ label: label, value: value }))}

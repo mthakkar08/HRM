@@ -1080,3 +1080,8 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
   color: white !important;
   opacity: inherit !important;
 }
+
+.required::after {
+  content: " *";
+  color: #ff0000;
+}
