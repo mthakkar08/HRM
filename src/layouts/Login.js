@@ -9,16 +9,13 @@ import { encryptData } from '../services/EncryptDecrypt';
 import { ReactSession } from 'react-client-session';
 
 function Login() {
-
-
-
   const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
     console.log(token)
     if (token) {
-      navigate('/');
+      navigate('/dashboard');
     }
   }, []);
 
@@ -156,7 +153,7 @@ function Login() {
                   <input type="checkbox" name="remember" id="remember" />
                   <label for="remember" class="ml-2">Remember me</label>
                   <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()}>Login</Button>
-                  <div className="text-right pt-4"> <a href="/Forgot" >Forgot Password</a>
+                  <div className="text-right pt-4"><Link to="/Forgot">Forgot Password</Link>
                   </div>
                 </Form.Group>
               </div>
