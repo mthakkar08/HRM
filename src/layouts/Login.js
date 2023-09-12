@@ -4,24 +4,32 @@ import bg2 from '../assets/images/bg2.png';
 import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
-import { encryptData } from '../services/EncryptDecrypt';
+import { decryptData, encryptData } from '../services/EncryptDecrypt';
 
 import { ReactSession } from 'react-client-session';
+import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
 
+
+  const [email, setEmail] = useState("");
+  const [password, setPasswrd] = useState("");
+  const [passwordType, setPasswordType] = useState("password")
+  const [isSubmitted, setisSubmitted] = useState(false);
+  const [isRemember, setIsRemember] = useState(false);
+
   useEffect(() => {
+    localStorage.getItem('myapp-email') && setEmail(decryptData(localStorage.getItem('myapp-email')))
+    localStorage.getItem('myapp-password') && setPasswrd(decryptData(localStorage.getItem('myapp-password')))
+    // setEmail(localStorage.getItem('myapp-email'))
+    // setPasswrd(localStorage.getItem('myapp-password'))
     const token = localStorage.getItem('accessToken')
     console.log(token)
     if (token) {
       navigate('/dashboard');
     }
   }, []);
-
-  const [email, setEmail] = useState("");
-  const [password, setPasswrd] = useState("");
-  const [isSubmitted, setisSubmitted] = useState(false);
 
   const emailInput = useCallback((email) => {
     if (email) {
@@ -34,11 +42,13 @@ function Login() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setisSubmitted(true);
+    remember();
     let userProfile = { email, password };
+
+
 
     let accessToken, isEnabled;
     try {
-      debugger
       const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
         JSON.stringify(userProfile),
         {
@@ -52,17 +62,19 @@ function Login() {
       accessToken = response?.data?.jwttoken;
       // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
       console.log("accesstoken :" + accessToken)
-      
+
     }
     catch (error) {
       console.log("error > " > error)
     }
 
-    if(isEnabled){
+    if (isEnabled) {
 
     }
 
     if (accessToken && isEnabled) {
+
+
       ReactSession.setStoreType("localStorage");
       let cryptoEmail = encryptData(email);
       ReactSession.set('email', cryptoEmail);
@@ -70,10 +82,10 @@ function Login() {
       localStorage.setItem('email', cryptoEmail);
       navigate('/dashboard');
     }
-    else if(isEnabled){
+    else if (isEnabled) {
       alert("Your account is disabled please contact support team!")
     }
-    else{
+    else {
       alert("invalid username or password")
     }
 
@@ -81,6 +93,25 @@ function Login() {
 
   function handleDisable() {
     return email && password && matchPattern(password);
+  }
+
+  const remember = () => {
+
+    if (isRemember) {
+      let cryptoEmail = encryptData(email);
+      let cryptoPassword = encryptData(password);
+      localStorage.setItem("myapp-email", cryptoEmail); localStorage.setItem("myapp-password", cryptoPassword)
+    }
+    else {
+      localStorage.removeItem("myapp-email"); localStorage.removeItem("myapp-password")
+    }
+  }
+
+  const handleChange = (e) => {
+    // console.log(e.target.value)
+    console.log("is > " + isRemember)
+    setIsRemember(!isRemember)
+
   }
 
   function matchPattern(password) {
@@ -136,12 +167,15 @@ function Login() {
 
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-1">Password</Form.Label>
-                  <Form.Control type="password" autoComplete="off" name="password" id="password"
+                  <Form.Control type={passwordType} autoComplete="off" name="password" id="password"
                     placeholder="Enter password"
                     value={password}
                     onChange={(e) => setPasswrd(e.target.value)}
                     autoFocus
                   />
+                   <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }}>
+                                {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                            </button>
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>
                       Please Enter Password
@@ -150,7 +184,8 @@ function Login() {
                   {password && !matchPattern(password) && (<span style={{ color: "red" }}>password should contain atleast one number and special character</span>)}
                 </Form.Group>
                 <Form.Group className='m-0'>
-                  <input type="checkbox" name="remember" id="remember" />
+                  <input type="checkbox" name="remember" id="remember" checked={isRemember} onChange={handleChange} />
+                  {/* <input type="checkbox" name="remember" id="remember" value={isRemember} onChange={isRemember?setIsRemember(false):setIsRemember(true)} /> */}
                   <label for="remember" class="ml-2">Remember me</label>
                   <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()}>Login</Button>
                   <div className="text-right pt-4"><Link to="/Forgot">Forgot Password</Link>
