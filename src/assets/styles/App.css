@@ -1085,3 +1085,9 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
   content: " *";
   color: #ff0000;
 }
+
+.title {
+   font-size: 13px !important; 
+  display: grid !important;
+  place-items: center !important;
+}

@@ -10,6 +10,7 @@ import { apiUrl } from "../config";
 
 
 export async function getHolidayList(fromDate, toDate) {
+  debugger;
   var details = {
     'fromDate': fromDate,
     'toDate': toDate
