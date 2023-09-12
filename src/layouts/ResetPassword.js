@@ -125,7 +125,7 @@ export default function ResetPassword() {
                         </Form.Group>
 
 
-                        <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0 " size="lg" disabled={!handleDisable()}>Reset Password</Button>
+                        <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0 " size="lg" disabled={!handleDisable()}>Reset Password</Button><Link to="/Login">Login</Link>
 
                     </div>
 

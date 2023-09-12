@@ -7,6 +7,7 @@ import hrmLogo from '../assets/images/hrmLogo.png';
 import { Navigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
 import { encryptData } from '../services/EncryptDecrypt';
+import { Link} from 'react-router-dom';
 
 export default function Forgot() {
 
@@ -105,7 +106,7 @@ export default function Forgot() {
 
                                 <Form.Group className='m-0'>
                                     <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!email}>Reset Password</Button>
-                                    <div className="text-right pt-4">Remember your password? <a href="/Login" >Login</a>
+                                    <div className="text-right pt-4">Remember your password?<Link to="/Login">Login</Link>
                                     </div>
                                 </Form.Group>
                             </div>
