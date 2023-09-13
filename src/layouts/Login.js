@@ -176,9 +176,6 @@ function Login() {
                   />
                   <Link onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color: "#333333", marginTop: "5px", marginLeft: "8px" }}>
                     {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}</Link>
-
-               
-
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>
                       Please Enter Password
