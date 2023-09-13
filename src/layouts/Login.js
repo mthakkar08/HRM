@@ -165,17 +165,19 @@ function Login() {
                   )}
                 </Form.Group>
 
-                <Form.Label className="mb-1">Password</Form.Label>
-                <Form.Group className="mb-3" style={{ display: "flex", width: "414px" }}>
-
-                  <Form.Control type={passwordType} autoComplete="off" name="password" id="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPasswrd(e.target.value)}
-                    autoFocus
-                  />
-                  <Link onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color: "#333333", marginTop: "5px", marginLeft: "8px" }}>
-                    {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}</Link>
+                <Form.Group className="mb-3">
+                  <Form.Label className="mb-1">Password</Form.Label>
+                  <div className='input-group-append pass-group'>
+                    <Form.Control className='border-end-0 rounded-end-0' type={passwordType} autoComplete="off" name="password" id="password"
+                      placeholder="Enter password"
+                      value={password}
+                      onChange={(e) => setPasswrd(e.target.value)}
+                      autoFocus
+                    />
+                    <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color:"#333333" }}>
+                      {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                    </button>
+                  </div>
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>
                       Please Enter Password
