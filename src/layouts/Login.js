@@ -174,7 +174,7 @@ function Login() {
                       onChange={(e) => setPasswrd(e.target.value)}
                       autoFocus
                     />
-                    <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color:"#333333" }}>
+                    <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color:"#00000096" }}>
                       {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
                     </button>
                   </div>

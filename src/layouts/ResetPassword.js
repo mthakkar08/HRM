@@ -109,7 +109,7 @@ export default function ResetPassword() {
                             <Form.Label className="mb-1">New Password</Form.Label>
                             <div className='input-group-append pass-group'>
                                 <Form.Control type={passwordType} autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className='border-end-0 rounded-end-0' />
-                                <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }} className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0'>
+                                <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' style={{ cursor: "pointer", color:"#00000096" }}>
                                     {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
                                 </button>
                             </div>
@@ -124,7 +124,7 @@ export default function ResetPassword() {
                             <div className='input-group-append pass-group'>
                                 <Form.Control type={passwordType2} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className='border-end-0 rounded-end-0' />
                                 {/* <Form.button type="button">{ passwordType==="password"? <FaEyeSlash/> : <FaEye/>}</Form.button> */}
-                                <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType2 === 'password' ? setPasswordType2("text") : setPasswordType2("password")} style={{ cursor: "pointer" }}>
+                                <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType2 === 'password' ? setPasswordType2("text") : setPasswordType2("password")} style={{ cursor: "pointer", color:"#00000096" }}>
                                     {passwordType2 === "password" ? <FaEye /> : <FaEyeSlash />}
                                 </button>
                             </div>
