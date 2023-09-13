@@ -5,7 +5,7 @@ import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { decryptData, encryptData } from '../services/EncryptDecrypt';
-
+import Notification from '../components/Notification';
 import { ReactSession } from 'react-client-session';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -176,6 +176,9 @@ function Login() {
                   />
                   <Link onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer", color: "#333333", marginTop: "5px", marginLeft: "8px" }}>
                     {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}</Link>
+
+               
+
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>
                       Please Enter Password
