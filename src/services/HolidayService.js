@@ -10,7 +10,6 @@ import { apiUrl } from "../config";
 
 
 export async function getHolidayList(fromDate, toDate) {
-  debugger;
   var details = {
     'fromDate': fromDate,
     'toDate': toDate
@@ -31,6 +30,7 @@ export async function getHolidayList(fromDate, toDate) {
 }
 
 export async function getHolidayDetail(holidayId) {
+  debugger;
   return axios.get("http://192.168.1.40:8080/hrm/employee/get?employeeId=" + holidayId).then((response) => response.data);
 }
 
