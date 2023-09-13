@@ -5,7 +5,7 @@ import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { decryptData, encryptData } from '../services/EncryptDecrypt';
-
+import Notification from '../components/Notification';
 import { ReactSession } from 'react-client-session';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
@@ -167,15 +167,17 @@ function Login() {
 
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-1">Password</Form.Label>
-                  <Form.Control type={passwordType} autoComplete="off" name="password" id="password"
-                    placeholder="Enter password"
-                    value={password}
-                    onChange={(e) => setPasswrd(e.target.value)}
-                    autoFocus
-                  />
-                   <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }}>
-                                {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
-                            </button>
+                  <div className='input-group-append pass-group'>
+                    <Form.Control className='border-end-0 rounded-end-0' type={passwordType} autoComplete="off" name="password" id="password"
+                      placeholder="Enter password"
+                      value={password}
+                      onChange={(e) => setPasswrd(e.target.value)}
+                      autoFocus
+                    />
+                    <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }}>
+                      {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                    </button>
+                  </div>
                   {!password && isSubmitted && (
                     <span style={{ color: "red" }}>
                       Please Enter Password

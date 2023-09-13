@@ -1085,3 +1085,10 @@ tr.selected-row,.table-striped tbody tr.selected-row:nth-of-type(even), .table-h
   content: " *";
   color: #ff0000;
 }
+.pass-group .form-control{
+  border-top-right-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+.pass-group button{
+  border-color: rgb(206, 212, 218) !important;
+}

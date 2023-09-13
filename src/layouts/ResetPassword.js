@@ -62,10 +62,12 @@ export default function ResetPassword() {
         }
 
         if (result === 'SUCCESS') {
-            Notification('Status update employee successfully!', 'success')
+            alert('Password changed Successfully!')
             navigate('/');
+        }else if (result === 'ERROR') {
+            alert('Link expired please try again!')
+            navigate('/forgot');
         }
-
     }
 
     function handleDisable() {
@@ -105,28 +107,34 @@ export default function ResetPassword() {
 
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">New Password</Form.Label>
-                            <Form.Control type={passwordType} autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} />
+                            <div className='input-group-append pass-group'>
+                                <Form.Control type={passwordType} autoComplete="off" name="password" id="password" value={password} onChange={(e) => setPassword(e.target.value)} className='border-end-0 rounded-end-0' />
+                                <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }} className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0'>
+                                    {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
+                                </button>
+                            </div>
                             {!password && isSubmitted && (<span style={{ color: "red" }}>Please Enter Password</span>)}
                             {password && isSubmitted && !matchPattern(password) && (<span style={{ color: "red" }}>password should contain atleast one number and special character</span>)}
-                            <button type="button" onClick={() => passwordType === 'password' ? setPasswordType("text") : setPasswordType("password")} style={{ cursor: "pointer" }}>
-                                {passwordType === "password" ? <FaEye /> : <FaEyeSlash />}
-                            </button>
+
 
                         </Form.Group>
 
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1">Confirm Password</Form.Label>
-                            <Form.Control type={passwordType2} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-                            {/* <Form.button type="button">{ passwordType==="password"? <FaEyeSlash/> : <FaEye/>}</Form.button> */}
-                            <button type="button" onClick={() => passwordType2 === 'password' ? setPasswordType2("text") : setPasswordType2("password")} style={{ cursor: "pointer" }}>
-                                {passwordType2 === "password" ? <FaEye /> : <FaEyeSlash />}
-                            </button>
+                            <div className='input-group-append pass-group'>
+                                <Form.Control type={passwordType2} autoComplete="off" name="confirmPassword" id="confirmPassword" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} className='border-end-0 rounded-end-0' />
+                                {/* <Form.button type="button">{ passwordType==="password"? <FaEyeSlash/> : <FaEye/>}</Form.button> */}
+                                <button type="button" className='bg-transparent border-bottom border-end border-start-0 border-top px-3 rounded-end rounded-start-0' onClick={() => passwordType2 === 'password' ? setPasswordType2("text") : setPasswordType2("password")} style={{ cursor: "pointer" }}>
+                                    {passwordType2 === "password" ? <FaEye /> : <FaEyeSlash />}
+                                </button>
+                            </div>
                             {!confirmPassword && isSubmitted && (<span style={{ color: "red" }}>Please Enter confirm Password</span>)}
                             {confirmPassword && password && isSubmitted && (confirmPassword !== password) && (<span style={{ color: "red" }}>Confirm password should match password</span>)}
                         </Form.Group>
 
 
-                        <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0 " size="lg" disabled={!handleDisable()}>Reset Password</Button><Link to="/Login">Login</Link>
+                        <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0 " size="lg" disabled={!handleDisable()}>Reset Password</Button>
+                        <Link to="/Login">Login</Link>
 
                     </div>
 
