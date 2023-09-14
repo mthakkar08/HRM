@@ -28,9 +28,8 @@ export default function Holiday() {
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
   const [holidayId,setHolidayId] = useState(null);
-  const [employeeName, setEmployeeName] = useState("");
-  const [toDate, setToDate] = useState("");
-  const [fromDate, setFromDate] = useState("");
+  const [toDate, setToDate] = useState(new Date().getFullYear() + 1 + "-05-01");
+  const [fromDate, setFromDate] = useState(new Date().getFullYear() + "-04-30");
 
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "0" });
@@ -39,34 +38,24 @@ export default function Holiday() {
     { label: "All", value: "0" },
     { label: "Active", value: "1" },
     { label: "In-Active", value: "2" }
-
   ];
 
- 
+  
   function StatusHandler(e) {
     setStatus(e);
   }
 
   function FromDateHandler(e){
-    setFromDate(e)
+    debugger;
+    let item = e.target.value;
+    
+    setFromDate(item)
   }
 
   function ToDateHandler(e){
-    setToDate(e)
+    let item = e.target.value;
+    setToDate(item)
   }
-//   async function bindDesignationList() {
-//     setLoading(true);
-//     try {
-//       await bindDesignation().then(res => {
-//         setDesignationList(res)
-//       });
-//     }
-//     catch (error) {
-//     }
-//     finally {
-//       setLoading(false);
-//     }
-//   }
 
   async function handleConfirm() {
     let message = '';
@@ -94,6 +83,7 @@ export default function Holiday() {
   async function handleConfirmStatus() {
     let message = '';
     setShowConfirmStatus(false);
+    debugger;
     setLoading(true);
     try {
     //   await updateEmployeesStatus(employeeId,status).then(res => { message = res });
@@ -124,16 +114,17 @@ export default function Holiday() {
 
   async function handleReset(e) {
     e.preventDefault();
-    setEmployeeName("");
+    setToDate(new Date().getFullYear() + 1 + "-05-01");
+    setFromDate(new Date().getFullYear() + "-04-30");
     setStatus({ label: "All", value: "0" });
 
-    await getHolidayList(fromDate, toDate).then(res => { setHolidayList(res) });
+    await getHolidayList("", "","").then(res => { setHolidayList(res) });
   }
 
   async function getHolidayDataList() {
     setLoading(true);
     try {
-      await getHolidayList(fromDate, toDate).then(res => {
+      await getHolidayList(fromDate, toDate,status.value).then(res => {
         setHolidayList(res)
       });
     //   await bindDesignationList();
@@ -172,7 +163,7 @@ export default function Holiday() {
       text: "Holiday Name",
       sort: true,
       style: {
-        width: '10%'
+        width: '10%',
       }
     },
     {
@@ -258,7 +249,7 @@ export default function Holiday() {
                 <Form.Label className="mb-1">From Date</Form.Label>
                 <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }} >
                 <Form.Control type="date" autoComplete="off" name="fromDate" id="fromDate"
-                  value={fromDate} onChange={FromDateHandler}  dateFormat="yyyy/MM/DD" />
+                  value={fromDate} onChange={FromDateHandler}  dateFormat="yyyy/MM/DD"  />
                     </Form.Group>
                 </Col>
 

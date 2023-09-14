@@ -9,13 +9,14 @@ import { apiUrl } from "../config";
 // }
 
 
-export async function getHolidayList(fromDate, toDate) {
+export async function getHolidayList(fromDate, toDate,status) {
   var details = {
     'fromDate': fromDate,
-    'toDate': toDate
+    'toDate': toDate,
+    'status': status
   };
   try {
-    return await axios.post("http://192.168.1.40:8080/hrm/holiday/list",
+    return await axios.post("http://192.168.1.2:8080/hrm/holiday/list",
       details,
       {
         headers: {
@@ -31,13 +32,13 @@ export async function getHolidayList(fromDate, toDate) {
 
 export async function getHolidayDetail(holidayId) {
   debugger;
-  return axios.get("http://192.168.1.40:8080/hrm/employee/get?employeeId=" + holidayId).then((response) => response.data);
+  return axios.get("http://192.168.1.2:8080/hrm/holiday/get?holidayId=" + holidayId).then((response) => response.data);
 }
 
 export async function deleteHoliday(holidayId) {
  
   try {
-    return axios.delete("http://192.168.1.40:8080/hrm/holiday/delete?holidayId=" + holidayId,
+    return axios.delete("http://192.168.1.2:8080/hrm/holiday/delete?holidayId=" + holidayId,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -81,7 +82,7 @@ export function addHoliday(holidayId, holidayName, holidayDate, description, sta
     'status': status
   };
   try {
-    return axios.post("http://192.168.1.40:8080/hrm/holiday/save",
+    return axios.post("http://192.168.1.2:8080/hrm/holiday/save",
       details,
       {
         headers: {

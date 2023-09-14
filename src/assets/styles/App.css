@@ -1133,3 +1133,10 @@ tr.selected-row,
   display: grid !important;
   place-items: center !important;
 }
+
+.table>:not(caption)>*>* {
+  padding: 0.5rem 0.5rem;
+  background-color: white !important; 
+  border-bottom-width: 1px !important;
+  box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg) !important;
+}

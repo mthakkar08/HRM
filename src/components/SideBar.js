@@ -30,6 +30,11 @@ const Routes = [
     icon: <FaGift />,
   },
   {
+    path: "/roleRights",
+    name: "RoleRights",
+    icon: <FaGift />,
+  },
+  {
     path: "/FuelType",
     name: "FuelType",
     icon: <BiAnalyse />,

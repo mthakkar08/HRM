@@ -18,6 +18,7 @@ import FuelType from "../pages/fuelType/FuelType";
  import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile';
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
+import RoleRights from '../pages/roleRights/RoleRights';
 import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
@@ -57,6 +58,7 @@ export default function Layout() {
                 <Route path="/employeeProfile" element={<EmployeeProfile />} />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
+                <Route path="/roleRights" element={<RoleRights />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />
                 <Route path="/order" element={<Order />} />
@@ -64,7 +66,7 @@ export default function Layout() {
                 <Route path="/settings" element={<Setting />} />
                 <Route path="/forgot" element={<Forgot />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />
-                <Route path="*" element={<Navigate to="/" />} />
+                {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
           </SideBar>
 

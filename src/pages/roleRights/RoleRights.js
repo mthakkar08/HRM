@@ -14,19 +14,11 @@ import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
-import EmployeeProfile from '../employeeProfile/EmployeeProfile';
 
-export default function Employee(props) {
+export default function RoleRights() {
 
   const navigate = useNavigate();
 
-
-
-
-  const toComponentB = (empId) => {
-    navigate('../EmployeeProfile', { state: { id: empId } });
-  }
 
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
@@ -188,8 +180,8 @@ export default function Employee(props) {
 
   const columns = [
     {
-      dataField: "employeeId",
-      text: "employeeId ",
+      dataField: "roleId",
+      text: "roleId ",
       sort: true,
       hidden: true,
       style: {
@@ -199,139 +191,89 @@ export default function Employee(props) {
     },
     {
       dataField: "employeeName",
-      text: "Employee Name",
+      text: "Role Name",
       sort: true,
       style: {
-        width: '10%'
-      }
-    },
-    {
-      dataField: "dob",
-      text: "Dob",
-      sort: true,
-      style: {
-        width: '10%',
+        width: '40%',
         textAlign: 'left'
       }
     },
     {
-      dataField: "gender",
-      text: "Gender",
+      dataField: "view",
+      text: "View",
       sort: true,
-      style: {
-        width: '5%'
-      },
-      formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          {
-            columns.gender == 1 ? (<span style={{ borderRadius: "2px", border: "none" }}>Male</span>) :
-              <span style={{ borderRadius: "2px", border: "none" }}>Female</span>
-          }
-        </div>
-      )
-    },
-    {
-      dataField: "phoneNumber",
-      text: "Phone Number",
-      sort: true,
-      style: {
-        width: '10%'
-      }
-    },
-    {
-      dataField: "email",
-      text: "Email",
-      sort: true,
-      style: {
-        width: '8%'
-      }
-    },
-    {
-      dataField: "address",
-      text: "Address",
-      sort: true,
-      style: {
-        width: '7%'
-      }
-    },
-    {
-      dataField: "designationName",
-      text: "Designation",
-      sort: true,
-      style: {
-        width: '6%'
-      }
-    },
-    {
-      dataField: "experience",
-      text: "Experience",
-      sort: true,
-      style: {
-        width: '8%'
-      }
-    },
-    {
-      dataField: "status",
-      text: "Status",
-      sort: true,
-      style: {
-        width: '5%'
-      },
-      formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
-              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
-          }
-        </div>
-      )
-    },
-    {
-      dataField: "hiringDate",
-      text: "Hiring Date",
-      sort: true,
-      style: {
-        width: '5%'
-      }
-    },
-    {
-      dataField: "joiningDate",
-      text: "Joining Date",
-      sort: true,
-      style: {
-        width: '8%'
-      }
-    },
-    {
-      dataField: "terminationDate",
-      text: "Termination Date",
-      sort: true,
-      style: {
-        width: '10%'
-      }
-    },
-    {
-      dataField: 'Action',
-      text: 'Action',
       style: {
         padding: '3px',
         margin: '0px',
-        width: '8%',
+        width: '15%',
         textAlign: 'center'
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
-            <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
-            <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
             <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
-            {/* <button title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} className="icone-button"><i className="icon-eye dark-grey"></i></button> */}
-            <a className="icone-button" title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); toComponentB(columns.employeeId) }} activeClassName="is-active" exact><i className="icon-eye dark-grey" style={{ paddingTop: "6px" }}></i> </a>
           </a>
         </div>
       )
     },
+    {
+      dataField: "create",
+      text: "Create",
+      sort: true,
+      style: {
+        padding: '3px',
+        margin: '0px',
+        width: '15%',
+        textAlign: 'center'
+      },
+      headerStyle: { textAlign: 'center' },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          <a href={employeeList.value} style={{ display: 'inline-flex' }} >
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+          </a>
+        </div>
+      )
+    },
+    {
+      dataField: "edit",
+      text: "Edit",
+      sort: true,
+      style: {
+        padding: '3px',
+        margin: '0px',
+        width: '15%',
+        textAlign: 'center'
+      },
+      headerStyle: { textAlign: 'center' },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          <a href={employeeList.value} style={{ display: 'inline-flex' }} >
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+          </a>
+        </div>
+      )
+    },
+    {
+      dataField: "delete",
+      text: "Delete",
+      sort: true,
+      style: {
+        padding: '3px',
+        margin: '0px',
+        width: '15%',
+        textAlign: 'center'
+      },
+      headerStyle: { textAlign: 'center' },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          <a href={employeeList.value} style={{ display: 'inline-flex' }} >
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+          </a>
+        </div>
+      )
+    }
   ]
 
 
@@ -339,17 +281,16 @@ export default function Employee(props) {
   return (
     <>
       {show && <AddEditEmployee onDataSave={onDataSave} employeeId={currentemployeeId} />}
- 
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Employee </Navbar.Brand>
+            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Role Rights </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Role Rights</Button></Navbar.Brand>
 
               </Nav>
             </Navbar.Collapse>
@@ -358,49 +299,18 @@ export default function Employee(props) {
         <ListGroup.Item>
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
-              <Row className="main-class">
-                <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Employee Name</Form.Label>
-                  <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)} />
+            <Row className="main-class">
+                <Col xs={3} className='display-inline pl-0' >
+                  <Form.Label className='display-inline search-label'>Role Name</Form.Label>
+                  <Form.Control type="text" value={employeeName} onChange={(e) => setEmployeeName(e.target.value)}  />
                 </Col>
-
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Designation</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
-                    <Select style={{ width: "60px" }}
-                      value={designationName}
-                      options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
-                      onChange={designationHandler}
-                      // defaultValue={{ label: designationName}}
-                      defaultMenuIsOpen={false}
-                      id="designationId">
-                    </Select>
-                  </Form.Group>
-                </Col>
-
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Status</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
-                    <Select style={{ width: "60px" }}
-                      value={status}
-                      options={statusData.map(({ label, value }) => ({ label: label, value: value }))}
-                      onChange={StatusHandler}
-                      defaultMenuIsOpen={false}
-                      id="statusid">
-                    </Select>
-                  </Form.Group>
-                </Col>
-
-                <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Email</Form.Label>
-                  <Form.Control className='defaultWidth' style={{ width: "250px" }} type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </Col>
-
-                <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '16px' }} >
-                  <Button className='btn btn-primary mr-5' type="submit" onClick={(event) => handleSearch(event)}>Search</Button>
-                  <Button onClick={(event) => handleReset(event)} type="submit" className='btn btn-dft'>Reset</Button>
+                <Col xs={8} className='display-inline pl-2'>
+                  <Button type="submit" className='btn btn-primary mr-5' onClick={(event) => handleSearch(event)} >Search</Button>
+                  <Button onClick={(event) => handleReset(event)} className='btn btn-dft'>Reset</Button>
                 </Col>
               </Row>
+
+
             </Form>
           </Card>
           <div className='tablecard'>

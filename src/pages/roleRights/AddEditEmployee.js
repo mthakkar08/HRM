@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getEmployeeDetail, addEmployee, bindDesignation, bindReportingEmployee } from "../../services/EmployeeService.js";
+import { getEmployeeDetail, addEmployee, bindDesignation } from "../../services/EmployeeService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../components/Notification.js'
 import Select from 'react-select';
@@ -14,7 +14,6 @@ export default function AddEditEmployee(props) {
   const [show, setShow] = useState(true);
   const currentemployeeId = props.employeeId;
   const [employeeName, setEmployeeName] = useState("");
-  const [EmployeeName, setEmployeeNames] = useState("");
   const [dob, setDob] = useState("");
 
   const [phoneNumber, setPhoneNumber] = useState("");
@@ -24,11 +23,9 @@ export default function AddEditEmployee(props) {
   const [experience, setExperience] = useState("");
   const [address, setAddress] = useState("");
   const [designationId, setDesignationId] = useState("");
-  const [EmployeeId, setEmployeeId] = useState("");
   const [designationList, setDesignationList] = useState([]);
-  const [reportingEmpList, setReportingEmpList] = useState([]);
   const [designationName, setDesignationName] = useState("");
-
+ 
   const [hiringDate, setHiringDate] = useState("");
   const [status, setStatus] = useState(1);
   const [joiningDate, setJoiningDate] = useState("");
@@ -44,16 +41,10 @@ export default function AddEditEmployee(props) {
   const [experienceErr, setExperienceErr] = useState(false);
   const [designationErr, setDesignationErr] = useState(false);
   const [hiringDateErr, setHiringDateErr] = useState(false);
-
-  const [reportingEmpErr, setReportingEmpErr] = useState(false);
   const handleClose = () => setShow(false);
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
-
-
-
   let designationdata = [];
-  let reportingdata = [];
   const genderData = [
     { label: "Male", value: "1" },
     { label: "Female", value: "2" }
@@ -72,7 +63,6 @@ export default function AddEditEmployee(props) {
         setLoading(true);
         setDataLoading(true);
         let designationvalue;
-        let reportingemployeeData;
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
             setHiringDate(res.hiringDate)
@@ -84,32 +74,22 @@ export default function AddEditEmployee(props) {
             setEmail(res.email)
             setGender(res.gender)
             setDesignationName(res.designationId)
-            setEmployeeNames(res.EmployeeId)
             setExperience(res.experience)
             setAddress(res.address)
-            setEmployeeId(res.EmployeeId)
             setDesignationId(res.designationId)
             setStatus(res.status)
             designationvalue = res.designationId
-            reportingemployeeData = res.EmployeeId
+          
             const gender = genderData?.find(x => x.value == res.gender);
             if (gender) {
               setDefaultGender(gender);
             }
           });
         }
-        await bindReportingEmployeeList();
         await bindDesignationList();
         const designationListData = designationdata?.find(x => x.designationId == designationvalue);
-
+      
         setDesignationName({ label: designationListData.designationName, value: designationvalue })
-
-
-        debugger;
-        const reportingempData = reportingdata?.find(x => x.EmployeeId == reportingemployeeData);
-
-        setEmployeeNames({ label: reportingempData.EmployeeName, value: reportingemployeeData })
-
       }
       catch (error) {
 
@@ -137,23 +117,6 @@ export default function AddEditEmployee(props) {
       setLoading(false);
     }
   }
-
-  async function bindReportingEmployeeList() {
-    debugger;
-    setLoading(true);
-    try {
-      await bindReportingEmployee().then(res => {
-        setReportingEmpList(res)
-        reportingdata = res;
-      });
-    }
-    catch (error) {
-    }
-    finally {
-      setLoading(false);
-    }
-  }
-
 
   function EmployeeHandler(e) {
     let item = e.target.value;
@@ -253,18 +216,18 @@ export default function AddEditEmployee(props) {
     debugger;
     let item = e.value;
     if (item == null || item == "") {
-      setReportingEmpErr(true);
+      setDesignationErr(true);
     } else {
-      setReportingEmpErr(false)
+      setDesignationErr(false)
     }
-    setEmployeeId(item);
+    setDesignationId(item);
 
-    const reportingdata = reportingEmpList?.find(x => x.value === item);
-    if (reportingdata) {
-      setEmployeeNames(reportingdata);
+    const DesignationData = designationList?.find(x => x.value === item);
+    if (DesignationData) {
+      setDesignationName(DesignationData);
     }
   }
-
+  
   async function SaveEmployee(e) {
     debugger;
     e.preventDefault();
@@ -341,14 +304,6 @@ export default function AddEditEmployee(props) {
       }
       else {
         setDesignationErr(false);
-      }
-
-      if (EmployeeId == null || EmployeeId == "") {
-        validate = false;
-        setReportingEmpErr(true);
-      }
-      else {
-        setReportingEmpErr(false);
       }
 
       if (gender == null || gender == "") {
@@ -442,24 +397,21 @@ export default function AddEditEmployee(props) {
                   defaultMenuIsOpen={false}
                   id="designationId">
                 </Select>
-                {/* {designationErr ? <span style={{ color: 'red' }}>Please select designation</span> : null} */}
+                {designationErr ? <span style={{ color: 'red' }}>Please select designation</span> : null}
               </Form.Group>
 
               <Form.Group className='defaultWidth mb-3 col-md-6'>
                 <Form.Label className='display-inline search-label mb-1 required'>Reporting Employee</Form.Label>
                 <Select
-
                   //  value={designationName}
                   //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
-                  options={reportingEmpList.map(({ EmployeeId, EmployeeName }) => ({ label: EmployeeName, value: EmployeeId }))}
+                  options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
                   onChange={reportingEmployeeHandler}
-                  defaultValue={EmployeeName}
+                  defaultValue={designationName}
                   defaultMenuIsOpen={false}
-                  isSearchable={true}
-                  isMulti
-                  id="EmployeeId">
+                  id="designationId">
                 </Select>
-                {/* {reportingEmpErr ? <span style={{ color: 'red' }}>Please select designation</span> : null} */}
+                {designationErr ? <span style={{ color: 'red' }}>Please select designation</span> : null}
               </Form.Group>
 
 
@@ -494,7 +446,6 @@ export default function AddEditEmployee(props) {
                   as="textarea" value={address} onChange={(e) => { setAddress(e.target.value) }}
                 />
               </Form.Group>
-
             </div>
           </Modal.Body>
 

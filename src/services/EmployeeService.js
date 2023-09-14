@@ -105,5 +105,11 @@ export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, 
 }
 
 export async function bindDesignation() {
+
   return await axios.get("http://192.168.1.106:8080/hrm/designation/bindlist").then((response) => response.data);
+}
+
+export async function bindReportingEmployee() {
+  debugger;
+  return await axios.get("http://192.168.1.106:8080/hrm/employee/bindlist").then((response) => response.data);
 }

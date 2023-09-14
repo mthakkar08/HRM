@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getEmployeeDetail, addEmployee, bindDesignation } from "../../services/EmployeeService.js";
+import { getEmployeeDetail, addEmployee, bindDesignation , } from "../../services/EmployeeService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../components/Notification.js'
 import Select from 'react-select';
