@@ -1,6 +1,14 @@
 import axios from "axios";
 import { apiUrl } from "../config";
 
+// axios.defaults.headers.common = {'Authorization': 'Bearer eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJzYWdhci5kQGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjkzODQzMDM2LCJpYXQiOjE2OTM4MjUwMzZ9.TpcXa64RF708o7p59rRuyJjE7r-YXWrrkKtYpC6hB8eiVH3j5ySofPaNKhNoFLOZwCbn22hOHGaO012w59PcYA'}
+
+// export async function getEmployeesList(employeeName, designation, status, email) {
+//  return await axios.get("http://192.168.1.40:8080/hrm/employee/list?employeeName=&designation=&status=0&email=").then((response) => response.data);
+//  return await axios.get("http://192.168.1.40:8080/hrm/employee/list?employeeName="+ employeeName + "&designation=" + "1" + "&status=" + "0" +"&email=" + email).then((response) => response.data);
+// }
+
+
 export async function getHolidayList(fromDate, toDate,status) {
   var details = {
     'fromDate': fromDate,
@@ -43,6 +51,28 @@ export async function deleteHoliday(holidayId) {
   }
 }
 
+// export async function updateEmployeesStatus(employeeId, status) {
+//   debugger;
+//   var details = {
+//     'employeeId': employeeId,
+//     'status': status
+//   };
+//   try {
+//     return await axios.post("http://192.168.1.40:8080/hrm/employee/status",
+//       details,
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       }
+//     ).then((res) => res.data);
+//   }
+//   catch (error) {
+//     return error;
+//   }
+// }
+
+
 export function addHoliday(holidayId, holidayName, holidayDate, description, status) {
   var details = {
     'holidayId': holidayId,
@@ -65,3 +95,7 @@ export function addHoliday(holidayId, holidayName, holidayDate, description, sta
     return error;
   }
 }
+
+// export async function bindDesignation() {
+//   return await axios.get("http://192.168.1.40:8080/hrm/designation/bindlist").then((response) => response.data);
+// }
