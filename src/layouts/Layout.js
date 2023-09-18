@@ -19,6 +19,8 @@ import FuelType from "../pages/fuelType/FuelType";
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
 import Leaves from '../pages/leaves/Leaves';
+import ManageLeaves from '../pages/manageLeaves/ManageLeaves';
+import LeavePolicy from '../pages/manageLeaves/LeavePolicy';
 import RoleRights from '../pages/roleRights/RoleRights';
 import Order from "../pages/Order";
 import Saved from "../pages/Saved";
@@ -60,6 +62,8 @@ export default function Layout() {
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
                 <Route path="/leaves" element={<Leaves />} />
+                <Route path="/leavePolicy" element={<LeavePolicy/>}  />
+                <Route path="/ManageLeaves" element={<ManageLeaves/>}  />
                 <Route path="/roleRights" element={<RoleRights />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />

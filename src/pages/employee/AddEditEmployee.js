@@ -442,7 +442,7 @@ export default function AddEditEmployee(props) {
                   defaultMenuIsOpen={false}
                   id="designationId">
                 </Select>
-                {/* {designationErr ? <span style={{ color: 'red' }}>Please select designation</span> : null} */}
+                {designationErr ? <span style={{ color: 'red' }}>Please select designation</span> : null}
               </Form.Group>
 
               <Form.Group className='defaultWidth mb-3 col-md-6'>
@@ -459,7 +459,7 @@ export default function AddEditEmployee(props) {
                   isMulti
                   id="EmployeeId">
                 </Select>
-                {/* {reportingEmpErr ? <span style={{ color: 'red' }}>Please select designation</span> : null} */}
+                {reportingEmpErr ? <span style={{ color: 'red' }}>Please select designation</span> : null}
               </Form.Group>
 
 

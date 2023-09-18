@@ -50,7 +50,7 @@ export default function Employee(props) {
 
   const [employeeId, setEmployeeId] = useState(null);
   const [employeeName, setEmployeeName] = useState("");
-  const [designation, setDesignation] = useState("");
+
   const [designationId, setDesignationId] = useState("");
   const [designationList, setDesignationList] = useState([]);
   const [designationName, setDesignationName] = useState("");
@@ -58,12 +58,12 @@ export default function Employee(props) {
 
   const [email, setEmail] = useState("");
   const { setLoading } = useLoading();
-  const [status, setStatus] = useState({ label: "All", value: "0" });
+  const [status, setStatus] = useState({ label: "All", value: "-1" });
 
   const statusData = [
-    { label: "All", value: "0" },
-    { label: "Active", value: "1" },
-    { label: "In-Active", value: "2" }
+    { label: "All", value: "-1" },
+    { label: "Active", value: "0" },
+    { label: "In-Active", value: "1" }
 
   ];
 
@@ -118,11 +118,12 @@ export default function Employee(props) {
 
 
   async function handleConfirmStatus() {
+    debugger;
     let message = '';
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-      await updateEmployeesStatus(employeeId, status).then(res => { message = res });
+      await updateEmployeesStatus(employeeId,  status).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
@@ -133,11 +134,12 @@ export default function Employee(props) {
       } else {
         Notification(message, 'ERROR')
       }
+      
       setEmployeeId(null);
-
+      setStatus({ label: "All", value: "-1" });
       setLoading(false);
     }
-    getEmployeeDataList();
+   getEmployeeDataList();
   }
 
   const handleSearch = (e) => {
@@ -153,13 +155,14 @@ export default function Employee(props) {
     e.preventDefault();
     setEmployeeName("");
     setDesignationName("");
-    setStatus({ label: "All", value: "0" });
+    setStatus({ label: "All", value: "-1" });
     setEmail("");
-    await getEmployeesList("", "", "", "").then(res => { setEmployeeList(res) });
+    await getEmployeesList("", "",-1, "").then(res => { setEmployeeList(res) });
 
   }
 
   async function getEmployeeDataList() {
+    debugger;
     setLoading(true);
     try {
       await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
@@ -280,7 +283,7 @@ export default function Employee(props) {
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
+            columns.status == 0 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
               <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
           }
         </div>
@@ -292,7 +295,10 @@ export default function Employee(props) {
       sort: true,
       style: {
         width: '5%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+          columns.hiringDate?.replace("/", "-")?.substring(0, 10)
+      )
     },
     {
       dataField: "joiningDate",
@@ -300,7 +306,10 @@ export default function Employee(props) {
       sort: true,
       style: {
         width: '8%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+          columns.joiningDate?.replace("/", "-")?.substring(0, 10)
+      )
     },
     {
       dataField: "terminationDate",
@@ -308,7 +317,10 @@ export default function Employee(props) {
       sort: true,
       style: {
         width: '10%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+          columns.terminationDate?.replace("/", "-")?.substring(0, 10)
+      )
     },
     {
       dataField: 'Action',
@@ -325,7 +337,7 @@ export default function Employee(props) {
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 1 ? 2 : 1); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 0 ? 1 : 0); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
             {/* <button title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} className="icone-button"><i className="icon-eye dark-grey"></i></button> */}
             <a className="icone-button" title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); toComponentB(columns.employeeId) }} activeClassName="is-active" exact><i className="icon-eye dark-grey" style={{ paddingTop: "6px" }}></i> </a>
           </a>

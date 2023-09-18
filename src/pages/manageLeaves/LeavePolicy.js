@@ -8,7 +8,7 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { getEmployeeDetail, addEmployee, bindDesignation, bindReportingEmployee } from "../../services/EmployeeService.js";
-import AddEditEmployee from './AddEditEmployeeProfile.js'
+
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
@@ -17,7 +17,7 @@ import { useNavigate } from 'react-router-dom';
 import { BsFillPencilFill } from "react-icons/bs";
 import { useLocation } from 'react-router-dom';
 
-export default function EmployeeProfile(props) {
+export default function LeavePolicy(props) {
 
 
 
@@ -333,16 +333,16 @@ export default function EmployeeProfile(props) {
                     <table class="table table-borderless">
                       <tbody>
                         <tr>
-                          <th style={{ width: "140px" }}>Start From </th>
-                          <td>31/04/2023</td>
+                          <th style={{ width: "140px" }}>jtrehyhk</th>
+                          <td>ftmtummtymyy</td>
                         </tr>
                         <tr>
-                          <th>End To</th>
-                          <td>01/05/2024</td>
+                          <th>Ema666m6m6m6il</th>
+                          <td>tymuyiytiynmiiyiytyo</td>
                         </tr>
                         <tr>
-                          <th>Leave Count</th>
-                          <td>15</td>
+                          <th>uotyiymuuoytnugkj</th>
+                          <td>mbuitiioeoretruy</td>
                         </tr>
 
                       </tbody>

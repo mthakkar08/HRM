@@ -17,7 +17,7 @@ const Routes = [
   {
     path: "/employeeProfile",
     name: "EmployeeProfile",
-    icon: <FaUser />,
+    icon: <FaLock />,
   },
   {
     path: "/employee",
@@ -33,6 +33,11 @@ const Routes = [
     path: "/leaves",
     name: "Leaves",
     icon: <FaGift />,
+  },
+  {
+    path: "/manageLeaves",
+    name: "ManageLeaves",
+    icon: <FaMoneyBill />,
   },
   {
     path: "/roleRights",

@@ -28,16 +28,18 @@ export default function Holiday() {
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
   const [holidayId,setHolidayId] = useState(null);
-  const [toDate, setToDate] = useState(new Date().getFullYear() + 1 + "-05-01");
-  const [fromDate, setFromDate] = useState(new Date().getFullYear() + "-04-30");
+  // const [toDate, setToDate] = useState(new Date().getFullYear() + 1 + "-05-01");
+  // const [fromDate, setFromDate] = useState(new Date().getFullYear() + "-04-30");
+  const [toDate, setToDate] = useState("");
+  const [fromDate, setFromDate] = useState("");
 
   const { setLoading } = useLoading();
-  const [status, setStatus] = useState({ label: "All", value: "0" });
+  const [status, setStatus] = useState({ label: "All", value: "-1" });
 
   const statusData = [
-    { label: "All", value: "0" },
-    { label: "Active", value: "1" },
-    { label: "In-Active", value: "2" }
+    { label: "All", value: "-1" },
+    { label: "Active", value: "0" },
+    { label: "In-Active", value: "1" }
   ];
 
   
@@ -113,12 +115,15 @@ export default function Holiday() {
   }, [])
 
   async function handleReset(e) {
+    debugger;
     e.preventDefault();
-    setToDate(new Date().getFullYear() + 1 + "-05-01");
-    setFromDate(new Date().getFullYear() + "-04-30");
-    setStatus({ label: "All", value: "0" });
+    // setToDate(new Date().getFullYear() + 1 + "-05-01");
+    // setFromDate(new Date().getFullYear() + "-04-30");
+    setToDate("");
+    setFromDate("");
+    setStatus({ label: "All", value: "-1" });
 
-    await getHolidayList("", "","").then(res => { setHolidayList(res) });
+    await getHolidayList("", "",-1).then(res => { setHolidayList(res) });
   }
 
   async function getHolidayDataList() {
@@ -173,7 +178,10 @@ export default function Holiday() {
       style: {
         width: '10%',
         textAlign: 'left'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+          columns.holidayDate?.replace("/", "-")?.substring(0, 10)
+      )
     },
     {
       dataField: "description",
@@ -193,7 +201,7 @@ export default function Holiday() {
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
+            columns.status == 0 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
               <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
           }
         </div>

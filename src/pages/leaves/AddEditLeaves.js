@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getHolidayDetail, addHoliday } from "../../services/HolidayService.js";
+import { getLeavesDetail, addLeave } from "../../services/LeavesService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../components/Notification.js'
 import Select from 'react-select';
@@ -12,14 +12,16 @@ import "react-datepicker/dist/react-datepicker.css";
 export default function AddEditLeaves(props) {
 
   const [show, setShow] = useState(true);
-  const currentHolidayId = props.holidayId;
-  const [holidayName, setHolidayName] = useState("");
-  const [holidayDate, setHolidayDate] = useState("");
-  const [description, setDescription] = useState("");
-  const [status, setStatus] = useState(1);
+  const currentLeaveId = props.leaveId;
+  const [leaveSubject, setLeaveSubject] = useState("");
+  const [leaveReason, setLeaveReason] = useState("");
+  const [leaveStatus, setLeaveStatus] = useState("");
+  const [startDate, setStartDate] = useState("");
+  const [endDate, setEndDate] = useState("");
 
-  const [holidayNameErr, setHolidayNameErr] = useState(false);
-  const [holidayDateErr, setHolidayDateErr] = useState(false);
+
+  const [startDateErr, setStartDateErr] = useState(false);
+  const [endDateErr,setEndDateErr] = useState(false);
   const handleClose = () => setShow(false);
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
@@ -35,13 +37,13 @@ export default function AddEditLeaves(props) {
       try {
         setLoading(true);
         setDataLoading(true);
-        if (currentHolidayId != null && currentHolidayId != 0) {
-          await getHolidayDetail(currentHolidayId).then(res => {
+        if (currentLeaveId != null && currentLeaveId != 0) {
+          await getLeavesDetail(currentLeaveId).then(res => {
             debugger;
-            setHolidayName(res.holidayName)
-            setHolidayDate(res.holidayDate)
-            setDescription(res.description)
-            setStatus(res.status)
+            setLeaveSubject(res.leaveSubject)
+            setLeaveReason(res.leaveReason)
+            setStartDate(res.startDate)
+            setEndDate(res.endDate)
           });
         }
       }
@@ -54,26 +56,46 @@ export default function AddEditLeaves(props) {
         }, 1200);
       }
     })();
-  }, [currentHolidayId])
+  }, [currentLeaveId])
 
-  function HolidayHandler(e) {
+  function LeaveSubjectHandler(e) {
     let item = e.target.value;
     if (item == null || item == "") {
-        setHolidayNameErr(true)
+     // setHolidayNameErr(true)
     } else {
-        setHolidayNameErr(false)
+     // setHolidayNameErr(false)
     }
-    setHolidayName(item);
+    setLeaveSubject(item);
   }
 
-  function holidayDateHandler(e) {
+  function LeaveReasonHandler(e) {
     let item = e.target.value;
     if (item == null || item == "") {
-        setHolidayDateErr(true)
+   //   setHolidayNameErr(true)
     } else {
-    setHolidayDateErr(false)
+    //  setHolidayNameErr(false)
     }
-    setHolidayDate(item);
+    setLeaveReason(item);
+  }
+
+  function startDateHandler(e) {
+    let item = e.target.value;
+    if (item == null || item == "") {
+      setStartDate(true)
+    } else {
+      setStartDate(false)
+    }
+    setStartDate(item);
+  }
+
+  function endDateHandler(e) {
+    let item = e.target.value;
+    if (item == null || item == "") {
+      setEndDateErr(true)
+    } else {
+      setEndDateErr(false)
+    }
+    setEndDate(item);
   }
 
   async function SaveHoliday(e) {
@@ -84,23 +106,39 @@ export default function AddEditLeaves(props) {
     let validate = true;
 
     try {
-      if (holidayName == undefined || holidayName.trim() == null || holidayName.trim() == "") {
+      if (leaveSubject == undefined || leaveSubject.trim() == null || leaveSubject.trim() == "") {
         validate = false;
-        setHolidayNameErr(true);
+    //    setHolidayNameErr(true);
       }
       else {
-        setHolidayNameErr(false);
+     //   setHolidayNameErr(false);
       }
 
-      if (holidayDate == undefined || holidayDate == null || holidayDate == "") {
+      if (leaveReason == undefined || leaveReason.trim() == null || leaveReason.trim() == "") {
         validate = false;
-        setHolidayDateErr(true);
+      //  setHolidayNameErr(true);
       }
       else {
-        setHolidayDateErr(false);
+       // setHolidayNameErr(false);
       }
-    
-      await addHoliday(currentHolidayId, holidayName, holidayDate, description, status).then(res => {
+
+      if (startDate == undefined || startDate == null || startDate == "") {
+        validate = false;
+        setStartDateErr(true);
+      }
+      else {
+        setStartDateErr(false);
+      }
+
+      if (endDate == undefined || endDate == null || endDate == "") {
+        validate = false;
+        setEndDateErr(true);
+      }
+      else {
+        setEndDateErr(false);
+      }
+
+      await addLeave(currentLeaveId, leaveSubject, leaveReason, startDate, endDate).then(res => {
         message = res.toString();
       });
     }
@@ -130,30 +168,36 @@ export default function AddEditLeaves(props) {
         className="main-class"
       >
         <Modal.Header closeButton>
-          {currentHolidayId == null || currentHolidayId == 0 ? <Modal.Title>Add Holiday</Modal.Title> : <Modal.Title>Update Holiday</Modal.Title>}
+          {currentLeaveId == null || currentLeaveId == 0 ? <Modal.Title>Add Leave</Modal.Title> : <Modal.Title>Update Leave</Modal.Title>}
         </Modal.Header>
         <Form onSubmit={SaveHoliday}>
           <Modal.Body>
-        
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1 required">Holiday Name</Form.Label>
-                <Form.Control type="text" autoComplete="off" name="holidayName" id="holidayName"
-                  value={holidayName} onChange={HolidayHandler} />{holidayNameErr ? <span style={{ color: 'red' }}>Please enter holiday name</span> : null}
+
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1 required">Leave Subject</Form.Label>
+              <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
+                value={leaveSubject} onChange={LeaveSubjectHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave subject</span> : null}
+            </Form.Group>
+
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1 required">Leave Reason</Form.Label>
+              <Form.Control type="text" autoComplete="off" name="leaveReason" id="leaveReason"
+                value={leaveReason} onChange={LeaveReasonHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave reason</span> : null}
+            </Form.Group>
+
+
+            <Form.Group className="mb-3">
+                <Form.Label className="mb-1 required">Start Date</Form.Label>
+                <Form.Control type="date" autoComplete="off" name="startDate" id="startDate"
+                  value={startDate?.replace("/", "-")?.substring(0, 10)} onChange={startDateHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter start date</span> : null} 
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1 required">Holiday Date</Form.Label>
-                <Form.Control type="date" autoComplete="off" name="holidayDate" id="holidayDate"
-                  value={holidayDate?.replace("/","-")?.substring(0,10)} onChange={holidayDateHandler} />{holidayDateErr ? <span style={{ color: 'red' }} dateFormat="yyyy/MM/DD">Please select holiday date</span> : null}
+                <Form.Label className="mb-1 required">End Date</Form.Label>
+                <Form.Control type="date" autoComplete="off" name="endDate" id="endDate"
+                  value={endDate?.replace("/", "-")?.substring(0, 10)} onChange={endDateHandler} />{endDateErr ? <span style={{ color: 'red' }}>Please enter end date</span> : null} 
               </Form.Group>
-
-              <Form.Group className="mb-3">
-                <Form.Label className="mb-1">Description</Form.Label>
-                <Form.Control type="description" autoComplete="off" name="description" id="description"
-                  as="textarea" value={description} onChange={(e) => { setDescription(e.target.value) }}
-                />
-              </Form.Group>
-
+            
           </Modal.Body>
 
           <Modal.Footer>

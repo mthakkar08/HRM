@@ -111,7 +111,7 @@ export default function Forgot() {
 
                                 <Form.Group className='m-0'>
                                     <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!email}>Reset Password</Button>
-                                    <div className="text-right pt-4">Remember your password?<Link to="/Login">Login</Link>
+                                    <div className="text-right pt-4">Remember your password? <Link to="/">Login</Link>
                                     </div>
                                 </Form.Group>
                             </div>
