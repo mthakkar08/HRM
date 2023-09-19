@@ -13,6 +13,7 @@ function Login() {
   const navigate = useNavigate();
 
 
+
   const [email, setEmail] = useState("");
   const [password, setPasswrd] = useState("");
   const [passwordType, setPasswordType] = useState("password")
@@ -43,13 +44,14 @@ function Login() {
     e.preventDefault();
     setisSubmitted(true);
     remember();
-    let userProfile = { email, password };
+    let userProfile = { email, password};
 
 
 
-    let accessToken, isEnabled;
+    let accessToken;
+    // let isEnabled;
     try {
-      const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
+      const response = await axios.post("http://192.168.1.106:8081/hrm/employee/login",
         JSON.stringify(userProfile),
         {
           headers: {
@@ -58,7 +60,7 @@ function Login() {
         }
       );
       // console.log(response?.data?.userDetails?.enabled)
-      isEnabled = response?.data?.userDetails?.enabled;
+      // isEnabled = response?.data?.userDetails?.enabled;
       accessToken = response?.data?.jwttoken;
       // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
       console.log("accesstoken :" + accessToken)
@@ -68,12 +70,10 @@ function Login() {
       console.log("error > " > error)
     }
 
-    if (isEnabled) {
+   
 
-    }
-
-    if (accessToken && isEnabled) {
-
+    if (accessToken) {
+     // if (accessToken && isEnabled) {
 
       ReactSession.setStoreType("localStorage");
       let cryptoEmail = encryptData(email);
@@ -82,9 +82,9 @@ function Login() {
       localStorage.setItem('email', cryptoEmail);
       navigate('/dashboard');
     }
-    else if (isEnabled) {
-      alert("Your account is disabled please contact support team!")
-    }
+    // else if (isEnabled) {
+    //   alert("Your account is disabled please contact support team!")
+    // }
     else {
       alert("invalid username or password")
     }

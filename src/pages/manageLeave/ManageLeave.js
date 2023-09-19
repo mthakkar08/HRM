@@ -8,13 +8,13 @@ import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { getLeavesList, deleteLeave } from "../../services/LeavesService.js";
-import AddEditLeaves from './AddEditLeaves.js'
+import AddEditLeaves from './AddEditManageLeave.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 
-export default function Leaves() {
+export default function ManageLeave() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -23,26 +23,23 @@ export default function Leaves() {
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
 
-  const [showConfirmStatus, setShowConfirmStatus] = useState(false);
-  const bootboxCloseStatus = () => setShowConfirmStatus(false);
  const [leaveSubject, setLeaveSubject] = useState("");
- const [leaveStatus, setLeaveStatus] = useState("");
+
  const [leaveDate, setLeaveDate] = useState("");
 
   const [leaveId,setLeaveId] = useState(null);
 
   const { setLoading } = useLoading();
-  const [status, setStatus] = useState({ label: "All", value: "-1" });
+  const [leaveStatus, setLeaveStatus] = useState("");
+  const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
 
-  const statusData = [
-    { label: "All", value: "-1" },
-    { label: "Active", value: "0" },
-    { label: "In-Active", value: "1" }
+
+  const leaveStatusData = [
+    { label: "Pending", value: "1" },
+    { label: "Approved", value: "2" },
+    { label: "Rejected", value: "3" },
+    { label: "canceled", value: "4" }
   ];
-
-  function StatusHandler(e) {
-    setStatus(e);
-  }
 
   async function handleConfirm() {
     let message = '';
@@ -67,27 +64,6 @@ export default function Leaves() {
   }
 
 
-  async function handleConfirmStatus() {
-    let message = '';
-    setShowConfirmStatus(false);
-    setLoading(true);
-    try {
-    }
-    catch (error) {
-      message = error.message;
-    }
-    finally {
-      if (message == 'SUCCESS') {
-        Notification('Status update holiday successfully!', 'success')
-      } else {
-        Notification(message, 'ERROR')
-      }
-      setLeaveId(null);
-      setLoading(false);
-    }
-    getLeaveDataList();
-  }
-
   const handleSearch = (e) => {
     e.preventDefault();
     getLeaveDataList();
@@ -102,15 +78,14 @@ export default function Leaves() {
     setLeaveSubject("");
     setLeaveStatus("");
     setLeaveDate("");
-    setStatus({ label: "All", value: "-1" });
 
-    await getLeavesList("", "","",-1).then(res => { setLeaveList(res) });
+    await getLeavesList("", "","").then(res => { setLeaveList(res) });
   }
 
   async function getLeaveDataList() {
     setLoading(true);
     try {
-      await getLeavesList(leaveSubject, leaveStatus, status.value, leaveDate).then(res => {
+      await getLeavesList(leaveSubject, leaveStatus, leaveDate).then(res => {
         debugger;
         setLeaveList(res)
       });
@@ -135,6 +110,15 @@ export default function Leaves() {
     }
     else {
       Notification(message, 'ERROR')
+    }
+  }
+
+  function leaveStatusHandler(e) {
+    let item = e.value;
+    setLeaveStatus(item);
+    const leavedata = leaveStatusData?.find(x => x.value === item);
+    if (leavedata) {
+      setDefaultLeaveStatus(leavedata);
     }
   }
 
@@ -172,15 +156,15 @@ export default function Leaves() {
       sort: true,
       style: {
         width: '7%'
-      }
-    },
-    {
-      dataField: "employeeName",
-      text: "Employee Name",
-      sort: true,
-      style: {
-        width: '7%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          {
+            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
+              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
+          }
+        </div>
+      )
     },
     {
       dataField: "approvedBy",
@@ -222,22 +206,6 @@ export default function Leaves() {
       )
     },
     {
-      dataField: "status",
-      text: "Status",
-      sort: true,
-      style: {
-        width: '5%'
-      },
-      formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          {
-            columns.status == 0 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
-              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
-          }
-        </div>
-      )
-    },
-    {
       dataField: 'Action',
       text: 'Action',
       style: {
@@ -252,7 +220,6 @@ export default function Leaves() {
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setStatus(columns.status == 0 ? 1 : 0); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
@@ -266,7 +233,7 @@ export default function Leaves() {
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Leaves </Navbar.Brand>
+            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Manage Leave </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
@@ -287,18 +254,19 @@ export default function Leaves() {
                 </Col>
 
                 <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Leave Status</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "380px" }}>
-                    <Select style={{ width: "60px" }}
-                      //value={designationName}
-                    //  options={designationList.map(({ designationId, designationName }) => ({ label: designationName, value: designationId }))}
-                     // onChange={designationHandler}
-                      defaultMenuIsOpen={false}
-                      id="leaveStatusId">
-                    </Select>
-                  </Form.Group>
-                </Col>
-                
+                <Form.Group className='defaultWidth mb-3 col-md-6'>
+                <Form.Label className='display-inline search-label mb-1 required'>Leave Status</Form.Label>
+                <Select
+                  value={defaultLeaveStatus}
+                  options={leaveStatusData.map(({ label, value }) => ({ label: label, value: value }))}
+                  onChange={leaveStatusHandler}
+                  defaultValue={defaultLeaveStatus}
+                  defaultMenuIsOpen={false}
+                  id="leaveStatusId">
+                </Select>
+              </Form.Group>
+</Col>
+
                 <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }} >
                 <Form.Label className="mb-1">Leave Date</Form.Label>
                 <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }}>
@@ -306,40 +274,6 @@ export default function Leaves() {
                   value={leaveDate} onChange={leaveDateHandler}  dateFormat="yyyy/MM/DD" />
                    </Form.Group>
                 </Col>
-
-                {/* <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }}>
-                <Form.Label className="mb-1">From Date</Form.Label>
-                <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }} >
-                <Form.Control type="date" autoComplete="off" name="fromDate" id="fromDate"
-                  value={fromDate} onChange={FromDateHandler}  dateFormat="yyyy/MM/DD"  />
-                    </Form.Group>
-                </Col>
-
-                <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }} >
-                <Form.Label className="mb-1">To Date</Form.Label>
-                <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }}>
-                <Form.Control type="date" autoComplete="off" name="toDate" id="toDate"
-                  value={toDate} onChange={ToDateHandler}  dateFormat="yyyy/MM/DD" />
-                   </Form.Group>
-                </Col> */}
-
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '-20px' }}>
-                  <Form.Label className='display-inline search-label'>Status</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "350px" }}>
-                    <Select style={{ width: "60px" }}
-                      value={status}
-                      options={statusData.map(({ label, value }) => ({ label: label, value: value }))}
-                      onChange={StatusHandler}
-                      defaultMenuIsOpen={false}
-                      id="statusid">
-                    </Select>
-                  </Form.Group>
-                </Col>
-{/* 
-                <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
-                  <Form.Label className='display-inline search-label'>Email</Form.Label>
-                  <Form.Control className='defaultWidth' style={{ width: "250px" }} type="text" value={email} onChange={(e) => setEmail(e.target.value)} />
-                </Col> */}
 
                 <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '16px' }} >
                   <Button className='btn btn-primary mr-5' type="submit" onClick={(event) => handleSearch(event)}>Search</Button>
@@ -354,8 +288,6 @@ export default function Leaves() {
               id='tbl_leave'
               data={leaveList}
               columns={columns}
-              // cellEdit={ cellEditFactory({ mode: 'click',
-              // blurToSave: true }) }
               striped
               hover
               condensed
@@ -365,7 +297,6 @@ export default function Leaves() {
               })}
             />
           </div>
-
         </ListGroup.Item>
       </ListGroup>
 
@@ -378,13 +309,6 @@ export default function Leaves() {
         onClose={bootboxClose}
       />
 
-<Bootbox show={showConfirmStatus}
-           type={"confirm"}
-        message={"Are you sure you want to change this status?"}
-        onSuccess={handleConfirmStatus}
-        onCancel={bootboxCloseStatus}
-        onClose={bootboxCloseStatus}
-      />
 
     </>
   )

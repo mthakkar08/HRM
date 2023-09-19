@@ -319,6 +319,10 @@ main {
   border-radius: 3px !important;
 }
 
+.policy-card {
+  background-color: whitesmoke !important;
+}
+
 .list-group-item {
   padding: 0px !important;
   margin: 0px !important;

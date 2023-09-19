@@ -18,16 +18,16 @@ import FuelType from "../pages/fuelType/FuelType";
  import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile';
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
-import Leaves from '../pages/leaves/Leaves';
-import ManageLeaves from '../pages/manageLeaves/ManageLeaves';
-import LeavePolicy from '../pages/manageLeaves/LeavePolicy';
+import MyLeave from '../pages/myLeave/MyLeave';
+import LeavePolicy from '../pages/myLeave/LeavePolicy';
+import ManageLeave from '../pages/manageLeave/ManageLeave';
 import RoleRights from '../pages/roleRights/RoleRights';
 import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
 import ResetPassword from '../layouts/ResetPassword';
-
+ 
 import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
@@ -61,9 +61,9 @@ export default function Layout() {
                 <Route path="/employeeProfile" element={<EmployeeProfile />} />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
-                <Route path="/leaves" element={<Leaves />} />
+                <Route path="/myLeave" element={<MyLeave/>}  />
                 <Route path="/leavePolicy" element={<LeavePolicy/>}  />
-                <Route path="/ManageLeaves" element={<ManageLeaves/>}  />
+                <Route path="/manageLeave" element={<ManageLeave />} />
                 <Route path="/roleRights" element={<RoleRights />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />

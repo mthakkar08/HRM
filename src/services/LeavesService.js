@@ -49,12 +49,13 @@ export async function deleteLeave(LeaveId) {
 }
 
 export function addLeave(LeaveId, leaveSubject, leaveReason, startDate, endDate) {
+  
   var details = {
-    'LeaveId': LeaveId,
+    'leaveId': LeaveId,
     'leaveSubject': leaveSubject,
     'leaveReason': leaveReason,
     'startDate': startDate,
-    'endDate': endDate
+    'endDate': endDate,
   };
   try {
     return axios.post("http://192.168.1.106:8081/hrm/leave/save",

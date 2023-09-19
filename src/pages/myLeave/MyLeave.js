@@ -14,9 +14,9 @@ import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
-import LeavePolicy from '../manageLeaves/LeavePolicy';
+import LeavePolicy from './LeavePolicy';
 
-export default function ManageLeaves() {
+export default function MyLeave() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -28,7 +28,7 @@ export default function ManageLeaves() {
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
   const [leaveSubject, setLeaveSubject] = useState("");
-  const [leaveStatus, setLeaveStatus] = useState("");
+
   const [leaveDate, setLeaveDate] = useState("");
 
   const [leaveId, setLeaveId] = useState(null);
@@ -41,6 +41,16 @@ export default function ManageLeaves() {
     { label: "All", value: "-1" },
     { label: "Active", value: "0" },
     { label: "In-Active", value: "1" }
+  ];
+  const [leaveStatus, setLeaveStatus] = useState("");
+  const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
+
+
+  const leaveStatusData = [
+    { label: "Pending", value: "1" },
+    { label: "Approved", value: "2" },
+    { label: "Rejected", value: "3" },
+    { label: "canceled", value: "4" }
   ];
 
   const navigate = useNavigate();
@@ -97,6 +107,14 @@ export default function ManageLeaves() {
     }
     getHolidayDataList();
   }
+  function leaveStatusHandler(e) {
+    let item = e.value;
+    setLeaveStatus(item);
+    const leavedata = leaveStatusData?.find(x => x.value === item);
+    if (leavedata) {
+      setDefaultLeaveStatus(leavedata);
+    }
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -144,9 +162,9 @@ export default function ManageLeaves() {
   const columns = [
     {
       dataField: "leaveId",
-      text: "Leave Balance Id",
+      text: "Leave Id",
       sort: true,
-      hidden: false,
+      hidden: true,
       style: {
         width: '12%',
         textAlign: 'left'
@@ -154,7 +172,7 @@ export default function ManageLeaves() {
     },
     {
       dataField: "leaveSubject",
-      text: "Employee Name",
+      text: "Leave Subject",
       sort: true,
       style: {
         width: '15%',
@@ -162,24 +180,34 @@ export default function ManageLeaves() {
     },
     {
       dataField: "leaveReason",
-      text: "Total Leave",
+      text: "Leave Reason",
       sort: true,
       style: {
-        width: '20%',
+        width: '15%',
         textAlign: 'left'
       }
     },
     {
       dataField: "leaveStatus",
-      text: "Total Entitle Leave",
+      text: "Leave Status",
       sort: true,
       style: {
         width: '7%'
-      }
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          {
+            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "#0d6efd", color: "white", margin: "5px", padding: "5px" }} >Pending</span>) :
+            columns.status == 2 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }}>Approved</span> :
+            columns.status == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "orange", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
+              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>canceled</span>
+          }
+        </div>
+      )
     },
     {
       dataField: "approvedBy",
-      text: "Used Leave",
+      text: "Approved By",
       sort: true,
       style: {
         width: '10%'
@@ -187,26 +215,33 @@ export default function ManageLeaves() {
     },
     {
       dataField: "approvedMessage",
-      text: "Compoff Leave",
+      text: "Approved Message",
       sort: true,
       style: {
-        width: '15%'
+        width: '13%'
       }
-    },
+    }
+    ,
     {
-      dataField: "status",
-      text: "Status",
+      dataField: "startDate",
+      text: "Start Date",
       sort: true,
       style: {
-        width: '5%'
+        width: '10%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
-              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
-          }
-        </div>
+          columns.startDate?.replace("/", "-")?.substring(0, 10)
+      )
+    },
+    {
+      dataField: "endDate",
+      text: "End Date",
+      sort: true,
+      style: {
+        width: '10%'
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+          columns.endDate?.replace("/", "-")?.substring(0, 10)
       )
     },
     {
@@ -224,7 +259,6 @@ export default function ManageLeaves() {
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
@@ -238,7 +272,7 @@ export default function ManageLeaves() {
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Manage Leaves </Navbar.Brand>
+            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> My Leave</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
@@ -306,18 +340,19 @@ export default function ManageLeaves() {
                    </Form.Group>
                 </Col> */}
 
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '-20px' }}>
-                  <Form.Label className='display-inline search-label'>Status</Form.Label>
-                  <Form.Group className='defaultWidth' style={{ width: "350px" }}>
-                    <Select style={{ width: "60px" }}
-                      value={status}
-                      options={statusData.map(({ label, value }) => ({ label: label, value: value }))}
-                      onChange={StatusHandler}
-                      defaultMenuIsOpen={false}
-                      id="statusid">
-                    </Select>
-                  </Form.Group>
-                </Col>
+<Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
+                <Form.Group className='defaultWidth mb-3 col-md-6'>
+                <Form.Label className='display-inline search-label mb-1 required'>Leave Status</Form.Label>
+                <Select
+                  value={defaultLeaveStatus}
+                  options={leaveStatusData.map(({ label, value }) => ({ label: label, value: value }))}
+                  onChange={leaveStatusHandler}
+                  defaultValue={defaultLeaveStatus}
+                  defaultMenuIsOpen={false}
+                  id="leaveStatusId">
+                </Select>
+              </Form.Group>
+</Col>
                 {/* 
                 <Col className='display-inline pl-2' style={{ width: '30px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Email</Form.Label>

@@ -30,6 +30,7 @@ export default function Header() {
     console.log("email > " + email)
   }
 
+  const [employeeName, setEmployeeName] = useState("");
 
 
 
@@ -41,7 +42,7 @@ export default function Header() {
   async function getEmployeeDataList() {
     try {
       await getEmployeesList("", "", "", email).then(res => {
-        // debugger;
+        debugger;
         console.log(res)
         setCurrEmployee(res)
       });
@@ -57,7 +58,7 @@ export default function Header() {
     // localStorage.clear();
     localStorage.removeItem('accessToken');
     localStorage.removeItem('email');
-    navigate('/login');
+    navigate('/');
     ReactSession.remove("email")
   }
 
@@ -79,7 +80,7 @@ export default function Header() {
 
           <Dropdown style={{ marginRight: "20px" }}>
             <Dropdown.Toggle variant="bg-primary" id="dropdown-basic" className='action-top' >
-              <Badge bg="primary" className='img-cricle' >BS</Badge>
+              {/* <Badge bg="primary" className='img-cricle' >{email?.split(" ").at(0).substring(0, 1) + email?.split(" ").at(1).substring(0, 1)}</Badge> */}
               <span>{email}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="action-dropdown" style={{ marginLeft: "106px", marginTop: "0px", borderRadius: "inherit", fontSize: "13px" }}>
