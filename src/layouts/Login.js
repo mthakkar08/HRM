@@ -11,9 +11,6 @@ import { FaEye, FaEyeSlash } from 'react-icons/fa';
 
 function Login() {
   const navigate = useNavigate();
-
-
-
   const [email, setEmail] = useState("");
   const [password, setPasswrd] = useState("");
   const [passwordType, setPasswordType] = useState("password")
@@ -38,20 +35,18 @@ function Login() {
     }
   }, []);
 
-
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setisSubmitted(true);
     remember();
     let userProfile = { email, password};
 
-
-
     let accessToken;
+    let EmployeeName;
     // let isEnabled;
     try {
-      const response = await axios.post("http://192.168.1.106:8081/hrm/employee/login",
+      const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
+      
         JSON.stringify(userProfile),
         {
           headers: {
@@ -59,26 +54,29 @@ function Login() {
           }
         }
       );
+
+      // ReactSession.setStoreType("localStorage");
+      // ReactSession.set("employeeName",response?.data?.employeeName);
+      EmployeeName = response?.data?.employeeName;
+
       // console.log(response?.data?.userDetails?.enabled)
       // isEnabled = response?.data?.userDetails?.enabled;
       accessToken = response?.data?.jwttoken;
       // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
-      console.log("accesstoken :" + accessToken)
+      console.log( ReactSession.get("employeeName"));
 
     }
     catch (error) {
       console.log("error > " > error)
     }
 
-   
-
     if (accessToken) {
      // if (accessToken && isEnabled) {
-
       ReactSession.setStoreType("localStorage");
       let cryptoEmail = encryptData(email);
       ReactSession.set('email', cryptoEmail);
       localStorage.setItem('accessToken', accessToken);
+      localStorage.setItem('employeeName', EmployeeName);
       localStorage.setItem('email', cryptoEmail);
       navigate('/dashboard');
     }
@@ -88,7 +86,6 @@ function Login() {
     else {
       alert("invalid username or password")
     }
-
   };
 
   function handleDisable() {
@@ -111,7 +108,6 @@ function Login() {
     // console.log(e.target.value)
     console.log("is > " + isRemember)
     setIsRemember(!isRemember)
-
   }
 
   function matchPattern(password) {
@@ -124,10 +120,9 @@ function Login() {
     }
   }
 
-
   return (
-    <><div className="container-fluid">
-      <div className="row no-gutter">
+    <><div className="container-fluid" style={{margin:"0px", padding:"0px"}}>
+      <div className="row no-gutter" style={{width:"100%",margin:"-20px"}}>
         <div className="col-md-8" style={{ backgroundColor: "#f0f0ff" }}>
           <div className="login d-flex align-items-center py-5">
             <div className="container">
@@ -189,14 +184,13 @@ function Login() {
                   <input type="checkbox" name="remember" id="remember" checked={isRemember} onChange={handleChange} />
                   {/* <input type="checkbox" name="remember" id="remember" value={isRemember} onChange={isRemember?setIsRemember(false):setIsRemember(true)} /> */}
                   <label for="remember" class="ml-2">Remember me</label>
-                  <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()}>Login</Button>
+                  <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()} >Login</Button>
                   <div className="text-right pt-4"><Link to="/Forgot">Forgot Password</Link>
                   </div>
                 </Form.Group>
               </div>
             </Form>
           </Card>
-
         </div>
 
       </div>
@@ -204,7 +198,6 @@ function Login() {
     </>
   )
 }
-
 
 export default Login;
 

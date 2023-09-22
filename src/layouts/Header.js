@@ -15,22 +15,25 @@ import { ReactSession } from 'react-client-session';
 import { decryptData } from '../services/EncryptDecrypt';
 
 export default function Header() {
-
   let token = localStorage.getItem('accessToken')
+  let employeeName;
+  //  const employeeName = ReactSession.get("employeeName");
 
   const [currEmployee, setCurrEmployee] = useState({})
   let email;
 
 
+
   if (token) {
     const cryptoEmail = localStorage.getItem('email')
+    employeeName = localStorage.getItem('employeeName')
     // const cryptoEmail = ReactSession.get('email');
     email = decryptData(cryptoEmail);
 
     console.log("email > " + email)
   }
 
-  const [employeeName, setEmployeeName] = useState("");
+  //const [employeeName, setEmployeeName] = useState("");
 
 
 
@@ -42,7 +45,6 @@ export default function Header() {
   async function getEmployeeDataList() {
     try {
       await getEmployeesList("", "", "", email).then(res => {
-        debugger;
         console.log(res)
         setCurrEmployee(res)
       });
@@ -58,6 +60,7 @@ export default function Header() {
     // localStorage.clear();
     localStorage.removeItem('accessToken');
     localStorage.removeItem('email');
+    localStorage.removeItem('employeeName');
     navigate('/');
     ReactSession.remove("email")
   }
@@ -80,8 +83,9 @@ export default function Header() {
 
           <Dropdown style={{ marginRight: "20px" }}>
             <Dropdown.Toggle variant="bg-primary" id="dropdown-basic" className='action-top' >
-              {/* <Badge bg="primary" className='img-cricle' >{email?.split(" ").at(0).substring(0, 1) + email?.split(" ").at(1).substring(0, 1)}</Badge> */}
-              <span>{email}</span>
+              <Badge bg="primary" className='img-cricle' >{employeeName?.split(" ").at(0).substring(0, 1) + employeeName?.split(" ").at(1).substring(0, 1)}</Badge>
+              {/* <span>{email}</span> */}
+              <span>{employeeName}</span>
             </Dropdown.Toggle>
             <Dropdown.Menu className="action-dropdown" style={{ marginLeft: "106px", marginTop: "0px", borderRadius: "inherit", fontSize: "13px" }}>
               <Dropdown.Item as={Link} onClick={handleLogout}><AiOutlineLogout style={{ marginRight: "6px" }} /> Logout</Dropdown.Item>

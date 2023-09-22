@@ -21,7 +21,8 @@ import Holiday from '../pages/holiday/Holiday';
 import MyLeave from '../pages/myLeave/MyLeave';
 import LeavePolicy from '../pages/myLeave/LeavePolicy';
 import ManageLeave from '../pages/manageLeave/ManageLeave';
-import RoleRights from '../pages/roleRights/RoleRights';
+import ManageRoleRights from '../pages/manageRoleRights/ManageRoleRights';
+import AddEditRoleRights from '../pages/manageRoleRights/AddEditRoleRights';
 import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
@@ -64,7 +65,8 @@ export default function Layout() {
                 <Route path="/myLeave" element={<MyLeave/>}  />
                 <Route path="/leavePolicy" element={<LeavePolicy/>}  />
                 <Route path="/manageLeave" element={<ManageLeave />} />
-                <Route path="/roleRights" element={<RoleRights />} />
+                <Route path="/manageRoleRights" element={<ManageRoleRights />} />
+                <Route path="/addEditRoleRights"  element={<AddEditRoleRights />} />
                 <Route path="/FuelType" element={<FuelType />} />
                 <Route path="/file-manager" element={<FileManager />} />
                 <Route path="/order" element={<Order />} />

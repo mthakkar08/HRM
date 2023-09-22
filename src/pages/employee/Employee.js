@@ -21,10 +21,7 @@ export default function Employee(props) {
 
   const navigate = useNavigate();
 
-
-
-
-  const toComponentB = (empId) => {
+  const employeeView = (empId) => {
     navigate('../EmployeeProfile', { state: { id: empId } });
   }
 
@@ -59,7 +56,7 @@ export default function Employee(props) {
   const [email, setEmail] = useState("");
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
-
+const [employeeStatus, setEmployeeStatus] = useState("");
   const statusData = [
     { label: "All", value: "-1" },
     { label: "Active", value: "0" },
@@ -123,22 +120,24 @@ export default function Employee(props) {
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-      await updateEmployeesStatus(employeeId,  status).then(res => { message = res });
+      await updateEmployeesStatus(employeeId,  employeeStatus).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
     }
     finally {
       if (message == 'SUCCESS') {
+        debugger;
         Notification('Status update employee successfully!', 'success')
       } else {
         Notification(message, 'ERROR')
       }
       
-      setEmployeeId(null);
-      setStatus({ label: "All", value: "-1" });
+       setEmployeeId(null);
+  
       setLoading(false);
     }
+
    getEmployeeDataList();
   }
 
@@ -266,6 +265,14 @@ export default function Employee(props) {
       }
     },
     {
+      dataField: "reportingEmployees",
+      text: "reportingEmployees",
+      sort: true,
+      style: {
+        width: '15%'
+      }
+    },
+    {
       dataField: "experience",
       text: "Experience",
       sort: true,
@@ -337,9 +344,9 @@ export default function Employee(props) {
           <a href={employeeList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
-            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setStatus(columns.status == 0 ? 1 : 0); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+            <button title='check' type="button" onClick={() => { setEmployeeId(columns.employeeId); setEmployeeStatus(columns.status == 0 ? 1 : 0); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
             {/* <button title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); handleShow() }} className="icone-button"><i className="icon-eye dark-grey"></i></button> */}
-            <a className="icone-button" title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); toComponentB(columns.employeeId) }} activeClassName="is-active" exact><i className="icon-eye dark-grey" style={{ paddingTop: "6px" }}></i> </a>
+            <a className="icone-button" title='view' type="button" onClick={() => { setCurrentemployeeId(columns.employeeId); employeeView(columns.employeeId) }} activeClassName="is-active" exact><i className="icon-eye dark-grey" style={{ paddingTop: "6px" }}></i> </a>
           </a>
         </div>
       )

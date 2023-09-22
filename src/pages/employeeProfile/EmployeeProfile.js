@@ -40,7 +40,7 @@ export default function EmployeeProfile(props) {
   const [designationId, setDesignationId] = useState("");
   const [EmployeeId, setEmployeeId] = useState("");
   const [designationList, setDesignationList] = useState([]);
-  const [reportingEmpList, setReportingEmpList] = useState([]);
+  const [reportingEmployees, setReportingEmployees] = useState("");
   const [designationName, setDesignationName] = useState("");
 
   const [hiringDate, setHiringDate] = useState("");
@@ -81,9 +81,6 @@ export default function EmployeeProfile(props) {
   }, [show])
 
   useEffect(() => {
-
-
-
     (async function () {
       debugger;
       try {
@@ -103,6 +100,7 @@ export default function EmployeeProfile(props) {
             setEmail(res.email)
             setGender(res.gender)
             setDesignationName(res.designationId)
+            setReportingEmployees(res.reportingEmployees)
             setEmployeeNames(res.EmployeeId)
             setExperience(res.experience)
             setAddress(res.address)
@@ -284,26 +282,12 @@ export default function EmployeeProfile(props) {
 
                 <table class="table table-borderless">
                   <tbody>
-                    <tr>
-                      <th>tuyty</th>
-                      <td>rhkjh</td>
-                    </tr>
-                    <tr>
-                      <th>rhjrjkntbyh</th>
-                      <td>tkjtryntkjtyuy</td>
-                    </tr>
-                    <tr>
-                      <th>ekvj nfgynby j</th>
-                      <td>1 fkjtbhnytukbtuy</td>
-                    </tr>
-                    <tr>
-                      <th>Hgkjnb jkgngh e</th>
-                      <td>2jfhbnggn</td>
-                    </tr>
-                    <tr>
-                      <th>vjh fum Date</th>
-                      <td>jhgnuknhkj</td>
-                    </tr>
+                
+                    <ul className="list-group" style={{listStyleType:"none"}}>
+                      {reportingEmployees?.split(",")?.map(reportingEmployees => (
+                        <li >{reportingEmployees} </li>
+                      ))}
+                    </ul>     
                   </tbody>
                 </table>
 

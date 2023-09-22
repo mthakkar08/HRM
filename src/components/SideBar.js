@@ -40,8 +40,8 @@ const Routes = [
     icon: <FaGift />,
   },
   {
-    path: "/roleRights",
-    name: "RoleRights",
+    path: "/manageRoleRights",
+    name: "ManageRoleRights",
     icon: <FaGift />,
   },
   {

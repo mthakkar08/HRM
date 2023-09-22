@@ -12,7 +12,7 @@ import { apiUrl } from "../config";
 export async function getEmployeesList(employeeName, designationId, status, email) {
   var details = {
     'employeeName': employeeName,
-    'designation': designationId,
+    'designationId': designationId,
     'status': status,
     'email': email
   };
@@ -32,7 +32,7 @@ export async function getEmployeesList(employeeName, designationId, status, emai
 }
 
 export async function getEmployeeDetail(employeeId) {
-  return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId).then((response) => response.data);
+  return axios.get("http://192.168.1.106:8080/hrm/employee/get?employeeId=" + employeeId ).then((response) => response.data);
 }
 
 export async function deleteEmployee(employeeId) {
@@ -73,7 +73,7 @@ export async function updateEmployeesStatus(employeeId, status) {
 }
 
 
-export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address,designationId, experience, status, hiringDate, joiningDate, terminationDate) {
+export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address,designationId,reportingEmployees, experience, status, hiringDate, joiningDate, terminationDate) {
   var details = {
     'employeeId': employeeId,
     'employeeName': employeeName,
@@ -83,6 +83,7 @@ export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, 
     'email': email,
     'address': address,
     'designationId':designationId,
+    'reportingEmployees':reportingEmployees,
     'experience': experience,
     'status': status,
     'hiringDate': hiringDate,

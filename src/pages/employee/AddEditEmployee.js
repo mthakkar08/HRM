@@ -24,7 +24,7 @@ export default function AddEditEmployee(props) {
   const [experience, setExperience] = useState("");
   const [address, setAddress] = useState("");
   const [designationId, setDesignationId] = useState("");
-  const [EmployeeId, setEmployeeId] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
   const [designationList, setDesignationList] = useState([]);
   const [reportingEmpList, setReportingEmpList] = useState([]);
   const [designationName, setDesignationName] = useState("");
@@ -71,7 +71,7 @@ export default function AddEditEmployee(props) {
       try {
         setLoading(true);
         setDataLoading(true);
-        let designationvalue;
+        let designationvalue = [];
         let reportingemployeeData;
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
@@ -84,14 +84,14 @@ export default function AddEditEmployee(props) {
             setEmail(res.email)
             setGender(res.gender)
             setDesignationName(res.designationId)
-            setEmployeeNames(res.EmployeeId)
+            setEmployeeNames(res.employeeId)
             setExperience(res.experience)
             setAddress(res.address)
-            setEmployeeId(res.EmployeeId)
+            setEmployeeId(res.employeeId)
             setDesignationId(res.designationId)
             setStatus(res.status)
             designationvalue = res.designationId
-            reportingemployeeData = res.EmployeeId
+            reportingemployeeData = res.reportingEmployees.split(",")
             const gender = genderData?.find(x => x.value == res.gender);
             if (gender) {
               setDefaultGender(gender);
@@ -104,11 +104,16 @@ export default function AddEditEmployee(props) {
 
         setDesignationName({ label: designationListData.designationName, value: designationvalue })
 
-
         debugger;
-        const reportingempData = reportingdata?.find(x => x.EmployeeId == reportingemployeeData);
+        var selectedOption = reportingdata?.filter(x => x.employeeId.toString() in reportingemployeeData);
+        reportingemployeeData.forEach(element => {
+          
+          
+        });
+        console.log(JSON.stringify(selectedOption));
 
-        setEmployeeNames({ label: reportingempData.EmployeeName, value: reportingemployeeData })
+        //setEmployeeNames({ label: reportingempData.employeeName, value: reportingemployeeData})
+     
 
       }
       catch (error) {
@@ -343,7 +348,7 @@ export default function AddEditEmployee(props) {
         setDesignationErr(false);
       }
 
-      if (EmployeeId == null || EmployeeId == "") {
+      if (employeeId == null || employeeId == "") {
         validate = false;
         setReportingEmpErr(true);
       }
@@ -359,7 +364,7 @@ export default function AddEditEmployee(props) {
         setGenderErr(false);
       }
 
-      await addEmployee(currentemployeeId, employeeName, dob, gender, phoneNumber, email, address, designationId, experience, status, hiringDate, joiningDate, terminationDate).then(res => {
+      await addEmployee(currentemployeeId, employeeName, dob, gender, phoneNumber, email, address, designationId,employeeId, experience, status, hiringDate, joiningDate, terminationDate).then(res => {
         message = res.toString();
       });
     }
@@ -451,15 +456,15 @@ export default function AddEditEmployee(props) {
 
                   //  value={designationName}
                   //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
-                  options={reportingEmpList.map(({ EmployeeId, EmployeeName }) => ({ label: EmployeeName, value: EmployeeId }))}
+                  options={reportingEmpList.map(({ employeeId, employeeName }) => ({ label: employeeName, value: employeeId }))}
                   onChange={reportingEmployeeHandler}
-                  defaultValue={EmployeeName}
+                  defaultValue={employeeName}
                   defaultMenuIsOpen={false}
                   isSearchable={true}
                   isMulti
-                  id="EmployeeId">
+                  id="employeeId">
                 </Select>
-                {reportingEmpErr ? <span style={{ color: 'red' }}>Please select designation</span> : null}
+                {/* {reportingEmpErr ? <span style={{ color: 'red' }}>Please select designation</span> : null} */}
               </Form.Group>
 
 
