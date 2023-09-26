@@ -99,7 +99,7 @@ export default function EmployeeProfile(props) {
             setPhoneNumber(res.phoneNumber)
             setEmail(res.email)
             setGender(res.gender)
-            setDesignationName(res.designationId)
+            setDesignationName(res.designationName)
             setReportingEmployees(res.reportingEmployees)
             setEmployeeNames(res.EmployeeId)
             setExperience(res.experience)
@@ -115,6 +115,7 @@ export default function EmployeeProfile(props) {
             }
           });
         }
+        
         // await bindReportingEmployeeList();
         // await bindDesignationList();
         const designationListData = designationdata?.find(x => x.designationId == designationvalue);
@@ -177,7 +178,7 @@ export default function EmployeeProfile(props) {
                         </tr>
                         <tr>
                           <th style={{ width: "100px" }}>Designation:</th>
-                          <td>{designationId}</td>
+                          <td>{designationName}</td>
                         </tr>
                       </tbody>
                     </table>
@@ -187,7 +188,12 @@ export default function EmployeeProfile(props) {
                       <tbody>
                         <tr>
                           <th>Gender:</th>
-                          <td>{gender}</td>
+                          <td><div>
+          {
+            gender == 1 ? (<span style={{ borderRadius: "2px", border: "none" }}>Male</span>) :
+              <span style={{ borderRadius: "2px", border: "none" }}>Female</span>
+          }
+        </div></td>
                         </tr>
                         <tr>
                           <th>Dob:</th>
@@ -338,8 +344,6 @@ export default function EmployeeProfile(props) {
 
           </Col>
         </Row>
-
-
 
       </div>
 

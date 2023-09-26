@@ -22,6 +22,7 @@ export default function Employee(props) {
   const navigate = useNavigate();
 
   const employeeView = (empId) => {
+    debugger;
     navigate('../EmployeeProfile', { state: { id: empId } });
   }
 
@@ -128,7 +129,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
     finally {
       if (message == 'SUCCESS') {
         debugger;
-        Notification('Status update employee successfully!', 'success')
+        Notification('Employee status update successfully!', 'success')
       } else {
         Notification(message, 'ERROR')
       }

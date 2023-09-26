@@ -50,10 +50,14 @@ export default function AddEditEmployee(props) {
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
 
+  const [selectedOption, setSelectedOption] = useState([]);
+
 
 
   let designationdata = [];
   let reportingdata = [];
+  //let selectedOption= [];
+  let reportingemployeeData;
   const genderData = [
     { label: "Male", value: "1" },
     { label: "Female", value: "2" }
@@ -72,7 +76,7 @@ export default function AddEditEmployee(props) {
         setLoading(true);
         setDataLoading(true);
         let designationvalue = [];
-        let reportingemployeeData;
+      
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
             setHiringDate(res.hiringDate)
@@ -91,6 +95,7 @@ export default function AddEditEmployee(props) {
             setDesignationId(res.designationId)
             setStatus(res.status)
             designationvalue = res.designationId
+         
             reportingemployeeData = res.reportingEmployees.split(",")
             const gender = genderData?.find(x => x.value == res.gender);
             if (gender) {
@@ -105,12 +110,7 @@ export default function AddEditEmployee(props) {
         setDesignationName({ label: designationListData.designationName, value: designationvalue })
 
         debugger;
-        var selectedOption = reportingdata?.filter(x => x.employeeId.toString() in reportingemployeeData);
-        reportingemployeeData.forEach(element => {
-          
-          
-        });
-        console.log(JSON.stringify(selectedOption));
+   
 
         //setEmployeeNames({ label: reportingempData.employeeName, value: reportingemployeeData})
      
@@ -148,8 +148,18 @@ export default function AddEditEmployee(props) {
     setLoading(true);
     try {
       await bindReportingEmployee().then(res => {
-        setReportingEmpList(res)
+debugger;
+
+for (var i=reportingemployeeData; i < employeeId.length; i++) {
+ debugger;
+} 
+
+var sel = res?.filter(x => x.employeeId.toString() in reportingemployeeData);
+        setSelectedOption(sel.map(({ employeeName, employeeId }) => ({ label: employeeName, value: employeeId })));
+        // selectedOption = JSON.stringify(selectedOption);
+       
         reportingdata = res;
+
       });
     }
     catch (error) {
@@ -458,7 +468,7 @@ export default function AddEditEmployee(props) {
                   //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
                   options={reportingEmpList.map(({ employeeId, employeeName }) => ({ label: employeeName, value: employeeId }))}
                   onChange={reportingEmployeeHandler}
-                  defaultValue={employeeName}
+                  defaultValue={selectedOption}
                   defaultMenuIsOpen={false}
                   isSearchable={true}
                   isMulti
