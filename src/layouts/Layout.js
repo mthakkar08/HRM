@@ -19,7 +19,7 @@ import FuelType from "../pages/fuelType/FuelType";
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
 import MyLeave from '../pages/myLeave/MyLeave';
-import LeavePolicy from '../pages/myLeave/LeavePolicy';
+import LeavePolicy from '../pages/leavePolicy/LeavePolicy';
 import ManageLeave from '../pages/manageLeave/ManageLeave';
 import ManageRoleRights from '../pages/manageRoleRights/ManageRoleRights';
 import AddEditRoleRights from '../pages/manageRoleRights/AddEditRoleRights';

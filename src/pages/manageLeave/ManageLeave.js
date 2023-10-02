@@ -7,12 +7,15 @@ import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getLeavesList, deleteLeave } from "../../services/LeavesService.js";
+import { getLeavesList, deleteLeave, updateLeaveStatus } from "../../services/LeaveService.js";
 import AddEditLeaves from './AddEditManageLeave.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
+import { useNavigate } from 'react-router-dom';
+import LeavePolicy from '../leavePolicy/LeavePolicy';
+import { Label } from 'semantic-ui-react';
 
 export default function ManageLeave() {
   const [show, setShow] = useState(false);
@@ -23,16 +26,22 @@ export default function ManageLeave() {
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
 
- const [leaveSubject, setLeaveSubject] = useState("");
+  const [showConfirmStatus, setShowConfirmStatus] = useState(false);
+  const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
- const [leaveDate, setLeaveDate] = useState("");
+  const [leaveSubject, setLeaveSubject] = useState("");
 
-  const [leaveId,setLeaveId] = useState(null);
+  const [leaveDate, setLeaveDate] = useState("");
+
+  const [leaveId, setLeaveId] = useState(null);
+  const [status, setStatus] = useState("");
+  const [employeeId, setEmployeeId] = useState("");
 
   const { setLoading } = useLoading();
   const [leaveStatus, setLeaveStatus] = useState("");
   const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
-
+const [approvedBy, setApprovedBy]  = useState("");
+const [approvedMessage, setApprovedMessage]  = useState("");
 
   const leaveStatusData = [
     { label: "Pending", value: "1" },
@@ -41,6 +50,15 @@ export default function ManageLeave() {
     { label: "canceled", value: "4" }
   ];
 
+  const navigate = useNavigate();
+
+  const LeavePolicy = () => {
+    navigate('../LeavePolicy');
+  }
+
+
+
+  
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
@@ -63,6 +81,49 @@ export default function ManageLeave() {
     getLeaveDataList();
   }
 
+  async function handleConfirmStatus() {
+    let message = '';
+    setShowConfirmStatus(false);
+    setLoading(true);
+    try {
+      await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 2).then(res => { message = res });
+    }
+    catch (error) {
+      message = error.message;
+    }
+    finally {
+      if (message == 'SUCCESS') {
+        Notification('Leave status update successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
+      }
+      setLeaveId(null);
+      setLoading(false);
+    }
+    getLeaveDataList();
+  }
+
+  async function handleRejectStatus() {
+    let message = '';
+    setShowConfirmStatus(false);
+    setLoading(true);
+    try {
+      await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 3).then(res => { message = res });
+    }
+    catch (error) {
+      message = error.message;
+    }
+    finally {
+      if (message == 'SUCCESS') {
+        Notification('Leave status update successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
+      }
+      setLeaveId(null);
+      setLoading(false);
+    }
+    getLeaveDataList();
+  }
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -79,14 +140,13 @@ export default function ManageLeave() {
     setLeaveStatus("");
     setLeaveDate("");
 
-    await getLeavesList("", "","").then(res => { setLeaveList(res) });
+    await getLeavesList("", "", "", "").then(res => { setLeaveList(res) });
   }
 
   async function getLeaveDataList() {
     setLoading(true);
     try {
-      await getLeavesList(leaveSubject, leaveStatus, leaveDate).then(res => {
-        debugger;
+      await getLeavesList(leaveSubject, leaveStatus, leaveDate, employeeId).then(res => {
         setLeaveList(res)
       });
     }
@@ -97,7 +157,7 @@ export default function ManageLeave() {
     }
   }
 
-  function leaveDateHandler(e){
+  function leaveDateHandler(e) {
     let item = e.target.value;
     setLeaveDate(item)
   }
@@ -134,6 +194,14 @@ export default function ManageLeave() {
       }
     },
     {
+      dataField: "employeeName",
+      text: "Employee Name",
+      sort: true,
+      style: {
+        width: '10%',
+      }
+    },
+    {
       dataField: "leaveSubject",
       text: "Leave Subject",
       sort: true,
@@ -155,19 +223,21 @@ export default function ManageLeave() {
       text: "Leave Status",
       sort: true,
       style: {
-        width: '7%'
+        width: '10%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }} >Active</span>) :
-              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>In-Active</span>
-          }
+            columns.leaveStatus == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "#0d6efd", color: "white", margin: "5px", padding: "5px" }} >Pending</span>) :
+              columns.leaveStatus == 2 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }}>Approved</span> :
+                columns.leaveStatus == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
+                  <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>canceled</span>
+          }  
         </div>
       )
     },
     {
-      dataField: "approvedBy",
+      dataField: "reportingEmployee",
       text: "Approved By",
       sort: true,
       style: {
@@ -191,7 +261,7 @@ export default function ManageLeave() {
         width: '10%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
-          columns.startDate?.replace("/", "-")?.substring(0, 10)
+        columns.startDate?.replace("/", "-")?.substring(0, 10)
       )
     },
     {
@@ -202,7 +272,7 @@ export default function ManageLeave() {
         width: '10%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
-          columns.endDate?.replace("/", "-")?.substring(0, 10)
+        columns.endDate?.replace("/", "-")?.substring(0, 10)
       )
     },
     {
@@ -218,8 +288,8 @@ export default function ManageLeave() {
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
-            <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
-            <button title='Delete' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+            {/* <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button> */}
+            <button title='check' type="button" onClick={() => { setLeaveId(columns.leaveId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
       )
@@ -238,8 +308,8 @@ export default function ManageLeave() {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentLeaveId(0); handleShow() }} >+  Apply Leave</Button></Navbar.Brand>
 
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { LeavePolicy() }} >Leave Policy</Button></Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
           </Navbar >
@@ -248,31 +318,31 @@ export default function ManageLeave() {
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
               <Row className="main-class">
-              <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
+                <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '0px' }}>
                   <Form.Label className='display-inline search-label'>Leave Subject</Form.Label>
                   <Form.Control type="text" value={leaveSubject} onChange={(e) => setLeaveSubject(e.target.value)} />
                 </Col>
 
-                <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>
-                <Form.Group className='defaultWidth mb-3 col-md-6'>
-                <Form.Label className='display-inline search-label mb-1 required'>Leave Status</Form.Label>
-                <Select
-                  value={defaultLeaveStatus}
-                  options={leaveStatusData.map(({ label, value }) => ({ label: label, value: value }))}
-                  onChange={leaveStatusHandler}
-                  defaultValue={defaultLeaveStatus}
-                  defaultMenuIsOpen={false}
-                  id="leaveStatusId">
-                </Select>
-              </Form.Group>
-</Col>
+                <Col xs={3} className='display-inline pl-0' >
+                  <Form.Label className='display-inline search-label'>Leave Status</Form.Label>
+                  <Form.Group className='defaultWidth' style={{ width: '320px' }}>
+                    <Select
+                      value={defaultLeaveStatus}
+                      options={leaveStatusData.map(({ label, value }) => ({ label: label, value: value }))}
+                      onChange={leaveStatusHandler}
+                      defaultValue={defaultLeaveStatus}
+                      defaultMenuIsOpen={false}
+                      id="leaveStatusId">
+                    </Select>
+                  </Form.Group>
+                </Col>
 
                 <Col className='display-inline pl-0' style={{ width: '280px', marginLeft: '0px' }} >
-                <Form.Label className="mb-1">Leave Date</Form.Label>
-                <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }}>
-                <Form.Control type="date" autoComplete="off" name="leaveDate" id="leaveDate"
-                  value={leaveDate} onChange={leaveDateHandler}  dateFormat="yyyy/MM/DD" />
-                   </Form.Group>
+                  <Form.Label className="mb-1">Leave Date</Form.Label>
+                  <Form.Group className='defaultWidth' style={{ width: '320px', marginLeft: '26px' }}>
+                    <Form.Control type="date" autoComplete="off" name="leaveDate" id="leaveDate"
+                      value={leaveDate} onChange={leaveDateHandler} dateFormat="yyyy/MM/DD" />
+                  </Form.Group>
                 </Col>
 
                 <Col className='display-inline pl-0' style={{ width: '30px', marginLeft: '16px' }} >
@@ -308,6 +378,19 @@ export default function ManageLeave() {
         onCancel={bootboxClose}
         onClose={bootboxClose}
       />
+
+      <Bootbox show={showConfirmStatus}
+        type={"confirm"}
+        successLabel={"Approve"}
+        // successClassNames={}
+        // cancelClassNames={}
+        cancelLabel={"Reject"}
+   // type={ <Button variant="primary">Test</Button> }
+        message={"Are you sure you want to change this Leave?"}
+        onSuccess={handleConfirmStatus}
+        onCancel={handleRejectStatus}
+        onClose={bootboxCloseStatus}
+      /> 
 
 
     </>

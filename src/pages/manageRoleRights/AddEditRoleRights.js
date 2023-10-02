@@ -41,7 +41,6 @@ const [RoleId,setRoleId]  = useState("");
 
   useEffect(() => {
     (async function () {
-      debugger;
       try {
         setLoading(true);
         setDataLoading(true);
@@ -49,7 +48,6 @@ const [RoleId,setRoleId]  = useState("");
     
         if (currentRoleId != null && currentRoleId != 0) {
           await getManageRoleRightsDetail(currentRoleId).then(res => {
-          debugger;
           setCurrentRoleId(res.RoleId)
           setMenuName(res.MenuName)
           setMenuId(res.MenuId)
@@ -69,10 +67,6 @@ const [RoleId,setRoleId]  = useState("");
       }
     })();
   }, [currentRoleId])
-
-
-
-
 
   const handleSearch = (e) => {
     e.preventDefault();
@@ -94,7 +88,6 @@ const [RoleId,setRoleId]  = useState("");
     setLoading(true);
     try {
       await getAccessRightsList(currentRoleId, RoleName, MenuId,MenuName).then(res => {
-         debugger;
         setEmployeeList(res)
       });
     }

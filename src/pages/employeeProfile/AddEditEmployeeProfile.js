@@ -197,7 +197,6 @@ export default function AddEditEmployee(props) {
   }
 
   function designationHandler(e) {
-    debugger;
     let item = e.value;
     if (item == null || item == "") {
       setDesignationErr(true);
@@ -213,7 +212,6 @@ export default function AddEditEmployee(props) {
   }
 
   function reportingEmployeeHandler(e) {
-    debugger;
     let item = e.value;
     if (item == null || item == "") {
       setDesignationErr(true);
@@ -229,7 +227,6 @@ export default function AddEditEmployee(props) {
   }
   
   async function SaveEmployee(e) {
-    debugger;
     e.preventDefault();
     setLoading(true);
     let message = '';

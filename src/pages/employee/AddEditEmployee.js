@@ -108,13 +108,7 @@ export default function AddEditEmployee(props) {
         const designationListData = designationdata?.find(x => x.designationId == designationvalue);
 
         setDesignationName({ label: designationListData.designationName, value: designationvalue })
-
-        debugger;
-   
-
         //setEmployeeNames({ label: reportingempData.employeeName, value: reportingemployeeData})
-     
-
       }
       catch (error) {
 
@@ -144,22 +138,17 @@ export default function AddEditEmployee(props) {
   }
 
   async function bindReportingEmployeeList() {
-    debugger;
     setLoading(true);
     try {
       await bindReportingEmployee().then(res => {
-debugger;
 
 for (var i=reportingemployeeData; i < employeeId.length; i++) {
- debugger;
 } 
 
 var sel = res?.filter(x => x.employeeId.toString() in reportingemployeeData);
         setSelectedOption(sel.map(({ employeeName, employeeId }) => ({ label: employeeName, value: employeeId })));
         // selectedOption = JSON.stringify(selectedOption);
-       
         reportingdata = res;
-
       });
     }
     catch (error) {
@@ -249,7 +238,6 @@ var sel = res?.filter(x => x.employeeId.toString() in reportingemployeeData);
   }
 
   function designationHandler(e) {
-    debugger;
     let item = e.value;
     if (item == null || item == "") {
       setDesignationErr(true);
@@ -265,7 +253,6 @@ var sel = res?.filter(x => x.employeeId.toString() in reportingemployeeData);
   }
 
   function reportingEmployeeHandler(e) {
-    debugger;
     let item = e.value;
     if (item == null || item == "") {
       setReportingEmpErr(true);
@@ -281,7 +268,6 @@ var sel = res?.filter(x => x.employeeId.toString() in reportingemployeeData);
   }
 
   async function SaveEmployee(e) {
-    debugger;
     e.preventDefault();
     setLoading(true);
     let message = '';

@@ -64,14 +64,20 @@ export default function EmployeeProfile(props) {
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
 
-
-
   let designationdata = [];
   let reportingdata = [];
   const genderData = [
     { label: "Male", value: "1" },
     { label: "Female", value: "2" }
   ];
+  const navigate = useNavigate();
+
+  let token = localStorage.getItem('accessToken')
+  let employeeId;
+  if (token) {
+    const cryptoEmail = localStorage.getItem('email')
+    employeeId = localStorage.getItem('employeeId')
+  }
 
   useEffect(() => {
 
@@ -82,11 +88,11 @@ export default function EmployeeProfile(props) {
 
   useEffect(() => {
     (async function () {
-      debugger;
       try {
         setLoading(true);
         setDataLoading(true);
-        currentemployeeId = location.state.id;
+        {currentemployeeId = location.state.id !=null ? location.state.id : employeeId}
+     //   currentemployeeId = location.state.id;
         let designationvalue;
         let reportingemployeeData;
         if (currentemployeeId != null && currentemployeeId != 0) {
@@ -122,8 +128,6 @@ export default function EmployeeProfile(props) {
 
         setDesignationName({ label: designationListData.designationName, value: designationvalue })
 
-
-        debugger;
         const reportingempData = reportingdata?.find(x => x.EmployeeId == reportingemployeeData);
 
         setEmployeeNames({ label: reportingempData.EmployeeName, value: reportingemployeeData })

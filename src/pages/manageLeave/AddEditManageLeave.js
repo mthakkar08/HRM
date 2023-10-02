@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getLeavesDetail, addLeave } from "../../services/LeavesService.js";
+import { getLeavesDetail, addLeave } from "../../services/LeaveService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../components/Notification.js'
 import Select from 'react-select';
@@ -39,7 +39,6 @@ export default function AddEditLeaves(props) {
         setDataLoading(true);
         if (currentLeaveId != null && currentLeaveId != 0) {
           await getLeavesDetail(currentLeaveId).then(res => {
-            debugger;
             setLeaveSubject(res.leaveSubject)
             setLeaveReason(res.leaveReason)
             setStartDate(res.startDate)
@@ -173,6 +172,12 @@ export default function AddEditLeaves(props) {
         <Form onSubmit={SaveHoliday}>
           <Modal.Body>
 
+          <Form.Group className="mb-3">
+              <Form.Label className="mb-1 required">Employee Name</Form.Label>
+              <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
+                value={leaveSubject} disabled={currentLeaveId == null || currentLeaveId == 0 ? false : true} />
+            </Form.Group>
+
             <Form.Group className="mb-3">
               <Form.Label className="mb-1 required">Leave Subject</Form.Label>
               <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
@@ -186,6 +191,12 @@ export default function AddEditLeaves(props) {
             </Form.Group>
 
 
+            <Form.Group className="mb-3">
+              <Form.Label className="mb-1 required"> Leave Status</Form.Label>
+              <Form.Control type="text" autoComplete="off" name="leaveReason" id="leaveReason"
+                value={leaveReason} onChange={LeaveReasonHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave reason</span> : null}
+            </Form.Group>
+        
             <Form.Group className="mb-3">
                 <Form.Label className="mb-1 required">Start Date</Form.Label>
                 <Form.Control type="date" autoComplete="off" name="startDate" id="startDate"

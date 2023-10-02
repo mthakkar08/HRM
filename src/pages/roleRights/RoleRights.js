@@ -136,7 +136,6 @@
 //     setLoading(true);
 //     try {
 //       await getManageRoleRightsList(employeeName, designationId, status.value, email).then(res => {
-//         // debugger;
 //         setEmployeeList(res)
 //       });
 //     }

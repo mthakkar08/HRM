@@ -48,7 +48,6 @@ export default function Holiday() {
   }
 
   function FromDateHandler(e){
-    debugger;
     let item = e.target.value;
     
     setFromDate(item)
@@ -85,7 +84,6 @@ export default function Holiday() {
   async function handleConfirmStatus() {
     let message = '';
     setShowConfirmStatus(false);
-    debugger;
     setLoading(true);
     try {
     //   await updateEmployeesStatus(employeeId,status).then(res => { message = res });
@@ -115,7 +113,6 @@ export default function Holiday() {
   }, [])
 
   async function handleReset(e) {
-    debugger;
     e.preventDefault();
     // setToDate(new Date().getFullYear() + 1 + "-05-01");
     // setFromDate(new Date().getFullYear() + "-04-30");
@@ -244,7 +241,6 @@ export default function Holiday() {
               <Nav className="me-auto"></Nav>
               <Nav>
                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentHolidayId(0); handleShow() }} >+ Add Holiday</Button></Navbar.Brand>
-
               </Nav>
             </Navbar.Collapse>
           </Navbar >

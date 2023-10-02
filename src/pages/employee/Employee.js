@@ -22,7 +22,6 @@ export default function Employee(props) {
   const navigate = useNavigate();
 
   const employeeView = (empId) => {
-    debugger;
     navigate('../EmployeeProfile', { state: { id: empId } });
   }
 
@@ -116,7 +115,6 @@ const [employeeStatus, setEmployeeStatus] = useState("");
 
 
   async function handleConfirmStatus() {
-    debugger;
     let message = '';
     setShowConfirmStatus(false);
     setLoading(true);
@@ -128,7 +126,6 @@ const [employeeStatus, setEmployeeStatus] = useState("");
     }
     finally {
       if (message == 'SUCCESS') {
-        debugger;
         Notification('Employee status update successfully!', 'success')
       } else {
         Notification(message, 'ERROR')
@@ -162,11 +159,9 @@ const [employeeStatus, setEmployeeStatus] = useState("");
   }
 
   async function getEmployeeDataList() {
-    debugger;
     setLoading(true);
     try {
       await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
-        // debugger;
         setEmployeeList(res)
       });
       await bindDesignationList();

@@ -52,7 +52,6 @@ export async function deleteEmployee(employeeId) {
 }
 
 export async function updateEmployeesStatus(employeeId, status) {
-  debugger;
   var details = {
     'employeeId': employeeId,
     'status': status
@@ -111,6 +110,5 @@ export async function bindDesignation() {
 }
 
 export async function bindReportingEmployee() {
-  debugger;
   return await axios.get("http://192.168.1.106:8080/hrm/employee/bindlist").then((response) => response.data);
 }

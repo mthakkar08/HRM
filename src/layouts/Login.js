@@ -43,6 +43,7 @@ function Login() {
 
     let accessToken;
     let EmployeeName;
+    let EmployeeId;
     // let isEnabled;
     try {
       const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
@@ -58,7 +59,7 @@ function Login() {
       // ReactSession.setStoreType("localStorage");
       // ReactSession.set("employeeName",response?.data?.employeeName);
       EmployeeName = response?.data?.employeeName;
-
+      EmployeeId = response?.data?.employeeId;
       // console.log(response?.data?.userDetails?.enabled)
       // isEnabled = response?.data?.userDetails?.enabled;
       accessToken = response?.data?.jwttoken;
@@ -77,6 +78,7 @@ function Login() {
       ReactSession.set('email', cryptoEmail);
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('employeeName', EmployeeName);
+      localStorage.setItem('employeeId', EmployeeId);
       localStorage.setItem('email', cryptoEmail);
       navigate('/dashboard');
     }
@@ -90,6 +92,7 @@ function Login() {
 
   function handleDisable() {
     return email && password && matchPattern(password);
+
   }
 
   const remember = () => {
@@ -122,7 +125,7 @@ function Login() {
 
   return (
     <><div className="container-fluid" style={{margin:"0px", padding:"0px"}}>
-      <div className="row no-gutter" style={{width:"100%",margin:"-20px"}}>
+      <div className="row no-gutter" style={{width:"102%",margin:"-20px"}}>
         <div className="col-md-8" style={{ backgroundColor: "#f0f0ff" }}>
           <div className="login d-flex align-items-center py-5">
             <div className="container">
@@ -184,7 +187,7 @@ function Login() {
                   <input type="checkbox" name="remember" id="remember" checked={isRemember} onChange={handleChange} />
                   {/* <input type="checkbox" name="remember" id="remember" value={isRemember} onChange={isRemember?setIsRemember(false):setIsRemember(true)} /> */}
                   <label for="remember" class="ml-2">Remember me</label>
-                  <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()} >Login</Button>
+                  <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()}>Login</Button>
                   <div className="text-right pt-4"><Link to="/Forgot">Forgot Password</Link>
                   </div>
                 </Form.Group>

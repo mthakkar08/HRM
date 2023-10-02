@@ -17,6 +17,7 @@ import { decryptData } from '../services/EncryptDecrypt';
 export default function Header() {
   let token = localStorage.getItem('accessToken')
   let employeeName;
+ 
   //  const employeeName = ReactSession.get("employeeName");
 
   const [currEmployee, setCurrEmployee] = useState({})
@@ -61,6 +62,7 @@ export default function Header() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('email');
     localStorage.removeItem('employeeName');
+    localStorage.removeItem('employeeId');
     navigate('/');
     ReactSession.remove("email")
   }
@@ -83,11 +85,11 @@ export default function Header() {
 
           <Dropdown style={{ marginRight: "20px" }}>
             <Dropdown.Toggle variant="bg-primary" id="dropdown-basic" className='action-top' >
-              <Badge bg="primary" className='img-cricle' >{employeeName?.split(" ").at(0).substring(0, 1) + employeeName?.split(" ").at(1).substring(0, 1)}</Badge>
+              <Badge bg="primary" className='img-cricle' >{employeeName?.split(" ").at(0)?.substring(0, 1) + employeeName?.split(" ").at(1)?.substring(0, 1)}</Badge>
               {/* <span>{email}</span> */}
               <span>{employeeName}</span>
             </Dropdown.Toggle>
-            <Dropdown.Menu className="action-dropdown" style={{ marginLeft: "106px", marginTop: "0px", borderRadius: "inherit", fontSize: "13px" }}>
+            <Dropdown.Menu className="action-dropdown" style={{ marginLeft: "85px", marginTop: "0px", borderRadius: "inherit", fontSize: "13px" }}>
               <Dropdown.Item as={Link} onClick={handleLogout}><AiOutlineLogout style={{ marginRight: "6px" }} /> Logout</Dropdown.Item>
             </Dropdown.Menu>
           </Dropdown>

@@ -23,7 +23,6 @@ export async function getHolidayList(fromDate, toDate,status) {
 }
 
 export async function getHolidayDetail(holidayId) {
-  debugger;
   return axios.get("http://192.168.1.2:8080/hrm/holiday/get?holidayId=" + holidayId).then((response) => response.data);
 }
 

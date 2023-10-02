@@ -29,7 +29,6 @@ export default function ResetPassword() {
     let encEmail = searchParams.get('token');
 
     console.log('encEmail > ' + encEmail)
-    // debugger
     encEmail && (email = decryptData(encEmail))
     console.log('email > ' + email)
 
@@ -42,7 +41,6 @@ export default function ResetPassword() {
 
         let userProfile = { email, password };
         let result;
-        debugger
         if (password && confirmPassword && password === confirmPassword) {
 
             try {

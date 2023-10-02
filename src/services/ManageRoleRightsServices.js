@@ -19,7 +19,6 @@ export async function getManageRoleRightsList() {
 }
 
 export async function getManageRoleRightsDetail(roleId) {
-  debugger;
   return axios.get("http://192.168.1.2:8080/hrm/rolerights/get?roleId=" + roleId).then((response) => response.data);
 }
 
@@ -40,7 +39,6 @@ export async function deleteManageRoleRights(roleId) {
 }
 
 export async function updateManageRoleRightsStatus(roleId, status) {
-  debugger;
   var details = {
     'roleId': roleId,
     'status': status
@@ -81,7 +79,6 @@ export function addManageRoleRights(roleId, roleName) {
 }
 
 export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRightId, EditRightId, ViewRightId, DeleteRightId) {
-  debugger;
   
   var details = {
     'RoleId': RoleId,

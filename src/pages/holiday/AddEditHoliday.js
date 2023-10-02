@@ -37,7 +37,6 @@ export default function AddEditHoliday(props) {
         setDataLoading(true);
         if (currentHolidayId != null && currentHolidayId != 0) {
           await getHolidayDetail(currentHolidayId).then(res => {
-            debugger;
             setHolidayName(res.holidayName)
             setHolidayDate(res.holidayDate)
             setDescription(res.description)
