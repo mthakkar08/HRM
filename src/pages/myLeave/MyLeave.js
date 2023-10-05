@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getLeavesList, deleteLeave,getLeaveBalance } from "../../services/LeaveService.js";
+import { getLeavesList, deleteLeave, getLeaveBalance, updateLeaveStatus } from "../../services/LeaveService.js";
 
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
@@ -26,7 +26,8 @@ export default function MyLeave() {
   const bootboxClose = () => setShowConfirm(false);
 
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
-  const bootboxCloseStatus = () => setShowConfirmStatus(false);
+  const bootboxCloseStatus = () => setShowConfirmStatus(true);
+
   const [leaveSubject, setLeaveSubject] = useState("");
   const [EmployeeId, setEmployeeId] = useState("");
   const [leaveDate, setLeaveDate] = useState("");
@@ -35,10 +36,10 @@ export default function MyLeave() {
 
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
-  const[totalLeave, setTotalLeave] = useState("");
-const [totalEntilteLeave, setTotalEntitleLeave] = useState("");
-const [usedLeave, setUsedLeave] = useState("");
-const [compoffLeave, setCompoffLeave] = useState("");
+  const [totalLeave, setTotalLeave] = useState("");
+  const [totalEntilteLeave, setTotalEntitleLeave] = useState("");
+  const [usedLeave, setUsedLeave] = useState("");
+  const [compoffLeave, setCompoffLeave] = useState("");
   const statusData = [
     { label: "All", value: "-1" },
     { label: "Active", value: "0" },
@@ -47,6 +48,8 @@ const [compoffLeave, setCompoffLeave] = useState("");
   const [leaveStatus, setLeaveStatus] = useState(null);
   const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
 
+  const [approvedBy, setApprovedBy]  = useState("");
+  const [approvedMessage, setApprovedMessage]  = useState("");
 
   const leaveStatusData = [
     { label: "Pending", value: "1" },
@@ -57,27 +60,22 @@ const [compoffLeave, setCompoffLeave] = useState("");
 
   const navigate = useNavigate();
 
-
-
-
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
-     
-          await getLeaveBalance(employeeId).then(res => {
-            setTotalLeave(res.totalLeave)
-            setTotalEntitleLeave(res.totalEntitleLeave)
-            setUsedLeave(res.usedLeave)
-            setCompoffLeave(res.compoffLeave)
-          });
+
+        await getLeaveBalance(employeeId).then(res => {
+          setTotalLeave(res.totalLeave)
+          setTotalEntitleLeave(res.totalEntitleLeave)
+          setUsedLeave(res.usedLeave)
+          setCompoffLeave(res.compoffLeave)
+        });
       }
       catch (error) {
-
       }
       finally {
         setTimeout(() => {
-        
           setLoading(false);
         }, 1200);
       }
@@ -90,7 +88,7 @@ const [compoffLeave, setCompoffLeave] = useState("");
     const cryptoEmail = localStorage.getItem('email')
     employeeId = localStorage.getItem('employeeId')
   }
-  
+
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
@@ -110,29 +108,29 @@ const [compoffLeave, setCompoffLeave] = useState("");
       setCurrentLeaveId(null);
       setLoading(false);
     }
-    getHolidayDataList();
+    getLeaveDataList();
   }
 
-  async function handleConfirmStatus() {
-    let message = '';
-    setShowConfirmStatus(false);
-    setLoading(true);
-    try {
-    }
-    catch (error) {
-      message = error.message;
-    }
-    finally {
-      if (message == 'SUCCESS') {
-        Notification('Leave Status update successfully!', 'success')
-      } else {
-        Notification(message, 'ERROR')
-      }
-      setLeaveId(null);
-      setLoading(false);
-    }
-    getHolidayDataList();
-  }
+  // async function handleConfirmStatus() {
+  //   let message = '';
+  //   setShowConfirm(false);
+  //   setLoading(true);
+  //   try {
+  //   }
+  //   catch (error) {
+  //     message = error.message;
+  //   }
+  //   finally {
+  //     if (message == 'SUCCESS') {
+  //       Notification('Leave Delete successfully!', 'success')
+  //     } else {
+  //       Notification(message, 'ERROR')
+  //     }
+  //     setLeaveId(null);
+  //     setLoading(false);
+  //   }
+  //   getLeaveDataList();
+  // }
   function leaveStatusHandler(e) {
     let item = e.value;
     setLeaveStatus(item);
@@ -144,24 +142,23 @@ const [compoffLeave, setCompoffLeave] = useState("");
 
   const handleSearch = (e) => {
     e.preventDefault();
-    getHolidayDataList();
+    getLeaveDataList();
   };
 
   useEffect(() => {
-    getHolidayDataList();
+    getLeaveDataList();
   }, [])
 
   async function handleReset(e) {
     e.preventDefault();
 
-    setStatus({ label: "All", value: "-1" });
-
-    await getLeavesList("", null, "",employeeId).then(res => { setLeaveList(res) });
+    setLeaveStatus("");
+    await getLeavesList("", "", "", employeeId).then(res => { setLeaveList(res) });
   }
 
-  async function getHolidayDataList() {
+  async function getLeaveDataList() {
     setLoading(true);
-    
+
     try {
       await getLeavesList(leaveSubject, leaveStatus, leaveDate, employeeId).then(res => {
         setLeaveList(res)
@@ -174,11 +171,33 @@ const [compoffLeave, setCompoffLeave] = useState("");
     }
   }
 
+  async function handleConfirmStatus() {
+    let message = '';
+    setShowConfirmStatus(false);
+    setLoading(true);
+    try {
+      await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 4).then(res => { message = res });
+    }
+    catch (error) {
+      message = error.message;
+    }
+    finally {
+      if (message == 'SUCCESS') {
+        Notification('Leave status update successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
+      }
+      setLeaveId(null);
+      setLoading(false);
+    }
+    getLeaveDataList();
+  }
+
   function onDataSave(isSubmitted, message) {
     handleClose();
     if (isSubmitted && message.toUpperCase() == 'SUCCESS') {
       Notification('Leave saved successfully!', 'SUCCESS')
-      getHolidayDataList();
+      getLeaveDataList();
     }
     else {
       Notification(message, 'ERROR')
@@ -223,9 +242,9 @@ const [compoffLeave, setCompoffLeave] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           {
-            columns.status == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "#0d6efd", color: "white", margin: "5px", padding: "5px" }} >Pending</span>) :
-              columns.status == 2 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }}>Approved</span> :
-                columns.status == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "orange", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
+            columns.leaveStatus == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "#0d6efd", color: "white", margin: "5px", padding: "5px" }} >Pending</span>) :
+              columns.leaveStatus == 2 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }}>Approved</span> :
+                columns.leaveStatus == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "	#DC5D02", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
                   <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>canceled</span>
           }
         </div>
@@ -271,6 +290,17 @@ const [compoffLeave, setCompoffLeave] = useState("");
       )
     },
     {
+      dataField: "createdDate",
+      text: "Requested Date",
+      sort: true,
+      style: {
+        width: '10%'
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        columns.endDate?.replace("/", "-")?.substring(0, 10)
+      )
+    },
+    {
       dataField: 'Action',
       text: 'Action',
       style: {
@@ -283,9 +313,22 @@ const [compoffLeave, setCompoffLeave] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
-            <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
-            <button title='Delete' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+            {
+            columns.leaveStatus !== 4 ? (<button title="calcel" type="button" onClick={() => { setLeaveId(columns.leaveId); setShowConfirmStatus(true) }} size="sm" className="icone-button"><i className="icon-cross2 dark-grey"></i></button>
+            ) :
+            <div style={{ minHeight: "30px", minWidth: "20px" }}>-</div>
+          }
+            {
+            columns.leaveStatus == 1 ? (<button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
+            ) :
+             <></>
+          }
+            {
+            columns.leaveStatus == 1 ? ( <button title='Delete' type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>) :
+             <></>
+          }
           </a>
+          
         </div>
       )
     },
@@ -293,7 +336,7 @@ const [compoffLeave, setCompoffLeave] = useState("");
 
   return (
     <>
-     {show && <AddEditLeave onDataSave={onDataSave} leaveId={currentLeaveId} />} 
+      {show && <AddEditLeave onDataSave={onDataSave} leaveId={currentLeaveId} />}
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
@@ -374,10 +417,10 @@ const [compoffLeave, setCompoffLeave] = useState("");
                   <Button onClick={(event) => handleReset(event)} type="submit" className='btn btn-dft'>Reset</Button>
                 </Col>
               </Row> */}
-               <Row className="main-class">
+              <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Leave Status</Form.Label>
-                  <Form.Group className='defaultWidth'  style={{ width: '320px'}}>
+                  <Form.Group className='defaultWidth' style={{ width: '320px' }}>
                     <Select
                       value={defaultLeaveStatus}
                       options={leaveStatusData.map(({ label, value }) => ({ label: label, value: value }))}
@@ -389,7 +432,7 @@ const [compoffLeave, setCompoffLeave] = useState("");
                   </Form.Group>
                 </Col>
                 <Col xs={8} className='display-inline pl-2'>
-                <Button className='btn btn-primary mr-5' type="submit" onClick={(event) => handleSearch(event)}>Search</Button>
+                  <Button className='btn btn-primary mr-5' type="submit" onClick={(event) => handleSearch(event)}>Search</Button>
                   <Button onClick={(event) => handleReset(event)} type="submit" className='btn btn-dft'>Reset</Button>
                 </Col>
               </Row>
@@ -425,13 +468,15 @@ const [compoffLeave, setCompoffLeave] = useState("");
         onClose={bootboxClose}
       />
 
-      <Bootbox show={showConfirmStatus}
+       <Bootbox show={showConfirmStatus}
         type={"confirm"}
-        message={"Are you sure you want to change this status?"}
+        successLabel={"Cancel"}
+   // type={ <Button variant="primary">Test</Button> }
+        message={"Are you sure you want to change this Leave?"}
         onSuccess={handleConfirmStatus}
         onCancel={bootboxCloseStatus}
         onClose={bootboxCloseStatus}
-      />
+      /> 
 
     </>
   )

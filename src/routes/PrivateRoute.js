@@ -1,5 +1,6 @@
-import { useOktaAuth } from '@okta/okta-react';
-import { Navigate  } from 'react-router-dom';
+
+import { useEffect } from 'react';
+import { Navigate, useNavigate  } from 'react-router-dom';
 import { Switch, Route, Redirect } from "react-router-dom";
 
 // export default function PrivateRoute({ children }) {
@@ -7,9 +8,20 @@ import { Switch, Route, Redirect } from "react-router-dom";
 
 //     return authState?.isAuthenticated ? <>{children}</> : <Navigate to="/login" />;
 //   }
-  
- 
+
   export default function PrivateRoute({ children }) {
-    const { authState } =  useOktaAuth();
-    return authState ? (authState?.isAuthenticated ? <>{children}</> : <Navigate to="/login" />) : <></>;
+
+      
+const navigate = useNavigate();
+
+useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    // console.log(token)
+    if (!token) {
+      navigate('/');
+    }
+    // debugger;
+    // token ? <Navigate to="/" />: <></>;
+  }, []);
+
   }

@@ -1,31 +1,37 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { getLeavesDetail, addLeave } from "../../services/LeaveService.js";
+import { getLeavesDetail, addCompoffLeave } from "../../services/LeaveService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../components/Notification.js'
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
-
+import {  bindDesignation, bindReportingEmployee } from "../../services/EmployeeService.js";
 import "react-datepicker/dist/react-datepicker.css";
 
-export default function AddEditLeaves(props) {
+export default function AddEditManageLeave(props) {
 
   const [show, setShow] = useState(true);
   const currentLeaveId = props.leaveId;
-  const [leaveSubject, setLeaveSubject] = useState("");
-  const [leaveReason, setLeaveReason] = useState("");
-  const [leaveStatus, setLeaveStatus] = useState("");
-  const [startDate, setStartDate] = useState("");
-  const [endDate, setEndDate] = useState("");
+  const [compoffLeave, setCompoffLeave] = useState("");
+  const [compoffLeaveErr, setCompoffLeaveErr] = useState(false);
 
-
-  const [startDateErr, setStartDateErr] = useState(false);
-  const [endDateErr,setEndDateErr] = useState(false);
   const handleClose = () => setShow(false);
   const { loading, setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
 
+  const [employeeId, setEmployeeId] = useState("");
+  const [employeeList, setEmployeeList] = useState([]);
+  const [reportingEmployee, setReportingEmployee] = useState("");
+  const [employeeNameErr, setEmployeeNameErr] = useState(false);
+  let employeedata = [];
+  
+  let token = localStorage.getItem('accessToken')
+  let repEmployeeId;
+  if (token) {
+    const cryptoEmail = localStorage.getItem('email')
+    repEmployeeId = localStorage.getItem('employeeId')
+  }
   useEffect(() => {
     if (!show) {
       props.onDataSave(false);
@@ -37,14 +43,17 @@ export default function AddEditLeaves(props) {
       try {
         setLoading(true);
         setDataLoading(true);
+        let employeevalue = [];
+
         if (currentLeaveId != null && currentLeaveId != 0) {
           await getLeavesDetail(currentLeaveId).then(res => {
-            setLeaveSubject(res.leaveSubject)
-            setLeaveReason(res.leaveReason)
-            setStartDate(res.startDate)
-            setEndDate(res.endDate)
+          
           });
         }
+        await bindReportingEmployeeList();
+        const designationListData = employeedata?.find(x => x.employeeId == employeevalue);
+
+        setReportingEmployee({ label: designationListData.reportingEmployee, value: employeevalue })
       }
       catch (error) {
       }
@@ -57,44 +66,45 @@ export default function AddEditLeaves(props) {
     })();
   }, [currentLeaveId])
 
-  function LeaveSubjectHandler(e) {
-    let item = e.target.value;
-    if (item == null || item == "") {
-     // setHolidayNameErr(true)
-    } else {
-     // setHolidayNameErr(false)
+  async function bindReportingEmployeeList() {
+    setLoading(true);
+    try {
+      await bindReportingEmployee().then(res => {
+        setEmployeeList(res)
+        employeedata = res;
+      });
     }
-    setLeaveSubject(item);
+    catch (error) {
+    }
+    finally {
+      setLoading(false);
+    }
   }
 
-  function LeaveReasonHandler(e) {
-    let item = e.target.value;
+  function reportingHandler(e) {
+    let item = e.value;
     if (item == null || item == "") {
-   //   setHolidayNameErr(true)
+      setEmployeeNameErr(true);
     } else {
-    //  setHolidayNameErr(false)
+      setEmployeeNameErr(false)
     }
-    setLeaveReason(item);
+    setEmployeeId(item);
+
+    const EmployeeNameData = employeeList?.find(x => x.value === item);
+    if (EmployeeNameData) {
+      setReportingEmployee(EmployeeNameData);
+    }
   }
 
-  function startDateHandler(e) {
-    let item = e.target.value;
-    if (item == null || item == "") {
-      setStartDate(true)
-    } else {
-      setStartDate(false)
-    }
-    setStartDate(item);
-  }
 
-  function endDateHandler(e) {
+  function CompoffLeaveHandler(e) {
     let item = e.target.value;
     if (item == null || item == "") {
-      setEndDateErr(true)
+      setCompoffLeaveErr(true)
     } else {
-      setEndDateErr(false)
+      setCompoffLeaveErr(false)
     }
-    setEndDate(item);
+    setCompoffLeave(item);
   }
 
   async function SaveHoliday(e) {
@@ -105,39 +115,24 @@ export default function AddEditLeaves(props) {
     let validate = true;
 
     try {
-      if (leaveSubject == undefined || leaveSubject.trim() == null || leaveSubject.trim() == "") {
+      if (employeeId == null || employeeId == "") {
         validate = false;
-    //    setHolidayNameErr(true);
+        setEmployeeNameErr(true);
       }
       else {
-     //   setHolidayNameErr(false);
+        setEmployeeNameErr(false);
       }
 
-      if (leaveReason == undefined || leaveReason.trim() == null || leaveReason.trim() == "") {
+      if (compoffLeave == null || compoffLeave == "") {
         validate = false;
-      //  setHolidayNameErr(true);
+        setCompoffLeaveErr(true);
       }
       else {
-       // setHolidayNameErr(false);
+        setCompoffLeaveErr(false);
       }
 
-      if (startDate == undefined || startDate == null || startDate == "") {
-        validate = false;
-        setStartDateErr(true);
-      }
-      else {
-        setStartDateErr(false);
-      }
 
-      if (endDate == undefined || endDate == null || endDate == "") {
-        validate = false;
-        setEndDateErr(true);
-      }
-      else {
-        setEndDateErr(false);
-      }
-
-      await addLeave(currentLeaveId, leaveSubject, leaveReason, startDate, endDate).then(res => {
+      await addCompoffLeave(compoffLeave, employeeId,repEmployeeId).then(res => {
         message = res.toString();
       });
     }
@@ -171,44 +166,25 @@ export default function AddEditLeaves(props) {
         </Modal.Header>
         <Form onSubmit={SaveHoliday}>
           <Modal.Body>
-
-          <Form.Group className="mb-3">
-              <Form.Label className="mb-1 required">Employee Name</Form.Label>
-              <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
-                value={leaveSubject} disabled={currentLeaveId == null || currentLeaveId == 0 ? false : true} />
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1 required">Leave Subject</Form.Label>
-              <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
-                value={leaveSubject} onChange={LeaveSubjectHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave subject</span> : null}
-            </Form.Group>
-
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1 required">Leave Reason</Form.Label>
-              <Form.Control type="text" autoComplete="off" name="leaveReason" id="leaveReason"
-                value={leaveReason} onChange={LeaveReasonHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave reason</span> : null}
-            </Form.Group>
-
-
-            <Form.Group className="mb-3">
-              <Form.Label className="mb-1 required"> Leave Status</Form.Label>
-              <Form.Control type="text" autoComplete="off" name="leaveReason" id="leaveReason"
-                value={leaveReason} onChange={LeaveReasonHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave reason</span> : null}
-            </Form.Group>
-        
-            <Form.Group className="mb-3">
-                <Form.Label className="mb-1 required">Start Date</Form.Label>
-                <Form.Control type="date" autoComplete="off" name="startDate" id="startDate"
-                  value={startDate?.replace("/", "-")?.substring(0, 10)} onChange={startDateHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter start date</span> : null} 
+            <Form.Group className='defaultWidth mb-3'>
+                <Form.Label className='display-inline search-label mb-1 required'>Employee Name</Form.Label>
+                <Select
+                  //  value={designationName}
+                  //  options={designation.map(({ label, value }) => ({ label: label, value: value }))}
+                  options={employeeList.map(({ employeeId, employeeName }) => ({ label: employeeName, value: employeeId }))}
+                  onChange={reportingHandler}
+                  defaultValue={reportingEmployee}
+                  defaultMenuIsOpen={false}
+                  id="employeeId">
+                </Select>
+                {employeeNameErr ? <span style={{ color: 'red' }}>Please select employee name</span> : null}
               </Form.Group>
 
               <Form.Group className="mb-3">
-                <Form.Label className="mb-1 required">End Date</Form.Label>
-                <Form.Control type="date" autoComplete="off" name="endDate" id="endDate"
-                  value={endDate?.replace("/", "-")?.substring(0, 10)} onChange={endDateHandler} />{endDateErr ? <span style={{ color: 'red' }}>Please enter end date</span> : null} 
-              </Form.Group>
-            
+              <Form.Label className="mb-1 required">Compoff Leave</Form.Label>
+              <Form.Control type="number" autoComplete="off" name="compoffLeave" id="compoffLeave"
+                value={compoffLeave} onChange={CompoffLeaveHandler} />{compoffLeaveErr ? <span style={{ color: 'red' }}>Please enter compoff leave</span> : null}
+            </Form.Group>
           </Modal.Body>
 
           <Modal.Footer>

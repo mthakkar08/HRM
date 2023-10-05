@@ -24,12 +24,10 @@ export default function Employee(props) {
   const employeeView = (empId) => {
     navigate('../EmployeeProfile', { state: { id: empId } });
   }
-
   useEffect(() => {
     const token = localStorage.getItem('accessToken')
-    // console.log(token)
     if (!token) {
-      navigate('/login');
+      navigate('/');
     }
   }, []);
 
@@ -261,14 +259,6 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       }
     },
     {
-      dataField: "reportingEmployees",
-      text: "reportingEmployees",
-      sort: true,
-      style: {
-        width: '15%'
-      }
-    },
-    {
       dataField: "experience",
       text: "Experience",
       sort: true,
@@ -390,7 +380,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
                       defaultMenuIsOpen={false}
                       id="designationId">
                     </Select>
-                  </Form.Group>
+                  </Form.Group>-
                 </Col>
 
                 <Col className='display-inline pl-2' style={{ width: '280px', marginLeft: '0px' }}>

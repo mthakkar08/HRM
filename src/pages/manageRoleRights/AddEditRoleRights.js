@@ -45,7 +45,7 @@ const [RoleId,setRoleId]  = useState("");
         setLoading(true);
         setDataLoading(true);
         currentRoleId = location.state.id;
-    
+    debugger;
         if (currentRoleId != null && currentRoleId != 0) {
           await getManageRoleRightsDetail(currentRoleId).then(res => {
           setCurrentRoleId(res.RoleId)

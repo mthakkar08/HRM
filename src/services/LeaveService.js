@@ -47,7 +47,7 @@ export async function deleteLeave(LeaveId) {
 export async function updateLeaveStatus(leaveId, approvedBy, approvedMessage, leaveStatus) {
   var details = {
     'leaveId': leaveId,
-    'approvedBy': 1,
+    'approvedBy': approvedBy,
     'approvedMessage': approvedMessage,
     'leaveStatus': leaveStatus
   };
@@ -97,6 +97,51 @@ export async function getLeaveBalance(employeeId) {
   try {
     return await axios.get("http://192.168.1.106:8080/hrm/leavebalance/get?EmployeeId=" + employeeId,
      
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
+
+export function addCompoffLeave(compoffLeave, employeeId, reportingEmployee) {
+  
+  var details = {
+    'compoffLeave': compoffLeave,
+    'employeeId': employeeId,
+    'reportingEmployee': reportingEmployee
+  };
+  try {
+    return axios.post("http://192.168.1.106:8081/hrm/leavebalance/save",
+      details,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
+
+export async function getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, employeeId) {
+  debugger
+  var details = {
+    'leaveSubject': leaveSubject,
+    'leaveStatus': leaveStatus,
+    'leaveDate': leaveDate,
+    'employeeId': employeeId
+  };
+  try {
+    return await axios.post("http://192.168.1.106:8081/hrm/leave/sortby",
+      details,
       {
         headers: {
           'Content-Type': 'application/json',

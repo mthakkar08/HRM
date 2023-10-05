@@ -132,7 +132,7 @@ export default function ResetPassword() {
 
 
                         <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0 " size="lg" disabled={!handleDisable()}>Reset Password</Button>
-                        <Link to="/Login">Login</Link>
+                        <Link to="/">Login</Link>
 
                     </div>
 

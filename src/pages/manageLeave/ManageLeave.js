@@ -2,13 +2,14 @@ import '../../assets/styles/App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import React, { useState, useEffect } from "react";
-import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
+import { Nav, Navbar, Button, Form, Col, Row, Card, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getLeavesList, deleteLeave, updateLeaveStatus } from "../../services/LeaveService.js";
-import AddEditLeaves from './AddEditManageLeave.js'
+import { getSortedLeaveList, deleteLeave, updateLeaveStatus } from "../../services/LeaveService.js";
+
+import AddEditManageLeave from './AddEditManageLeave.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
@@ -21,16 +22,21 @@ export default function ManageLeave() {
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
   const [currentLeaveId, setCurrentLeaveId] = useState(null);
   const [leaveList, setLeaveList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
 
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
-  const bootboxCloseStatus = () => setShowConfirmStatus(false);
+  const bootboxCloseStatus = () => setShowConfirmStatus(true);
+
+  const [showCompoffLeave, setShowCompoffLeave] = useState(false);
+
+  const handleCompoffClose = () => setShowCompoffLeave(false);
+  const handleCompoffShow = () => setShowCompoffLeave(true);
 
   const [leaveSubject, setLeaveSubject] = useState("");
-
   const [leaveDate, setLeaveDate] = useState("");
 
   const [leaveId, setLeaveId] = useState(null);
@@ -40,14 +46,13 @@ export default function ManageLeave() {
   const { setLoading } = useLoading();
   const [leaveStatus, setLeaveStatus] = useState("");
   const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
-const [approvedBy, setApprovedBy]  = useState("");
-const [approvedMessage, setApprovedMessage]  = useState("");
+  const [approvedBy, setApprovedBy] = useState("");
+  const [approvedMessage, setApprovedMessage] = useState("");
 
   const leaveStatusData = [
     { label: "Pending", value: "1" },
     { label: "Approved", value: "2" },
-    { label: "Rejected", value: "3" },
-    { label: "canceled", value: "4" }
+    { label: "Rejected", value: "3" }
   ];
 
   const navigate = useNavigate();
@@ -56,9 +61,6 @@ const [approvedMessage, setApprovedMessage]  = useState("");
     navigate('../LeavePolicy');
   }
 
-
-
-  
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
@@ -83,7 +85,8 @@ const [approvedMessage, setApprovedMessage]  = useState("");
 
   async function handleConfirmStatus() {
     let message = '';
-    setShowConfirmStatus(false);
+    let approvedBy = localStorage.getItem("employeeId")
+    setShowCompoffLeave(false);
     setLoading(true);
     try {
       await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 2).then(res => { message = res });
@@ -105,7 +108,7 @@ const [approvedMessage, setApprovedMessage]  = useState("");
 
   async function handleRejectStatus() {
     let message = '';
-    setShowConfirmStatus(false);
+    setShowCompoffLeave(false);
     setLoading(true);
     try {
       await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 3).then(res => { message = res });
@@ -140,13 +143,16 @@ const [approvedMessage, setApprovedMessage]  = useState("");
     setLeaveStatus("");
     setLeaveDate("");
 
-    await getLeavesList("", "", "", "").then(res => { setLeaveList(res) });
+    await getSortedLeaveList("", "", "",localStorage.getItem("employeeId")).then(res => { setLeaveList(res) });
   }
 
   async function getLeaveDataList() {
+    debugger
     setLoading(true);
+    setEmployeeId(localStorage.getItem("employeeId"))
     try {
-      await getLeavesList(leaveSubject, leaveStatus, leaveDate, employeeId).then(res => {
+      await getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, localStorage.getItem("employeeId")).then(res => {
+        debugger;
         setLeaveList(res)
       });
     }
@@ -181,6 +187,7 @@ const [approvedMessage, setApprovedMessage]  = useState("");
       setDefaultLeaveStatus(leavedata);
     }
   }
+
 
   const columns = [
     {
@@ -230,9 +237,9 @@ const [approvedMessage, setApprovedMessage]  = useState("");
           {
             columns.leaveStatus == 1 ? (<span style={{ borderRadius: "3px", border: "none", backgroundColor: "#0d6efd", color: "white", margin: "5px", padding: "5px" }} >Pending</span>) :
               columns.leaveStatus == 2 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "green", color: "white", margin: "5px", padding: "5px" }}>Approved</span> :
-                columns.leaveStatus == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
+                columns.leaveStatus == 3 ? <span style={{ borderRadius: "3px", border: "none", backgroundColor: "	#DC5D02", color: "white", margin: "5px", padding: "5px" }}>Rejected</span> :
                   <span style={{ borderRadius: "3px", border: "none", backgroundColor: "red", color: "white", margin: "5px", padding: "5px" }}>canceled</span>
-          }  
+          }
         </div>
       )
     },
@@ -276,6 +283,17 @@ const [approvedMessage, setApprovedMessage]  = useState("");
       )
     },
     {
+      dataField: "createdDate",
+      text: "Requested Date",
+      sort: true,
+      style: {
+        width: '10%'
+      },
+      formatter: (cell, columns, rowIndex, extraData) => (
+        columns.endDate?.replace("/", "-")?.substring(0, 10)
+      )
+    },
+    {
       dataField: 'Action',
       text: 'Action',
       style: {
@@ -289,7 +307,13 @@ const [approvedMessage, setApprovedMessage]  = useState("");
         <div>
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
             {/* <button title="Edit" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button> */}
-            <button title='check' type="button" onClick={() => { setLeaveId(columns.leaveId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
+
+            {
+              (columns.leaveStatus == 1 || columns.leaveStatus == 2 || columns.leaveStatus == 3) ? (<button title='check' type="button" onClick={() => { setLeaveId(columns.leaveId); handleCompoffShow(); setShowCompoffLeave(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>) :
+                <div style={{ minHeight: "30px", minWidth: "20px" }}>-</div>
+            }
+
+
           </a>
         </div>
       )
@@ -298,7 +322,7 @@ const [approvedMessage, setApprovedMessage]  = useState("");
 
   return (
     <>
-      {show && <AddEditLeaves onDataSave={onDataSave} leaveId={currentLeaveId} />}
+      {show && <AddEditManageLeave onDataSave={onDataSave} leaveId={currentLeaveId} />}
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
@@ -309,6 +333,7 @@ const [approvedMessage, setApprovedMessage]  = useState("");
               <Nav className="me-auto"></Nav>
               <Nav>
 
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentLeaveId(0); handleShow() }} style={{ marginRight: "10px" }}>+ Add Compoff Leave</Button></Navbar.Brand>
                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { LeavePolicy() }} >Leave Policy</Button></Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
@@ -370,7 +395,6 @@ const [approvedMessage, setApprovedMessage]  = useState("");
         </ListGroup.Item>
       </ListGroup>
 
-
       <Bootbox show={showConfirm}
         type={"confirm"}
         message={"Are you sure you want to delete this leave?"}
@@ -379,7 +403,7 @@ const [approvedMessage, setApprovedMessage]  = useState("");
         onClose={bootboxClose}
       />
 
-      <Bootbox show={showConfirmStatus}
+      {/* <Bootbox show={showConfirmStatus}
         type={"confirm"}
         successLabel={"Approve"}
         // successClassNames={}
@@ -390,7 +414,31 @@ const [approvedMessage, setApprovedMessage]  = useState("");
         onSuccess={handleConfirmStatus}
         onCancel={handleRejectStatus}
         onClose={bootboxCloseStatus}
-      /> 
+      />  */}
+
+
+      <Modal show={showCompoffLeave} onHide={handleCompoffClose}>
+        <Modal.Header closeButton className='manageLeaveModel' >
+          <Modal.Title >Manage Leave</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+
+          <Form.Group className="mb-3">
+            <Form.Label className="mb-1">Approved Message</Form.Label>
+            <Form.Control type="text" autoComplete="off" name="approvedMessage" id="approvedMessage" 
+              value={approvedMessage} onChange={(e) => { setApprovedMessage(e.target.value)}} />
+          </Form.Group>
+
+        </Modal.Body>
+        <Modal.Footer>
+          <Button variant="danger" onClick={handleRejectStatus}>
+            Reject
+          </Button>
+          <Button variant="success" onClick={handleConfirmStatus}>
+            Approve
+          </Button>
+        </Modal.Footer>
+      </Modal>
 
 
     </>

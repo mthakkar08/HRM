@@ -211,9 +211,9 @@ export default function AddEditLeave(props) {
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1 required">Leave Subject</Form.Label>
                             <Form.Control type="text" autoComplete="off" name="leaveSubject" id="leaveSubject"
-                                value={leaveSubject} onChange={LeaveSubjectHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave subject</span> : null}
+                                value={leaveSubject}  onChange={LeaveSubjectHandler} />{startDateErr ? <span style={{ color: 'red' }}>Please enter leave subject</span> : null}
                         </Form.Group>
-
+                        {/* //disabled={leaveStatus == null || currentFuelTypeId == 0 ? false : true} */}
                         <Form.Group className="mb-3">
                             <Form.Label className="mb-1 required">Leave Reason</Form.Label>
                             <Form.Control type="text" autoComplete="off" name="leaveReason" id="leaveReason"

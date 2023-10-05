@@ -1149,3 +1149,13 @@ tr.selected-row,
   box-shadow: inset 0 0 0 9999px var(--bs-table-accent-bg) !important;
 }
 
+.manageLeaveModel .btn-close {
+  color: #333333 !important;
+  background-color: #333333 !important;
+}
+
+
+.manageLeaveModel{
+  background-color: white !important;
+  color: #333333 !important;
+}

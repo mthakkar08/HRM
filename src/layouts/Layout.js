@@ -28,7 +28,7 @@ import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
 import ResetPassword from '../layouts/ResetPassword';
- 
+import PrivateRoute from '../routes/PrivateRoute';
 import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
@@ -59,10 +59,10 @@ export default function Layout() {
             <Routes>
               <Route path="/" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
-                <Route path="/employeeProfile" element={<EmployeeProfile />} />
+                <Route path="/employeeProfile" element={<EmployeeProfile /> } />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
-                <Route path="/myLeave" element={<MyLeave/>}  />
+                <Route path="/myLeave" element={<MyLeave/>} />
                 <Route path="/leavePolicy" element={<LeavePolicy/>}  />
                 <Route path="/manageLeave" element={<ManageLeave />} />
                 <Route path="/manageRoleRights" element={<ManageRoleRights />} />

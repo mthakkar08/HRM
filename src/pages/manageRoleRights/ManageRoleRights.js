@@ -18,8 +18,18 @@ import { useNavigate } from 'react-router-dom';
 export default function ManageRoleRights() {
 
   const navigate = useNavigate();
-  const roleView = (roleTypeId) => {
-    navigate('../../AddEditRoleRights', { state: { id: roleTypeId } });
+
+
+useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      navigate('/');
+    }
+  }, []);
+
+  const roleView = (roleId) => {
+    debugger;
+    navigate('../../AddEditRoleRights', { state: { id: roleId } });
   }
   
   const [show, setShow] = useState(false);

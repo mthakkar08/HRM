@@ -8,7 +8,8 @@ import { Navigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
 import { decryptData, encryptData } from '../services/EncryptDecrypt';
 import { Link } from 'react-router-dom';
-
+import { Notification } from '../components/Notification';
+import { ToastContainer, toast } from 'react-toastify';
 export default function Forgot() {
 
     const [email, setEmail] = useState("")
@@ -48,33 +49,40 @@ export default function Forgot() {
         catch (error) {
             console.log("error > " > error)
         }
-
-
-        if (result) {
-
-
-            let mailBody = {
-                email,
-                encEmail: encryptData(email)
+        finally {
+            if (result == 'SUCCESS') {
+              Notification('Email send successfully!', 'success')
+            } else {
+              Notification(result, 'ERROR')
             }
+   
+          }
 
-            emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
-                .then(function (response) {
-                    alert("Email sent to your emailId...")
-                }, function (error) {
-                    alert("invalid Email..." + error)
-                });
-        }
-        else {
-            alert("invalid emailid")
-        }
+        // if (result) {
+        //     let mailBody = {
+        //         email,
+        //         encEmail: encryptData(email)
+        //     }
+
+        //     emailjs.send('service_scn9587', 'template_90feo3j', mailBody, 'rwliDUuHzLR77kNuX')
+        //         .then(function (response) {
+        //             alert("Email sent to your emailId...")
+        //         }, function (error) {
+        //             alert("invalid Email..." + error)
+        //         });
+        // }
+        // else {
+        //     alert("invalid emailid")
+        // }
 
     }
 
 
 
     return (
-        <><div className="container-fluid">
+        <>
+          <ToastContainer />
+        <div className="container-fluid">
             <div className="row no-gutter">
                 <div className="col-md-8" style={{ backgroundColor: "#f0f0ff" }}>
                     <div className="login d-flex align-items-center py-5">

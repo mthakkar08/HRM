@@ -21,7 +21,7 @@ export default function Dashboard() {
     const authtoken = localStorage.getItem('accessToken')
     // console.log(token)
     if (!authtoken) {
-      navigate('/login');
+      navigate('/');
     }
   }, []);
 

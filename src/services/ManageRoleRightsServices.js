@@ -4,7 +4,7 @@ import { apiUrl } from "../config";
 export async function getManageRoleRightsList() {
 
   try {
-    return await axios.get("http://192.168.1.2:8080/hrm/role/list",
+    return await axios.get("http://192.168.1.106:8080/hrm/role/list",
 
       {
         headers: {
@@ -19,13 +19,13 @@ export async function getManageRoleRightsList() {
 }
 
 export async function getManageRoleRightsDetail(roleId) {
-  return axios.get("http://192.168.1.2:8080/hrm/rolerights/get?roleId=" + roleId).then((response) => response.data);
+  return axios.get("http://192.168.1.106:8080/hrm/rolerights/get?roleId=" + roleId).then((response) => response.data);
 }
 
 export async function deleteManageRoleRights(roleId) {
 
   try {
-    return axios.delete("http://192.168.1.2:8080/hrm/role/delete?roleId=" + roleId,
+    return axios.delete("http://192.168.1.106:8080/hrm/role/delete?roleId=" + roleId,
       {
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +91,7 @@ export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRi
     'DeleteRightId': DeleteRightId
   };
   try {
-    return axios.post("http://192.168.1.2:8080/hrm/rolerights/save",
+    return axios.post("http://192.168.1.106:8080/hrm/rolerights/save",
       details,
       {
         headers: {
