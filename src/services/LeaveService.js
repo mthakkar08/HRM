@@ -117,7 +117,7 @@ export function addCompoffLeave(compoffLeave, employeeId, reportingEmployee) {
     'reportingEmployee': reportingEmployee
   };
   try {
-    return axios.post("http://192.168.1.106:8081/hrm/leavebalance/save",
+    return axios.post("http://192.168.1.106:8080/hrm/leavebalance/save",
       details,
       {
         headers: {
@@ -140,7 +140,7 @@ export async function getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, e
     'employeeId': employeeId
   };
   try {
-    return await axios.post("http://192.168.1.106:8081/hrm/leave/sortby",
+    return await axios.post("http://192.168.1.106:8080/hrm/leave/sortby",
       details,
       {
         headers: {

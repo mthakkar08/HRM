@@ -1154,8 +1154,18 @@ tr.selected-row,
   background-color: #333333 !important;
 }
 
-
 .manageLeaveModel{
   background-color: white !important;
   color: #333333 !important;
+}
+
+.dashboard-card{
+ text-align:center !important;
+ margin-top: 5px !important;
+ color: white !important;
+}
+
+.dashboard-icone{
+  display:flow-root !important;
+  color: white !important;
 }

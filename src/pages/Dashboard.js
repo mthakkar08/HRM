@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import ListGroup from 'react-bootstrap/ListGroup';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { BsFileEarmarkText } from "react-icons/bs";
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ReactSession } from 'react-client-session';
 import { decryptData } from '../services/EncryptDecrypt';
 
@@ -27,25 +27,79 @@ export default function Dashboard() {
 
   return (
     <>
-      
+
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
             <Navbar.Brand style={{ color: 'black' }}>
-              <div class="panel-body">
-                <div class="row">
-                  <div class="col-lg-6">
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>1</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>2</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>3</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>4</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>5</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>6</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>7</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>8</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>9</span></a>
-                    <a href="/Finance" class="min-width-100 min-height-100 btn btn-primary btn-float" style={{ marginRight: '10px' }}><i class="icon-bookmark4 icon-2x" style={{ display: 'flow-root', paddingBottom: '5px' }}></i><span>10</span></a>
-                  </div>
+              <div class="panel-body" style={{marginRight:"20px"}}>
+
+                <div class="row" style={{ display: "flex" }}>
+
+                  <Col sm={2}>
+                  <Card style={{ width:'18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#fe555a" }}>
+                      <Link to="/Employee" style={{ textDecoration: "none" }}>        
+                          <i class="icon-bookmark4 icon-2x dashboard-icone"></i>
+                          <Card.Subtitle className="mb-2 dashboard-card dashboard-card"> Employee</Card.Subtitle>
+                          </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  
+                  <Col sm={2}>
+                    <Card style={{ width: '18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#ffa948" }}>
+                        <Link to="/holiday" style={{ textDecoration: "none" }}>
+                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Holiday</Card.Subtitle>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+                  <Col sm={2}>
+                    <Card style={{ width: '18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#00d2a5" }}>
+                        <Link to="/MyLeave" style={{ textDecoration: "none" }}>
+                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Leave</Card.Subtitle>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                  <Col sm={2}>
+                    <Card style={{ width: '18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#00a0c4" }}>
+                        <Link to="/Finance" style={{ textDecoration: "none" }}>
+                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                  <Col sm={2}>
+                    <Card style={{ width: '18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#8660b7" }}>
+                        <Link to="/Finance" style={{ textDecoration: "none" }}>
+                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
+
+                  <Col sm={2}>
+                    <Card style={{ width: '18rem' }}>
+                      <Card.Body style={{ backgroundColor: "#e44b9e" }}>
+                        <Link to="/Finance" style={{ textDecoration: "none" }}>
+                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                        </Link>
+                      </Card.Body>
+                    </Card>
+                  </Col>
                 </div>
               </div>
             </Navbar.Brand>

@@ -97,12 +97,14 @@ export default function ManageLeave() {
     finally {
       if (message == 'SUCCESS') {
         Notification('Leave status update successfully!', 'success')
+        setApprovedMessage("")
       } else {
         Notification(message, 'ERROR')
       }
       setLeaveId(null);
       setLoading(false);
     }
+
     getLeaveDataList();
   }
 
@@ -245,21 +247,20 @@ export default function ManageLeave() {
     },
     {
       dataField: "reportingEmployee",
-      text: "Approved By",
+      text: "Responded By",
       sort: true,
       style: {
         width: '10%'
       }
     },
     {
-      dataField: "approvedMessage",
-      text: "Approved Message",
+      dataField: "respondBy",
+      text: "Response Message",
       sort: true,
       style: {
         width: '13%'
       }
-    }
-    ,
+    },
     {
       dataField: "startDate",
       text: "Start Date",

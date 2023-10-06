@@ -22,6 +22,7 @@ export default function MyLeave() {
   const handleShow = () => setShow(true);
   const [currentLeaveId, setCurrentLeaveId] = useState(null);
   const [leaveList, setLeaveList] = useState([]);
+
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
 
@@ -111,26 +112,30 @@ export default function MyLeave() {
     getLeaveDataList();
   }
 
-  // async function handleConfirmStatus() {
-  //   let message = '';
-  //   setShowConfirm(false);
-  //   setLoading(true);
-  //   try {
-  //   }
-  //   catch (error) {
-  //     message = error.message;
-  //   }
-  //   finally {
-  //     if (message == 'SUCCESS') {
-  //       Notification('Leave Delete successfully!', 'success')
-  //     } else {
-  //       Notification(message, 'ERROR')
-  //     }
-  //     setLeaveId(null);
-  //     setLoading(false);
-  //   }
-  //   getLeaveDataList();
-  // }
+  async function handleConfirmStatus() {
+    debugger;
+    let message = '';
+    setShowConfirmStatus(false);
+    setLoading(true);
+    try {
+      await updateLeaveStatus(currentLeaveId, approvedBy, approvedMessage, 4).then(res => { message = res });
+    }
+    catch (error) {
+      message = error.message;
+    }
+    finally {
+      if (message == 'SUCCESS') {
+        Notification('Leave status update successfully!', 'success')
+      } else {
+        Notification(message, 'ERROR')
+      }
+      setCurrentLeaveId(null);
+      setLoading(false);
+
+    }
+     getLeaveDataList();
+  }
+
   function leaveStatusHandler(e) {
     let item = e.value;
     setLeaveStatus(item);
@@ -171,27 +176,7 @@ export default function MyLeave() {
     }
   }
 
-  async function handleConfirmStatus() {
-    let message = '';
-    setShowConfirmStatus(false);
-    setLoading(true);
-    try {
-      await updateLeaveStatus(leaveId, approvedBy, approvedMessage, 4).then(res => { message = res });
-    }
-    catch (error) {
-      message = error.message;
-    }
-    finally {
-      if (message == 'SUCCESS') {
-        Notification('Leave status update successfully!', 'success')
-      } else {
-        Notification(message, 'ERROR')
-      }
-      setLeaveId(null);
-      setLoading(false);
-    }
-    getLeaveDataList();
-  }
+
 
   function onDataSave(isSubmitted, message) {
     handleClose();
@@ -250,17 +235,17 @@ export default function MyLeave() {
         </div>
       )
     },
-    {
+     {
       dataField: "reportingEmployee",
-      text: "Approved By",
+      text: "Responded By",
       sort: true,
       style: {
         width: '10%'
       }
     },
     {
-      dataField: "approvedMessage",
-      text: "Approved Message",
+      dataField: "respondBy",
+      text: "Response Message",
       sort: true,
       style: {
         width: '13%'
@@ -311,10 +296,10 @@ export default function MyLeave() {
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
+        <div>        
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
             {
-            columns.leaveStatus !== 4 ? (<button title="calcel" type="button" onClick={() => { setLeaveId(columns.leaveId); setShowConfirmStatus(true) }} size="sm" className="icone-button"><i className="icon-cross2 dark-grey"></i></button>
+            columns.leaveStatus !== 4 ? (<button title="calcel" type="button" onClick={() => { debugger; setCurrentLeaveId(columns.leaveId); setShowConfirmStatus(true) }} size="sm" className="icone-button"><i className="icon-cross2 dark-grey"></i></button>
             ) :
             <div style={{ minHeight: "30px", minWidth: "20px" }}>-</div>
           }
@@ -476,6 +461,7 @@ export default function MyLeave() {
         onSuccess={handleConfirmStatus}
         onCancel={bootboxCloseStatus}
         onClose={bootboxCloseStatus}
+        
       /> 
 
     </>

@@ -51,7 +51,7 @@ export default function Forgot() {
         }
         finally {
             if (result == 'SUCCESS') {
-              Notification('Email send successfully!', 'success')
+              Notification('Reset Password link sent to your Email!', 'SUCCESS')
             } else {
               Notification(result, 'ERROR')
             }
