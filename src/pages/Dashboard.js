@@ -5,7 +5,10 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { Link, useNavigate } from 'react-router-dom';
 import { ReactSession } from 'react-client-session';
 import { decryptData } from '../services/EncryptDecrypt';
-
+import { FaUserFriends, FaSafari, FaUserLock } from "react-icons/fa";
+import { IoIosBed } from "react-icons/io";
+import { MdManageAccounts } from "react-icons/md";
+import { BiCog } from "react-icons/bi";
 
 export default function Dashboard() {
 
@@ -39,8 +42,9 @@ export default function Dashboard() {
                   <Col sm={2}>
                   <Card style={{ width:'18rem' }}>
                       <Card.Body style={{ backgroundColor: "#fe555a" }}>
-                      <Link to="/Employee" style={{ textDecoration: "none" }}>        
-                          <i class="icon-bookmark4 icon-2x dashboard-icone"></i>
+                      <Link to="/Employee" style={{ textDecoration: "none", textAlign:"center" }}>        
+                      
+                      <i class="icon-2x dashboard-icone" ><FaUserFriends /></i>
                           <Card.Subtitle className="mb-2 dashboard-card dashboard-card"> Employee</Card.Subtitle>
                           </Link>
                       </Card.Body>
@@ -51,7 +55,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#ffa948" }}>
                         <Link to="/holiday" style={{ textDecoration: "none" }}>
-                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <i class="icon-2x dashboard-icone" ><FaSafari /></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Holiday</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -61,7 +65,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#00d2a5" }}>
                         <Link to="/MyLeave" style={{ textDecoration: "none" }}>
-                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
+                          <i class="icon-2x dashboard-icone" ><IoIosBed /></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Leave</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -71,9 +75,9 @@ export default function Dashboard() {
                   <Col sm={2}>
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#00a0c4" }}>
-                        <Link to="/Finance" style={{ textDecoration: "none" }}>
-                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
-                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                        <Link to="/manageLeave" style={{ textDecoration: "none" }}>
+                          <i class="icon-2x dashboard-icone" ><MdManageAccounts/></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Manage Leave</Card.Subtitle>
                         </Link>
                       </Card.Body>
                     </Card>
@@ -83,8 +87,8 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#8660b7" }}>
                         <Link to="/Finance" style={{ textDecoration: "none" }}>
-                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
-                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                          <i class="icon-2x dashboard-icone" ><FaUserLock/></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Manage RoleRights</Card.Subtitle>
                         </Link>
                       </Card.Body>
                     </Card>
@@ -94,8 +98,8 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#e44b9e" }}>
                         <Link to="/Finance" style={{ textDecoration: "none" }}>
-                          <i class="icon-bookmark4 icon-2x dashboard-icone" ></i>
-                          <Card.Subtitle className="mb-2 dashboard-card"> Card Subtitle</Card.Subtitle>
+                          <i class="icon-2x dashboard-icone" ><BiCog /></i>
+                          <Card.Subtitle className="mb-2 dashboard-card"> Setting</Card.Subtitle>
                         </Link>
                       </Card.Body>
                     </Card>

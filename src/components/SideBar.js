@@ -1,5 +1,8 @@
 import { NavLink } from "react-router-dom";
-import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaGift } from "react-icons/fa";
+import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaGift,FaUserFriends, FaSafari, FaUserLock} from "react-icons/fa";
+import { IoIosBed } from "react-icons/io";
+import { MdManageAccounts } from "react-icons/md";
+
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
@@ -17,32 +20,32 @@ const Routes = [
   {
     path: "/employeeProfile",
     name: "EmployeeProfile",
-    icon: <FaLock />,
+    icon: <FaUser />,
   },
   {
     path: "/employee",
     name: "Employee",
-    icon: <FaUser />,
+    icon: <FaUserFriends />,
   },
   {
     path: "/holiday",
     name: "Holiday",
-    icon: <FaGift />,
+    icon: <FaSafari />,
   },
   {
     path: "/myLeave",
     name: "MyLeave",
-    icon: <FaMoneyBill />,
+    icon: <IoIosBed />,
   },
   {
     path: "/manageLeave",
     name: "ManageLeave",
-    icon: <FaGift />,
+    icon: <MdManageAccounts />,
   },
   {
     path: "/manageRoleRights",
     name: "ManageRoleRights",
-    icon: <FaGift />,
+    icon: <FaUserLock />,
   },
   {
     path: "/FuelType",
