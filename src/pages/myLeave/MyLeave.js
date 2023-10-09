@@ -27,7 +27,7 @@ export default function MyLeave() {
   const bootboxClose = () => setShowConfirm(false);
 
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
-  const bootboxCloseStatus = () => setShowConfirmStatus(true);
+  const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
   const [leaveSubject, setLeaveSubject] = useState("");
   const [EmployeeId, setEmployeeId] = useState("");
@@ -244,7 +244,7 @@ export default function MyLeave() {
       }
     },
     {
-      dataField: "respondBy",
+      dataField: "approvedMessage",
       text: "Response Message",
       sort: true,
       style: {
@@ -299,7 +299,7 @@ export default function MyLeave() {
         <div>        
           <a href={leaveList.value} style={{ display: 'inline-flex' }} >
             {
-            columns.leaveStatus !== 4 ? (<button title="calcel" type="button" onClick={() => { debugger; setCurrentLeaveId(columns.leaveId); setShowConfirmStatus(true) }} size="sm" className="icone-button"><i className="icon-cross2 dark-grey"></i></button>
+            columns.leaveStatus !== 4 ? (<button title="calcel" type="button" onClick={() => { setCurrentLeaveId(columns.leaveId); setShowConfirmStatus(true) }} size="sm" className="icone-button"><i className="icon-cross2 dark-grey"></i></button>
             ) :
             <div style={{ minHeight: "30px", minWidth: "20px" }}>-</div>
           }
@@ -461,7 +461,7 @@ export default function MyLeave() {
         onSuccess={handleConfirmStatus}
         onCancel={bootboxCloseStatus}
         onClose={bootboxCloseStatus}
-        
+  
       /> 
 
     </>

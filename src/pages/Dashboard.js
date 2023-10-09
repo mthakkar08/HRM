@@ -86,7 +86,7 @@ export default function Dashboard() {
                   <Col sm={2}>
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#8660b7" }}>
-                        <Link to="/Finance" style={{ textDecoration: "none" }}>
+                        <Link to="/manageRoleRights" style={{ textDecoration: "none" }}>
                           <i class="icon-2x dashboard-icone" ><FaUserLock/></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Manage RoleRights</Card.Subtitle>
                         </Link>

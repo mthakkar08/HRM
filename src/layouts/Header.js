@@ -74,7 +74,7 @@ export default function Header() {
 
       <>
         <Navbar style={{ backgroundColor: "#51438d" }}>
-          <Navbar.Brand href="/" style={{ marginLeft: '20px', display: "inline-flex" }}>
+          <Navbar.Brand href="#" style={{ marginLeft: '20px', display: "inline-flex" }}>
             <img src={logo} width="25" height="25" className="d-inline-block align-top mt-2" alt="React Bootstrap logo" style={{ margin: '5px' }} />
             <h3 style={{ color: "white", marginTop: "3px", marginLeft: "5px" }}>HR Manangement</h3>
           </Navbar.Brand>

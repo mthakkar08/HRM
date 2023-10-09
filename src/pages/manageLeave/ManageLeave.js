@@ -254,7 +254,7 @@ export default function ManageLeave() {
       }
     },
     {
-      dataField: "respondBy",
+      dataField: "approvedMessage",
       text: "Response Message",
       sort: true,
       style: {
