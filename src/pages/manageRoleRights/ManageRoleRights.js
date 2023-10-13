@@ -202,7 +202,7 @@ useEffect(() => {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role</Button></Navbar.Brand>
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role Rights</Button></Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
           </Navbar >

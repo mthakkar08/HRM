@@ -7,7 +7,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getHolidayList, deleteHoliday } from "../../services/HolidayService.js";
+import { getHolidayList, deleteHoliday, updateHolidayStatus} from "../../services/HolidayService.js";
 // import { getHolidayList, deleteHoliday, bindDesignation, updateEmployeesStatus } from "../../services/HolidayService.js";
 import AddEditHoliday from './AddEditHoliday.js'
 import Bootbox from 'bootbox-react';
@@ -27,7 +27,7 @@ export default function Holiday() {
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
 
-  const [holidayId,setHolidayId] = useState(null);
+  const [holidayId,setHolidayId] = useState("null");
   // const [toDate, setToDate] = useState(new Date().getFullYear() + 1 + "-05-01");
   // const [fromDate, setFromDate] = useState(new Date().getFullYear() + "-04-30");
   const [toDate, setToDate] = useState("");
@@ -35,11 +35,11 @@ export default function Holiday() {
 
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
-
+  const [holidayStatus, setHolidayStatus] = useState("");
   const statusData = [
     { label: "All", value: "-1" },
-    { label: "Active", value: "0" },
-    { label: "In-Active", value: "1" }
+    { label: "Active", value: "1" },
+    { label: "In-Active", value: "0" }
   ];
 
   
@@ -82,18 +82,19 @@ export default function Holiday() {
 
 
   async function handleConfirmStatus() {
+    debugger;
     let message = '';
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-    //   await updateEmployeesStatus(employeeId,status).then(res => { message = res });
+     await updateHolidayStatus(holidayStatus.value, currentHolidayId,  localStorage.getItem("employeeId")).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
     }
     finally {
       if (message == 'SUCCESS') {
-        Notification('Status update holiday successfully!', 'success')
+        Notification('Holiday status update successfully!', 'success')
       } else {
         Notification(message, 'ERROR')
       }
@@ -167,6 +168,15 @@ export default function Holiday() {
       style: {
         width: '10%',
       }
+      ,
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          
+             
+              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "#FCCEB2", color: "black", margin: "5px", padding: "5px" }}>{columns.holidayName}</span>
+          
+        </div>
+      )
     },
     {
       dataField: "holidayDate",
@@ -218,7 +228,8 @@ export default function Holiday() {
         <div>
           <a href={holidayList.value} style={{ display: 'inline-flex' }} >
             <button title="Edit" type="button" onClick={() => { setCurrentHolidayId(columns.holidayId); handleShow() }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
-            <button title='Delete' type="button" onClick={() => { setCurrentHolidayId(columns.holidayId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+            <button title='Delete' type="button" onClick={() => { setCurrentHolidayId(columns.holidayId); setHolidayStatus(columns.holidayStatus == 0 ? 1 : 0);  setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
+           
             <button title='check' type="button" onClick={() => { setCurrentHolidayId(columns.holidayId); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button>
           </a>
         </div>
