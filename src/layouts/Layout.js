@@ -11,7 +11,7 @@ import FuelType from "../pages/fuelType/FuelType";
 
 import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile'; 
 import EmployeePolicy from '../pages/employeePolicy/EmployeePolicy';
-
+import ManageEmployee from '../pages/employee/ManageEmployee';
 
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
@@ -28,7 +28,7 @@ import ResetPassword from '../layouts/ResetPassword';
 import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
-import ManageEmployee from '../pages/employee/ManageEmployee';
+
 
 export default function Layout() {
  
