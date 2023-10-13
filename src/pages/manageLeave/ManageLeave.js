@@ -110,6 +110,7 @@ export default function ManageLeave() {
 
   async function handleRejectStatus() {
     let message = '';
+    let approvedBy = localStorage.getItem("employeeId")
     setShowCompoffLeave(false);
     setLoading(true);
     try {

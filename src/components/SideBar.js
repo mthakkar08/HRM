@@ -33,6 +33,11 @@ const Routes = [
     icon: <FaUserFriends />,
   },
   {
+    path: "/ManageEmployee",
+    name: "Manage Employee",
+    icon: <MdManageAccounts />
+  },
+  {
     path: "/holiday",
     name: "Holiday",
     icon: <FaSafari />,
@@ -43,7 +48,7 @@ const Routes = [
     icon: <IoIosBed />,
   },
   {
-    path: "/manageLeave",
+    path: "/ManageLeave",
     name: "ManageLeave",
     icon: <MdManageAccounts />,
   },
