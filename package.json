@@ -4,6 +4,9 @@
   "private": true,
   "dependencies": {
     "@emailjs/browser": "^3.11.0",
+    "@mui/material": "^5.14.12",
+    "@mui/x-tree-view": "^6.0.0-beta.0",
+    "@react-spring/web": "^9.7.3",
     "@syncfusion/ej2-data": "^21.2.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
