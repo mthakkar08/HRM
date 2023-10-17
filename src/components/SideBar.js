@@ -1,13 +1,13 @@
 import { NavLink } from "react-router-dom";
 import { FaBars, FaHome, FaLock, FaMoneyBill, FaUser, FaGift,FaUserFriends, FaSafari, FaUserLock} from "react-icons/fa";
 import { IoIosBed } from "react-icons/io";
-import { MdManageAccounts } from "react-icons/md";
+import { MdHolidayVillage, MdManageAccounts, MdPolicy } from "react-icons/md";
 
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
 import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
-import { BsCartCheck } from "react-icons/bs";
+import { CgUserList } from "react-icons/cg";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import SidebarMenu from "./SidebarMenu";
@@ -18,76 +18,51 @@ const Routes = [
     icon: <FaHome />,
   },
   {
-    path: "/employeeProfile",
-    name: "EmployeeProfile",
-    icon: <FaUser />,
-  },
-  {
-    path: "/employeePolicy",
-    name: "EmployeePolicy",
-    icon: <FaUser />,
-  },
-  {
-    path: "/employee",
     name: "Employee",
     icon: <FaUserFriends />,
-  },
-  {
-    path: "/ManageEmployee",
-    name: "Manage Employee",
-    icon: <MdManageAccounts />
-  },
-  {
-    path: "/holiday",
-    name: "Holiday",
-    icon: <FaSafari />,
-  },
-  {
-    path: "/myLeave",
-    name: "MyLeave",
-    icon: <IoIosBed />,
-  },
-  {
-    path: "/ManageLeave",
-    name: "ManageLeave",
-    icon: <MdManageAccounts />,
-  },
-  {
-    path: "/manageRoleRights",
-    name: "ManageRoleRights",
-    icon: <FaUserLock />,
-  },
-  {
-    path: "/FuelType",
-    name: "FuelType",
-    icon: <BiAnalyse />,
-  },
-  {
-    path: "/file-manager",
-    name: "File Manager",
-    icon: <AiTwotoneFileExclamation />,
     subRoutes: [
       {
-        path: "/settings/profile",
-        name: "Profile ",
+        path: "/employee",
+        name: "Employees",
+        icon: <CgUserList />,
+      },
+      {
+        path: "/ManageEmployee",
+        name: "Manage",
+        icon: <MdManageAccounts />
+      },
+      {
+        path: "/employeeProfile",
+        name: "Profile",
         icon: <FaUser />,
       },
       {
-        path: "/settings/2fa",
-        name: "2FA",
-        icon: <FaLock />,
-      },
-      {
-        path: "/settings/billing",
-        name: "Billing",
-        icon: <FaMoneyBill />,
+        path: "/employeePolicy",
+        name: "Policy",
+        icon: <MdPolicy/>,
       },
     ],
   },
   {
-    path: "/order",
-    name: "Order",
-    icon: <BsCartCheck />,
+    name: "Leave",
+    icon: <IoIosBed />,
+    subRoutes: [
+      {
+        path: "/myLeave",
+        name: "MyLeaves",
+        icon: <IoIosBed />,
+      },
+      {
+        path: "/ManageLeave",
+        name: "Manage",
+        icon: <MdManageAccounts />,
+      },
+    ],
+  },
+  {
+    path: "/holiday",
+    name: "Holiday",
+    icon: <MdHolidayVillage />,
   },
   {
     path: "/settings",
@@ -96,9 +71,9 @@ const Routes = [
     exact: true,
     subRoutes: [
       {
-        path: "/settings/profile",
-        name: "Profile ",
-        icon: <FaUser />,
+        path: "/manageRoleRights",
+        name: "RoleRights",
+        icon: <FaUserLock />,
       },
       {
         path: "/settings/2fa",

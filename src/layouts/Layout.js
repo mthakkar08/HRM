@@ -28,7 +28,7 @@ import ResetPassword from '../layouts/ResetPassword';
 import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
-import ManageEmployee from '../pages/employee/ManageEmployee';
+
 import LeaveHistory from '../pages/myLeave/LeaveHistory';
 import { useEffect } from 'react';
 import { ReactSession } from 'react-client-session';
