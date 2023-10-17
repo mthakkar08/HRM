@@ -5,9 +5,11 @@ import hrmLogo from '../assets/images/hrmLogo.png';
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import { decryptData, encryptData } from '../services/EncryptDecrypt';
-import Notification from '../components/Notification';
+
 import { ReactSession } from 'react-client-session';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
+import { ToastContainer } from 'react-toastify';
+import { Notification } from '../components/Notification';
 
 function Login() {
   const navigate = useNavigate();
@@ -20,8 +22,6 @@ function Login() {
   useEffect(() => {
     localStorage.getItem('myapp-email') && setEmail(decryptData(localStorage.getItem('myapp-email')))
     localStorage.getItem('myapp-password') && setPasswrd(decryptData(localStorage.getItem('myapp-password')))
-    // setEmail(localStorage.getItem('myapp-email'))
-    // setPasswrd(localStorage.getItem('myapp-password'))
     const token = localStorage.getItem('accessToken')
     console.log(token)
     if (token) {
@@ -40,11 +40,9 @@ function Login() {
     setisSubmitted(true);
     remember();
     let userProfile = { email, password};
-
     let accessToken;
     let EmployeeName;
     let EmployeeId;
-    // let isEnabled;
     try {
       const response = await axios.post("http://192.168.1.106:8080/hrm/employee/login",
       
@@ -55,39 +53,29 @@ function Login() {
           }
         }
       );
-
-      // ReactSession.setStoreType("localStorage");
-      // ReactSession.set("employeeName",response?.data?.employeeName);
       EmployeeName = response?.data?.employeeName;
       EmployeeId = response?.data?.employeeId;
-      // console.log(response?.data?.userDetails?.enabled)
-      // isEnabled = response?.data?.userDetails?.enabled;
       accessToken = response?.data?.jwttoken;
-      // accessToken = "eyJhbGciOiJIUzUxMiJ9.eyJzdWIiOiJuaXJhdi50QGNlbWVudGRpZ2l0YWwuY29tIiwiZXhwIjoxNjk0NDI5NTczLCJpYXQiOjE2OTQ0MTE1NzN9.YyqQZxyBMSpD6UIcuyt_zKWubRqHT79i9_vVbOGbIE0wqKOR1TWo1a4pCPB5xaRt4a_v4h2WACY_4Uix2Nb_cA";
-      console.log( ReactSession.get("employeeName"));
-
     }
     catch (error) {
       console.log("error > " > error)
     }
 
     if (accessToken) {
-     // if (accessToken && isEnabled) {
       ReactSession.setStoreType("localStorage");
       let cryptoEmail = encryptData(email);
       ReactSession.set('email', cryptoEmail);
+      const em=ReactSession.get('email');
       localStorage.setItem('accessToken', accessToken);
       localStorage.setItem('employeeName', EmployeeName);
       localStorage.setItem('employeeId', EmployeeId);
       localStorage.setItem('email', cryptoEmail);
       navigate('/dashboard');
     }
-    // else if (isEnabled) {
-    //   alert("Your account is disabled please contact support team!")
-    // }
     else {
-      alert("invalid username or password")
+      Notification("Invalid username or password", 'ERROR');
     }
+  
   };
 
   function handleDisable() {
@@ -124,7 +112,9 @@ function Login() {
   }
 
   return (
-    <><div className="container-fluid" style={{margin:"0px", padding:"0px"}}>
+    <>
+    <ToastContainer />
+    <div className="container-fluid" style={{margin:"0px", padding:"0px"}}>
       <div className="row no-gutter" style={{width:"102%",margin:"-20px"}}>
         <div className="col-md-8" style={{ backgroundColor: "#f0f0ff" }}>
           <div className="login d-flex align-items-center py-5">

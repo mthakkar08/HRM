@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Box from "@mui/material/Box";
 import { useSpring, animated } from "@react-spring/web";
 import SvgIcon from "@mui/material/SvgIcon";
@@ -76,6 +76,7 @@ const StyledTreeItem = styled(CustomTreeItem)(({ theme }) => ({
 
 const GetEmployeesToManage = (treeItems) => {
   let children;
+  
   return treeItems.map((treeItemData) => {
     if (treeItemData.childs && treeItemData.childs.length > 0) {
       children = GetEmployeesToManage(treeItemData.childs);
@@ -85,7 +86,7 @@ const GetEmployeesToManage = (treeItems) => {
 
     if (treeItemData.route) {
       return (
-        <Link to={treeItemData.route}>
+        <Link to="/employeeView">
           <TreeItem
             key={treeItemData.id}
             nodeId={treeItemData.id}
@@ -95,13 +96,15 @@ const GetEmployeesToManage = (treeItems) => {
         </Link>
       );
     }
-    return (
-      <StyledTreeItem
-        key={treeItemData.ParentId}
-        nodeId={treeItemData.employeeId}
-        label={treeItemData.employeeName}
-        children={children}
-      />
+    return (<a role="treeitem" href="#employeeView">
+    <StyledTreeItem
+                key={treeItemData.ParentId}
+                nodeId={treeItemData.employeeId}
+                label={treeItemData.employeeName}
+                children={children}
+              />
+  </a>
+      
     );
   });
 };

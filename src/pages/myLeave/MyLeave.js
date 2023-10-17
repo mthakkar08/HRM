@@ -48,8 +48,6 @@ export default function MyLeave() {
   ];
   const [leaveStatus, setLeaveStatus] = useState(null);
   const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
-
-  const [approvedBy, setApprovedBy]  = useState("");
   const [approvedMessage, setApprovedMessage]  = useState("");
 
   const leaveStatusData = [
@@ -60,7 +58,9 @@ export default function MyLeave() {
   ];
 
   const navigate = useNavigate();
-
+  const historyView = (leaveId) => {
+    navigate('/LeaveHistory', { state: { id: leaveId } });
+  }
   useEffect(() => {
     (async function () {
       try {
@@ -115,10 +115,12 @@ export default function MyLeave() {
   async function handleConfirmStatus() {
     debugger;
     let message = '';
+    const userId = localStorage.getItem('employeeId');
+    const leaveStatus=4;
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-      await updateLeaveStatus(currentLeaveId, approvedBy, approvedMessage, 4).then(res => { message = res });
+      await updateLeaveStatus(currentLeaveId, userId, "", leaveStatus).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
@@ -291,7 +293,7 @@ export default function MyLeave() {
       style: {
         padding: '3px',
         margin: '0px',
-        width: '8%',
+        width: '12%',
         textAlign: 'center'
       },
       headerStyle: { textAlign: 'center' },
@@ -313,7 +315,7 @@ export default function MyLeave() {
              <></>
           }
           </a>
-          
+          <button title='History' type="button" onClick={() => { setCurrentLeaveId(columns.employeeId); historyView(columns.leaveId) }} className="icone-button"><i className="icon-history dark-grey"></i></button>
         </div>
       )
     },

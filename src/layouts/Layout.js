@@ -25,13 +25,16 @@ import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
 import Loader from '../components/Loader';
 import ManageEmployee from '../pages/employee/ManageEmployee';
-
+import LeaveHistory from '../pages/myLeave/LeaveHistory';
+import { useEffect } from 'react';
+import { ReactSession } from 'react-client-session';
 export default function Layout() {
  
   const navigate = useNavigate();
-  let token;
+  
   // useEffect(() => {
-  //   token = localStorage.getItem('accessToken')
+  //   debugger
+  //   let token=ReactSession.get('accessToken');
   //   console.log("token > " + !token && "is null")
   //   if (!token) {
   //     navigate('/');
@@ -66,6 +69,7 @@ export default function Layout() {
                 <Route path="/forgot" element={<Forgot />} />
                 <Route path="/resetPassword" element={<ResetPassword />} />
                 <Route path="/ManageEmployee" element={<ManageEmployee />} />
+                <Route path="/LeaveHistory" element={<LeaveHistory />} />
                 {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
           </SideBar>

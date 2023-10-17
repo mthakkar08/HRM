@@ -44,10 +44,10 @@ export async function deleteLeave(LeaveId) {
   }
 }
 
-export async function updateLeaveStatus(leaveId, approvedBy, approvedMessage, leaveStatus) {
+export async function updateLeaveStatus(leaveId, userId, approvedMessage, leaveStatus) {
   var details = {
     'leaveId': leaveId,
-    'approvedBy': approvedBy,
+    'approvedBy': userId,
     'approvedMessage': approvedMessage,
     'leaveStatus': leaveStatus
   };
@@ -148,6 +148,16 @@ export async function getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, e
         }
       }
     ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
+
+export async function getLeaveHistory(leaveId) {
+  debugger
+  try {
+    return await axios.get("http://192.168.1.106:8080/hrm/leave/history?LeaveId="+leaveId).then((res) => res.data);
   }
   catch (error) {
     return error;

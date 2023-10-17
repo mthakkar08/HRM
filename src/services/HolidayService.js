@@ -64,3 +64,24 @@ export function addHoliday(holidayId, holidayName, holidayDate, description, sta
     return error;
   }
 }
+
+export function changeHolidayStatus(status, holidayId, userId) {
+  var details = {
+    'status': status,
+    'holidayId': holidayId,
+    'employeeId' : userId
+  };
+  try {
+    return axios.post("http://192.168.1.106:8080/hrm/holiday/status",
+      details,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
