@@ -159,7 +159,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
   async function getEmployeeDataList() {
     setLoading(true);
     try {
-      await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
+      await getEmployeesList().then(res => {
         setEmployeeList(res)
       });
       await bindDesignationList();
@@ -231,7 +231,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Phone Number",
       sort: true,
       style: {
-        width: '10%'
+        width: '9%'
       }
     },
     {
@@ -263,7 +263,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Experience",
       sort: true,
       style: {
-        width: '8%'
+        width: '5%'
       }
     },
     {
@@ -287,7 +287,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Hiring Date",
       sort: true,
       style: {
-        width: '5%'
+        width: '8%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
           columns.hiringDate?.replace("/", "-")?.substring(0, 10)
@@ -309,7 +309,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Termination Date",
       sort: true,
       style: {
-        width: '10%'
+        width: '8%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
           columns.terminationDate?.replace("/", "-")?.substring(0, 10)

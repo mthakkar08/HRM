@@ -33,11 +33,11 @@ export default function Holiday() {
 
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
-
+  const [holidayStatus, setHolidayStatus] = useState("");
   const statusData = [
     { label: "All", value: "-1" },
-    { label: "Active", value: "0" },
-    { label: "In-Active", value: "1" }
+    { label: "Active", value: "1" },
+    { label: "In-Active", value: "0" }
   ];
 
   
@@ -168,6 +168,15 @@ export default function Holiday() {
       style: {
         width: '10%',
       }
+      ,
+      formatter: (cell, columns, rowIndex, extraData) => (
+        <div>
+          
+             
+              <span style={{ borderRadius: "3px", border: "none", backgroundColor: "#FCCEB2", color: "black", margin: "5px", padding: "5px" }}>{columns.holidayName}</span>
+          
+        </div>
+      )
     },
     {
       dataField: "holidayDate",

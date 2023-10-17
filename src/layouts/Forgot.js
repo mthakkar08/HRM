@@ -82,8 +82,8 @@ export default function Forgot() {
     return (
         <>
           <ToastContainer />
-        <div className="container-fluid">
-            <div className="row no-gutter">
+        <div className="container-fluid" style={{margin:"0px", padding:"0px"}}>
+            <div className="row no-gutter"  style={{width:"102%",margin:"-20px"}}>
                 <div className="col-md-8" style={{ backgroundColor: "#f0f0ff" }}>
                     <div className="login d-flex align-items-center py-5">
                         <div className="container">

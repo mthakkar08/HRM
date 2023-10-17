@@ -23,6 +23,11 @@ const Routes = [
     icon: <FaUser />,
   },
   {
+    path: "/employeePolicy",
+    name: "EmployeePolicy",
+    icon: <FaUser />,
+  },
+  {
     path: "/employee",
     name: "Employee",
     icon: <FaUserFriends />,

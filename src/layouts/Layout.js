@@ -8,7 +8,11 @@ import Login from './Login';
 import Dashboard from '../pages/Dashboard';
 import FileManager from "../pages/FileManager";
 import FuelType from "../pages/fuelType/FuelType";
-import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile';
+
+import EmployeeProfile from '../pages/employeeProfile/EmployeeProfile'; 
+import EmployeePolicy from '../pages/employeePolicy/EmployeePolicy';
+import ManageEmployee from '../pages/employee/ManageEmployee';
+
 import Employee from '../pages/employee/Employee';
 import Holiday from '../pages/holiday/Holiday';
 import MyLeave from '../pages/myLeave/MyLeave';
@@ -54,6 +58,7 @@ export default function Layout() {
               <Route path="/" element={<Login />} />
                 <Route path="/dashboard" element={<Dashboard />} />
                 <Route path="/employeeProfile" element={<EmployeeProfile /> } />
+                <Route path="/employeePolicy" element={<EmployeePolicy /> } />
                 <Route path="/employee" element={<Employee />} />
                 <Route path="/holiday" element={<Holiday />} />
                 <Route path="/myLeave" element={<MyLeave/>} />
