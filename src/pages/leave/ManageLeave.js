@@ -15,8 +15,6 @@ import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
-import LeavePolicy from '../leavePolicy/LeavePolicy';
-import { Label } from 'semantic-ui-react';
 
 export default function ManageLeave() {
   const [show, setShow] = useState(false);

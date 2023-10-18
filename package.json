@@ -41,7 +41,7 @@
     "yup": "^1.1.1"
   },
   "scripts": {
-    "start": "env-cmd -f .env.local react-scripts --openssl-legacy-provider start",
+    "start": "react-scripts --openssl-legacy-provider start",
     "start:development": "env-cmd -f .env.development react-scripts --openssl-legacy-provider start",
     "build": "env-cmd -f .env.local react-scripts --openssl-legacy-provider build",
     "build:development": "env-cmd -f .env.development react-scripts --openssl-legacy-provider build",
