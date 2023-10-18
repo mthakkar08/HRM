@@ -24,7 +24,7 @@ export default function AddEditEmployee(props) {
   const [experience, setExperience] = useState("");
   const [address, setAddress] = useState("");
   const [designationId, setDesignationId] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
+  const [employeeId, setEmployeeId] = useState(null);
   const [designationList, setDesignationList] = useState([]);
   const [reportingEmpList, setReportingEmpList] = useState([]);
   const [designationName, setDesignationName] = useState("");
@@ -264,15 +264,19 @@ export default function AddEditEmployee(props) {
 
   function reportingEmployeeHandler(e) {
     debugger;
-    let item = e[0];
-    if (item == null || item == "") {
+    var reportingIds = '';
+    e.map(repData => {
+      reportingIds +=',' + repData.value;
+      })
+      reportingIds= reportingIds.slice(0 + ','.length)
+    if (reportingIds == null || reportingIds == "") {
       setReportingEmpErr(true);
     } else {
       setReportingEmpErr(false);
     }
-    setEmployeeId(item);
+    setEmployeeId(reportingIds);
 
-    const reportingdata = reportingEmpList?.find((x) => x.value === item);
+    const reportingdata = reportingEmpList?.find((x) => x.value === reportingIds);
     if (reportingdata) {
       setEmployeeNames(reportingdata);
     }

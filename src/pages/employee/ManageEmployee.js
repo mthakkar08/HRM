@@ -96,14 +96,14 @@ const GetEmployeesToManage = (treeItems) => {
         </Link>
       );
     }
-    return (<a role="treeitem" href="#employeeView">
+    return (//<a role="treeitem" href="#employeeView">
     <StyledTreeItem
                 key={treeItemData.ParentId}
                 nodeId={treeItemData.employeeId}
                 label={treeItemData.employeeName}
                 children={children}
               />
-  </a>
+  //</a>
       
     );
   });

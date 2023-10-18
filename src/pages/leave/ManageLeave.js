@@ -17,34 +17,23 @@ import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
 
 export default function ManageLeave() {
+  const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-
   const [currentLeaveId, setCurrentLeaveId] = useState(null);
   const [leaveList, setLeaveList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
-
-  const [showConfirmStatus, setShowConfirmStatus] = useState(false);
-  const bootboxCloseStatus = () => setShowConfirmStatus(true);
-
   const [showCompoffLeave, setShowCompoffLeave] = useState(false);
-
   const handleCompoffClose = () => setShowCompoffLeave(false);
   const handleCompoffShow = () => setShowCompoffLeave(true);
-
   const [leaveSubject, setLeaveSubject] = useState("");
   const [leaveDate, setLeaveDate] = useState("");
-
   const [leaveId, setLeaveId] = useState(null);
-  const [status, setStatus] = useState("");
-  const [employeeId, setEmployeeId] = useState("");
-
   const { setLoading } = useLoading();
   const [leaveStatus, setLeaveStatus] = useState("");
   const [defaultLeaveStatus, setDefaultLeaveStatus] = useState("");
-  const [approvedBy, setApprovedBy] = useState("");
   const [approvedMessage, setApprovedMessage] = useState("");
 
   const leaveStatusData = [
@@ -53,10 +42,25 @@ export default function ManageLeave() {
     { label: "Rejected", value: "3" }
   ];
 
-  const navigate = useNavigate();
+  useEffect(() => {
+    getLeaveDataList();
+  }, [])
 
   const LeavePolicy = () => {
     navigate('../LeavePolicy');
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getLeaveDataList();
+  };
+
+  async function handleReset(e) {
+    e.preventDefault();
+    setLeaveSubject("");
+    setLeaveStatus("");
+    setLeaveDate("");
+    await getSortedLeaveList("", "", "",localStorage.getItem("employeeId")).then(res => { setLeaveList(res) });
   }
 
   async function handleConfirm() {
@@ -102,7 +106,6 @@ export default function ManageLeave() {
       setLeaveId(null);
       setLoading(false);
     }
-
     getLeaveDataList();
   }
 
@@ -129,31 +132,10 @@ export default function ManageLeave() {
     getLeaveDataList();
   }
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    getLeaveDataList();
-  };
-
-  useEffect(() => {
-    getLeaveDataList();
-  }, [])
-
-  async function handleReset(e) {
-    e.preventDefault();
-    setLeaveSubject("");
-    setLeaveStatus("");
-    setLeaveDate("");
-
-    await getSortedLeaveList("", "", "",localStorage.getItem("employeeId")).then(res => { setLeaveList(res) });
-  }
-
   async function getLeaveDataList() {
-    debugger
     setLoading(true);
-    setEmployeeId(localStorage.getItem("employeeId"))
     try {
       await getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, localStorage.getItem("employeeId")).then(res => {
-        debugger;
         setLeaveList(res)
       });
     }
