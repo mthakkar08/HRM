@@ -11,7 +11,7 @@ import { getManageRoleRightsList,updateManageRoleRightsStatus, deleteManageRoleR
 import AddEditRoleRights from './AddEditRoleRights.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
-import { Notification } from "../../components/Notification.js";
+import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
 

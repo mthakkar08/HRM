@@ -10,7 +10,7 @@ import { useState } from "react";
 import { useSearchParams } from "react-router-dom";
 import { decryptData } from "../services/EncryptDecrypt";
 import { FaEyeSlash, FaEye } from "react-icons/fa";
-import { Notification } from "../components/Notification";
+import { Notification } from "./Notification";
 import { useEffect } from "react";
 
 export default function ResetPassword() {

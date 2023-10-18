@@ -9,7 +9,7 @@ import { decryptData, encryptData } from '../services/EncryptDecrypt';
 import { ReactSession } from 'react-client-session';
 import { FaEye, FaEyeSlash } from 'react-icons/fa';
 import { ToastContainer } from 'react-toastify';
-import { Notification } from '../components/Notification';
+import { Notification } from './Notification';
 
 function Login() {
   const navigate = useNavigate();

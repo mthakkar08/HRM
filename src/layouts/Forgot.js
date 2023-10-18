@@ -8,7 +8,7 @@ import { Navigate } from 'react-router-dom';
 import CryptoJS from "crypto-js";
 import { decryptData, encryptData } from '../services/EncryptDecrypt';
 import { Link } from 'react-router-dom';
-import { Notification } from '../components/Notification';
+import { Notification } from './Notification';
 import { ToastContainer, toast } from 'react-toastify';
 export default function Forgot() {
 

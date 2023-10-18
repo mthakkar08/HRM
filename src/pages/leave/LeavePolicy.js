@@ -9,7 +9,7 @@ import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { getLeavePolicyList, deleteLeavePolicy } from "../../services/LeavePolicyService.js";
 import Bootbox from 'bootbox-react';
-import { Notification } from "../../components/Notification.js";
+import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate, Link } from 'react-router-dom';
 import AddEditLeavePolicy from './AddEditLeavePolicy';

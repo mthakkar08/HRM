@@ -11,7 +11,7 @@ import { getHolidayList, deleteHoliday, changeHolidayStatus } from "../../servic
 import AddEditHoliday from './AddEditHoliday.js'
 import Bootbox from 'bootbox-react';
 import Select from 'react-select';
-import { Notification } from "../../components/Notification.js";
+import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 
 export default function Holiday() {

@@ -11,7 +11,7 @@ import { BsFileEarmarkText } from "react-icons/bs";
 import { getManageRoleRightsList, addManageRoleRights, getManageRoleRightsDetail, getAccessRightsList} from "../../services/ManageRoleRightsServices.js";
 
 import Select from 'react-select';
-import { Notification } from "../../components/Notification.js";
+import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Checkbox } from 'semantic-ui-react';
 import { useLocation } from 'react-router-dom';

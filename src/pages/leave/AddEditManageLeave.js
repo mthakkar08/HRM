@@ -3,7 +3,7 @@ import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
 import { getLeavesDetail, addCompoffLeave } from "../../services/LeaveService.js";
 import { useLoading } from '../../LoadingContext.js';
-import { Notification } from '../../components/Notification.js'
+import { Notification } from '../../layouts/Notification.js'
 import Select from 'react-select';
 import DatePicker from "react-datepicker";
 import {  bindDesignation, bindReportingEmployee } from "../../services/EmployeeService.js";

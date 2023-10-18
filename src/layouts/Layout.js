@@ -1,7 +1,7 @@
 import '../assets/styles/App.css';
 import Header from './Header';
 import Footer from './Footer';
-import SideBar from "../components/SideBar.js";
+import SideBar from "./SideBar.js";
 import React from 'react';
 import { useNavigate, Route, Routes } from 'react-router-dom';
 import Login from './Login';
@@ -22,7 +22,7 @@ import Forgot from '../layouts/Forgot';
 import ResetPassword from '../layouts/ResetPassword';
 import { Col, Row } from 'react-bootstrap';
 import { useLoading } from "../LoadingContext";
-import Loader from '../components/Loader';
+import Loader from './Loader';
 import LeaveHistory from '../pages/leave/LeaveHistory';
 import { useEffect } from 'react';
 import { ReactSession } from 'react-client-session';

@@ -10,7 +10,7 @@ import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
 import { CgUserList } from "react-icons/cg";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
-import SidebarMenu from "./SidebarMenu";
+import SidebarMenu from "../layouts/SidebarMenu";
 const Routes = [
   {
     path: "/dashboard",
