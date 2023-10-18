@@ -6,7 +6,6 @@ import React from 'react';
 import { useNavigate, Route, Routes } from 'react-router-dom';
 import Login from './Login';
 import Dashboard from '../pages/Dashboard';
-import FileManager from "../pages/FileManager";
 import EmployeeProfile from '../pages/employee/EmployeeProfile'; 
 import EmployeePolicy from '../pages/employee/EmployeePolicy';
 import ManageEmployee from '../pages/employee/ManageEmployee';
@@ -17,7 +16,6 @@ import LeavePolicy from '../pages/leave/LeavePolicy';
 import ManageLeave from '../pages/leave/ManageLeave';
 import ManageRoleRights from '../pages/roleRights/ManageRoleRights';
 import AddEditRoleRights from '../pages/roleRights/AddEditRoleRights';
-import Order from "../pages/Order";
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
 import Forgot from '../layouts/Forgot';
@@ -62,8 +60,6 @@ export default function Layout() {
                 <Route path="/manageLeave" element={<ManageLeave />} />
                 <Route path="/manageRoleRights" element={<ManageRoleRights />} />
                 <Route path="/addEditRoleRights"  element={<AddEditRoleRights />} />
-                <Route path="/file-manager" element={<FileManager />} />
-                <Route path="/order" element={<Order />} />
                 <Route path="/saved" element={<Saved />} />
                 <Route path="/settings" element={<Setting />} />
                 <Route path="/forgot" element={<Forgot />} />
