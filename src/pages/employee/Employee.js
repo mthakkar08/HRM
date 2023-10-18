@@ -14,47 +14,30 @@ import Select from 'react-select';
 import { Notification } from "../../components/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
-import { NavLink } from "react-router-dom";
-import EmployeeProfile from '../employeeProfile/EmployeeProfile';
 
 export default function Employee(props) {
 
   const navigate = useNavigate();
-
-  const employeeView = (empId) => {
-    navigate('../EmployeeProfile', { state: { id: empId } });
-  }
-  useEffect(() => {
-    const token = localStorage.getItem('accessToken')
-    if (!token) {
-      navigate('/');
-    }
-  }, []);
+  const { setLoading } = useLoading();
 
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const [currentemployeeId, setCurrentemployeeId] = useState(null);
-  const [employeeList, setEmployeeList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
-
-
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
-
+  
+  const [currentemployeeId, setCurrentemployeeId] = useState(null);
+  const [employeeList, setEmployeeList] = useState([]);
   const [employeeId, setEmployeeId] = useState(null);
   const [employeeName, setEmployeeName] = useState("");
-
   const [designationId, setDesignationId] = useState("");
   const [designationList, setDesignationList] = useState([]);
   const [designationName, setDesignationName] = useState("");
-
-
   const [email, setEmail] = useState("");
-  const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
-const [employeeStatus, setEmployeeStatus] = useState("");
+  const [employeeStatus, setEmployeeStatus] = useState("");
   const statusData = [
     { label: "All", value: "-1" },
     { label: "Active", value: "0" },
@@ -62,8 +45,40 @@ const [employeeStatus, setEmployeeStatus] = useState("");
 
   ];
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      navigate('/');
+    }
+    getEmployeeDataList();
+  }, []);
+
+  const employeeView = (empId) => {
+    navigate('../EmployeeProfile', { state: { id: empId } });
+  }
+
   function StatusHandler(e) {
     setStatus(e);
+  }
+
+  function designationHandler(e) {
+    let item = e.value;
+    setDesignationId(item);
+    setDesignationName(designationList?.find(x => x.value === item))
+  }
+
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getEmployeeDataList();
+  };
+
+  async function handleReset(e) {
+    e.preventDefault();
+    setEmployeeName("");
+    setDesignationName("");
+    setStatus({ label: "All", value: "-1" });
+    setEmail("");
+    await getEmployeesList("", "",-1, "").then(res => { setEmployeeList(res) });
   }
 
   async function bindDesignationList() {
@@ -79,16 +94,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       setLoading(false);
     }
   }
-
-  function designationHandler(e) {
-    let item = e.value;
-
-    setDesignationId(item);
-    setDesignationName(designationList?.find(x => x.value === item))
-  }
-
-
-
+  
   async function handleConfirm() {
     let message = '';
     setShowConfirm(false);
@@ -111,7 +117,6 @@ const [employeeStatus, setEmployeeStatus] = useState("");
     getEmployeeDataList();
   }
 
-
   async function handleConfirmStatus() {
     let message = '';
     setShowConfirmStatus(false);
@@ -133,33 +138,13 @@ const [employeeStatus, setEmployeeStatus] = useState("");
   
       setLoading(false);
     }
-
-   getEmployeeDataList();
-  }
-
-  const handleSearch = (e) => {
-    e.preventDefault();
     getEmployeeDataList();
-  };
-
-  useEffect(() => {
-    getEmployeeDataList();
-  }, [])
-
-  async function handleReset(e) {
-    e.preventDefault();
-    setEmployeeName("");
-    setDesignationName("");
-    setStatus({ label: "All", value: "-1" });
-    setEmail("");
-    await getEmployeesList("", "",-1, "").then(res => { setEmployeeList(res) });
-
   }
-
+  
   async function getEmployeeDataList() {
     setLoading(true);
     try {
-      await getEmployeesList().then(res => {
+      await getEmployeesList("", "",-1, "").then(res => {
         setEmployeeList(res)
       });
       await bindDesignationList();
@@ -206,7 +191,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Dob",
       sort: true,
       style: {
-        width: '10%',
+        width: '7%',
         textAlign: 'left'
       }
     },
@@ -231,7 +216,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Phone Number",
       sort: true,
       style: {
-        width: '9%'
+        width: '8%'
       }
     },
     {
@@ -255,7 +240,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Designation",
       sort: true,
       style: {
-        width: '6%'
+        width: '9%'
       }
     },
     {
@@ -263,7 +248,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Experience",
       sort: true,
       style: {
-        width: '5%'
+        width: '6%'
       }
     },
     {
@@ -271,7 +256,7 @@ const [employeeStatus, setEmployeeStatus] = useState("");
       text: "Status",
       sort: true,
       style: {
-        width: '8%'
+        width: '5%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
@@ -339,12 +324,9 @@ const [employeeStatus, setEmployeeStatus] = useState("");
     },
   ]
 
-
-
   return (
     <>
       {show && <AddEditEmployee onDataSave={onDataSave} employeeId={currentemployeeId} />}
- 
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
