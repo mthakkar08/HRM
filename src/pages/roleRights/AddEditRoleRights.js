@@ -26,31 +26,63 @@ export default function AddEditRoleRights() {
   const handleShow = () => setShow(true);
   const [currentRoleId, setCurrentRoleId] = useState(null);
   const [employeeList, setEmployeeList] = useState([]);
+  const [roleRightList, setRoleRightList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
 
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
   const [MenuName, setMenuName] = useState("");
-const [RoleId,setRoleId]  = useState("");
+  const [RoleId,setRoleId]  = useState("");
   const [RoleName, setRoleName] = useState("");
   const [MenuId, setMenuId] = useState("");
   const { setLoading } = useLoading();
-
+  const [ischecked, setChecked] = useState();
   const [dataLoading, setDataLoading] = useState(false);
+const [currentMenuId, setCurrentMenuId] = useState("");
+  let MenuAccessRightList = [];
+  function handleCreateRight(e){
+    debugger
+    var accessRight = {
+      "menuId":currentMenuId,
+      "createRightId":e.target.checked
+    }
+    MenuAccessRightList.push(accessRight);
+  }
+
+  function handleViewRight(e){
+    debugger
+    var accessRight = {
+      "menuId":currentMenuId,
+      "viewRightId":e.target.checked
+    }
+    MenuAccessRightList.push(accessRight);
+    
+  }
+
+  function handleEditRight(e){
+    debugger
+    setChecked(e.target.checked);
+    
+  }
+
+  function handleDeleteRight(e){
+    debugger
+    setChecked(e.target.checked);
+    
+  }
 
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
         setDataLoading(true);
-        currentRoleId = location.state.id;
-    debugger;
-        if (currentRoleId != null && currentRoleId != 0) {
-          await getManageRoleRightsDetail(currentRoleId).then(res => {
-          setCurrentRoleId(res.RoleId)
-          setMenuName(res.MenuName)
-          setMenuId(res.MenuId)
+        let id=location.state.id;
+    
+        if (id != null && id != 0) {
+          await getManageRoleRightsDetail(id).then(res => {
+  debugger
+  setRoleRightList(res);
           });
         }
  
@@ -108,6 +140,7 @@ const [RoleId,setRoleId]  = useState("");
       Notification(message, 'ERROR')
     }
   }
+  
 
   const columns = [
     {
@@ -130,7 +163,7 @@ const [RoleId,setRoleId]  = useState("");
       }
     },
     {
-      dataField: "view",
+      dataField: "ViewRightId",
       text: "View",
       sort: true,
       style: {
@@ -142,14 +175,14 @@ const [RoleId,setRoleId]  = useState("");
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
             <div>
-        <a href={employeeList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" id={`viewId`}  />
-        </a>
+        {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
+        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleViewRight(e)}} id={`viewId`}  />
+        {/* </a> */}
         </div>
       )
     },
     {
-      dataField: "create",
+      dataField: "CreateRightId",
       text: "Create",
       sort: true,
       style: {
@@ -161,14 +194,14 @@ const [RoleId,setRoleId]  = useState("");
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
-        <a href={employeeList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" id={`viewId`}  />
-        </a>
+        {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
+        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleCreateRight(e)}} id={`viewId`}  />
+        {/* </a> */}
         </div>
       )
     },
     {
-      dataField: "edit",
+      dataField: "EditRightId",
       text: "Edit",
       sort: true,
       style: {
@@ -179,15 +212,16 @@ const [RoleId,setRoleId]  = useState("");
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
+       
         <div>
-        <a href={employeeList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" id={`viewId`}  />
+        <a href={setChecked(roleRightList.EditRightId)} style={{ display: 'inline-flex', padding:"4px" }} >
+        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleEditRight(e)}} id={`viewId`}  />
         </a>
         </div>
       )
     },
     {
-      dataField: "delete",
+      dataField: "DeleteRightId",
       text: "Delete",
       sort: true,
       style: {
@@ -199,9 +233,9 @@ const [RoleId,setRoleId]  = useState("");
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
-        <a href={employeeList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" id={`viewId`}  />
-        </a>
+       <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
+        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleDeleteRight(e)}} id={`viewId`}  />
+       </a>
         </div>
       )
     }
@@ -237,7 +271,7 @@ const [RoleId,setRoleId]  = useState("");
             <BootstrapTable size="sm"
               keyField={'roleId'}
               id='tbl_employee'
-              data={employeeList}
+              data={roleRightList}
               columns={columns}
               // cellEdit={ cellEditFactory({ mode: 'click',
               // blurToSave: true }) }

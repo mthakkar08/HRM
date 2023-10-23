@@ -6,7 +6,7 @@ import { MdHolidayVillage, MdManageAccounts, MdPolicy } from "react-icons/md";
 import { MdMessage } from "react-icons/md";
 import { BiAnalyse, BiSearch } from "react-icons/bi";
 import { BiCog } from "react-icons/bi";
-import { AiFillHeart, AiTwotoneFileExclamation } from "react-icons/ai";
+import { AiFillHeart, AiOutlineLogout, AiTwotoneFileExclamation } from "react-icons/ai";
 import { CgUserList } from "react-icons/cg";
 import { useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
@@ -91,6 +91,11 @@ const Routes = [
     path: "/saved",
     name: "Saved",
     icon: <AiFillHeart />,
+  },
+  {
+    path: "/logout",
+    name: "Logout",
+    icon: <AiOutlineLogout />,
   },
 ];
 

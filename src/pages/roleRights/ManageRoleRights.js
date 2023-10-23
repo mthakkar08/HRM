@@ -7,10 +7,9 @@ import { ToastContainer, toast } from 'react-toastify';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getManageRoleRightsList,updateManageRoleRightsStatus, deleteManageRoleRights } from "../../services/ManageRoleRightsServices.js";
+import { getRoleList,updateManageRoleRightsStatus, deleteManageRoleRights } from "../../services/ManageRoleRightsServices.js";
 import AddEditRoleRights from './AddEditRoleRights.js'
 import Bootbox from 'bootbox-react';
-import Select from 'react-select';
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
@@ -18,20 +17,6 @@ import { useNavigate } from 'react-router-dom';
 export default function ManageRoleRights() {
 
   const navigate = useNavigate();
-
-
-useEffect(() => {
-    const token = localStorage.getItem('accessToken')
-    if (!token) {
-      navigate('/');
-    }
-  }, []);
-
-  const roleView = (roleId) => {
-    debugger;
-    navigate('../../AddEditRoleRights', { state: { id: roleId } });
-  }
-  
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
@@ -39,16 +24,26 @@ useEffect(() => {
   const [roleRightsList, setRoleRightsList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
-
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
-
   const [roleId, setRoleRightId] = useState(null);
   const [roleName, setRoleName] = useState("");
-  
   const { setLoading } = useLoading();
   const [status, setStatus] = useState({ label: "All", value: "-1" });
 
+  useEffect(() => {
+    const token = localStorage.getItem('accessToken')
+    if (!token) {
+      navigate('/');
+    }
+    getRoleRightList();
+  }, []);
+
+  const roleView = (roleId) => {
+    debugger;
+    navigate('../../AddEditRoleRights', { state: { id: roleId } });
+  }
+  
   const statusData = [
     { label: "All", value: "-1" },
     { label: "Active", value: "0" },
@@ -59,6 +54,18 @@ useEffect(() => {
     setStatus(e);
   }
 
+  const handleSearch = (e) => {
+    e.preventDefault();
+    getRoleRightList();
+  };
+
+  async function handleReset(e) {
+    e.preventDefault();
+    setRoleName("");
+    setStatus({ label: "All", value: "-1" });
+    await getRoleList("",-1).then(res => { setRoleRightsList(res) });
+
+  }
 
   async function handleConfirm() {
     let message = '';
@@ -106,27 +113,12 @@ useEffect(() => {
     getRoleRightList();
   }
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    getRoleRightList();
-  };
-
-  useEffect(() => {
-    getRoleRightList();
-  }, [])
-
-  async function handleReset(e) {
-    e.preventDefault();
-    setRoleName("");
-    setStatus({ label: "All", value: "-1" });
-    await getManageRoleRightsList("",-1).then(res => { setRoleRightsList(res) });
-
-  }
+  
 
   async function getRoleRightList() {
     setLoading(true);
     try {
-      await getManageRoleRightsList().then(res => {
+      await getRoleList().then(res => {
         setRoleRightsList(res)
       });
     }

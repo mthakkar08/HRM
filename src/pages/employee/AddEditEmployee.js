@@ -149,9 +149,7 @@ export default function AddEditEmployee(props) {
         for (var i = reportingemployeeData; i < employeeId.length; i++) {}
         let fillterReportingEmp = [];
         res.map(function (a) {
-          let ma = reportingemployeeData.filter(
-            (b) => a.employeeId.toString() === b
-          );
+          let ma = reportingemployeeData.filter((b) => a.employeeId.toString() === b);
           if (ma.length) {
             fillterReportingEmp.push(a);
           }

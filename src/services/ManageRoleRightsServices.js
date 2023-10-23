@@ -1,7 +1,7 @@
 import axios from "axios";
 import { apiUrl } from "../config";
 
-export async function getManageRoleRightsList() {
+export async function getRoleList() {
 
   try {
     return await axios.get("http://192.168.1.106:8080/hrm/role/list",
@@ -19,6 +19,7 @@ export async function getManageRoleRightsList() {
 }
 
 export async function getManageRoleRightsDetail(roleId) {
+  debugger
   return axios.get("http://192.168.1.106:8080/hrm/rolerights/get?roleId=" + roleId).then((response) => response.data);
 }
 
