@@ -75,6 +75,7 @@ export default function Employee(props) {
   async function handleReset(e) {
     e.preventDefault();
     setEmployeeName("");
+    setDesignationId("");
     setDesignationName("");
     setStatus({ label: "All", value: "-1" });
     setEmail("");
@@ -122,7 +123,7 @@ export default function Employee(props) {
     setShowConfirmStatus(false);
     setLoading(true);
     try {
-      await updateEmployeesStatus(employeeId,  employeeStatus).then(res => { message = res });
+      await updateEmployeesStatus(employeeId, employeeStatus).then(res => { message = res });
     }
     catch (error) {
       message = error.message;
@@ -144,7 +145,7 @@ export default function Employee(props) {
   async function getEmployeeDataList() {
     setLoading(true);
     try {
-      await getEmployeesList("", "",-1, "").then(res => {
+      await getEmployeesList(employeeName, designationId, status.value, email).then(res => {
         setEmployeeList(res)
       });
       await bindDesignationList();
