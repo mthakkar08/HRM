@@ -65,16 +65,16 @@ const Routes = [
     icon: <MdHolidayVillage />,
   },
   {
+    path: "/manageRoleRights",
+    name: "RoleRights",
+    icon: <FaUserLock />,
+  },
+  {
     path: "/settings",
     name: "Settings",
     icon: <BiCog />,
     exact: true,
     subRoutes: [
-      {
-        path: "/manageRoleRights",
-        name: "RoleRights",
-        icon: <FaUserLock />,
-      },
       {
         path: "/settings/2fa",
         name: "2FA",
