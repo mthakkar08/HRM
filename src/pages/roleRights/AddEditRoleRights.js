@@ -37,15 +37,20 @@ export default function AddEditRoleRights() {
   const [RoleName, setRoleName] = useState("");
   const [MenuId, setMenuId] = useState("");
   const { setLoading } = useLoading();
-  const [ischecked, setChecked] = useState();
+  const [ischecked, setChecked] = useState(true);
   const [dataLoading, setDataLoading] = useState(false);
 const [currentMenuId, setCurrentMenuId] = useState("");
+
+const [CreateRightId, setCreateRightId] = useState("");
+const [EditRightId, setEditRightId] = useState("");
+const [ViewRightId, setViewRightId] = useState("");
+const [DeleteRightId, setDeleteRightId] = useState("");
   let MenuAccessRightList = [];
   function handleCreateRight(e){
     debugger
     var accessRight = {
-      "menuId":currentMenuId,
-      "createRightId":e.target.checked
+      "menuId":MenuId,
+      "createRightId":setCreateRightId(e.target.checked)
     }
     MenuAccessRightList.push(accessRight);
   }
@@ -53,23 +58,28 @@ const [currentMenuId, setCurrentMenuId] = useState("");
   function handleViewRight(e){
     debugger
     var accessRight = {
-      "menuId":currentMenuId,
-      "viewRightId":e.target.checked
+      "menuId":MenuId,
+      "viewRightId":setViewRightId(e.target.checked)
     }
     MenuAccessRightList.push(accessRight);
     
   }
 
   function handleEditRight(e){
-    debugger
-    setChecked(e.target.checked);
-    
+    var accessRight = {
+      "menuId":MenuId,
+      "EditRightId":setEditRightId(e.target.checked)
+    }
+    MenuAccessRightList.push(accessRight);
   }
 
   function handleDeleteRight(e){
     debugger
-    setChecked(e.target.checked);
-    
+    var accessRight = {
+      "menuId":MenuId,
+      "DeleteRightId":setDeleteRightId(e.target.checked)
+    }
+    MenuAccessRightList.push(accessRight); 
   }
 
   useEffect(() => {
@@ -77,10 +87,10 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       try {
         setLoading(true);
         setDataLoading(true);
-        let id=location.state.id;
+        let currentRoleId=location.state.id;
     
-        if (id != null && id != 0) {
-          await getManageRoleRightsDetail(id).then(res => {
+        if (currentRoleId != null && currentRoleId != 0) {
+          await getManageRoleRightsDetail(currentRoleId).then(res => {
   debugger
   setRoleRightList(res);
           });
@@ -111,7 +121,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
 
   async function handleReset(e) {
     e.preventDefault();
-    setMenuName("");
+    setRoleName("");
     await getAccessRightsList("").then(res => { setEmployeeList(res) });
 
   }
@@ -119,7 +129,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
   async function getEmployeeDataList() {
     setLoading(true);
     try {
-      await getAccessRightsList(currentRoleId, RoleName, MenuId,MenuName).then(res => {
+      await getAccessRightsList(currentRoleId,RoleName, MenuId, MenuName, CreateRightId, EditRightId, ViewRightId, DeleteRightId).then(res => {
         setEmployeeList(res)
       });
     }
@@ -195,7 +205,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
         {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
-        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleCreateRight(e)}} id={`viewId`}  />
+        <Form.Check inline name="group1"  type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleCreateRight(e)} } id={`viewId`}  />
         {/* </a> */}
         </div>
       )
@@ -261,7 +271,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
             <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Role Name</Form.Label>
-                  <Form.Control type="text" value={MenuName} onChange={(e) => setMenuName(e.target.value)}  />
+                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)}  />
                 </Col>
               </Row>
 
@@ -286,7 +296,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
           </div>    
           <div style={{textAlign:"right",paddingRight:"20px", paddingBottom:"20px"}}>
           <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRoleRights" style={{textDecoration:'none', color:"#333333"}}> Back</Link></Button>
-            <Button className='btn btn-primary' type="submit">Save</Button> <ToastContainer />
+            <Button className='btn btn-primary' type="submit" onClick={getEmployeeDataList}>Save</Button> <ToastContainer />
             </div>
         </ListGroup.Item>
       </ListGroup>
