@@ -13,7 +13,6 @@ import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useLocation } from 'react-router-dom';
 import React, { useState, useEffect } from 'react';
-import { object } from 'yup';
 import { ToastContainer } from 'react-toastify';
 
 export default function AddEditRoleRights() {
@@ -149,11 +148,7 @@ export default function AddEditRoleRights() {
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
-          <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_2"} defaultChecked={cell} id={`viewId`} />
-          {/* </a> */}
-        </div>
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_2"} defaultChecked={cell} id={`viewId`}  />
       )
     },
     {
@@ -168,12 +163,7 @@ export default function AddEditRoleRights() {
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-
-        <div>
-          <a href={roleRightList.value} style={{ display: 'inline-flex', padding: "4px" }} >
-            <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_3"} defaultChecked={cell} id={`viewId`} />
-          </a>
-        </div>
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_3"} defaultChecked={cell} id={`viewId`}  />
       )
     },
     {
@@ -188,11 +178,7 @@ export default function AddEditRoleRights() {
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-        <div>
-          <a href={roleRightList.value} style={{ display: 'inline-flex', padding: "4px" }} >
-            <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_4"} defaultChecked={cell} id={`viewId`} />
-          </a>
-        </div>
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_4"} defaultChecked={cell} id={`viewId`}  />
       )
     }
   ]

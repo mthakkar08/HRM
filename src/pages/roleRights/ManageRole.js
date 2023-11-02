@@ -108,6 +108,7 @@ export default function ManageRole() {
       setLoading(false);
     }
   }
+  
   function onDataSave(isSubmitted, message) {
     handleClose();
     if (isSubmitted && message.toUpperCase() == 'SUCCESS') {
