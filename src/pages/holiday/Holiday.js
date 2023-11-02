@@ -47,7 +47,6 @@ export default function Holiday() {
 
   function FromDateHandler(e){
     let item = e.target.value;
-    
     setFromDate(item)
   }
 
