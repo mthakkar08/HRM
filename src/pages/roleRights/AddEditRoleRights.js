@@ -57,7 +57,6 @@ export default function AddEditRoleRights() {
   }, [currentRoleId])
 
   async function handleSave(e) {
-
     let MenuAccessRightList = [];
     var element = document.getElementById('tbl_employee');
     var checkboxes = element.getElementsByTagName('input');
@@ -74,13 +73,14 @@ export default function AddEditRoleRights() {
       }
 
     }
-    debugger
+    
     if(MenuAccessRightList.length == 0){
       const jsonObj = {
         "RoleId": location.state.id
       }
       MenuAccessRightList.push(jsonObj);
     }
+    
     try {
       await updateMenuAccessRights(MenuAccessRightList).then(res => {
         message = res;
