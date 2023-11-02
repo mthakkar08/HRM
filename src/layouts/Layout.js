@@ -31,7 +31,6 @@ export default function Layout() {
   const navigate = useNavigate();
   
   // useEffect(() => {
-  //   debugger
   //   let token=ReactSession.get('accessToken');
   //   console.log("token > " + !token && "is null")
   //   if (!token) {

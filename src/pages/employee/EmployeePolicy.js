@@ -16,7 +16,7 @@ export default function EmployeePolicy(props) {
     const [content, setContent] = useState('');
 
     const handleBlur = () => {
-        console.log(editor.current.value)
+        //console.log(editor.current.value)
         setContent(editor.current.value)
       }
 
@@ -59,14 +59,12 @@ export default function EmployeePolicy(props) {
     useEffect(() => {
         (async function () {
             try {
-                debugger;
                 currentemployeeId =
                     location.state != null ? location.state.id : currentemployeeId;
                 let designationvalue;
                 let reportingemployeeData;
                 if (currentemployeeId != null && currentemployeeId != 0) {
                     await getEmployeeDetail(currentemployeeId).then((res) => {
-                        debugger;
                         setHiringDate(res.hiringDate);
                         setJoiningDate(res.joiningDate);
                         setTerminationDate(res.terminationDate);

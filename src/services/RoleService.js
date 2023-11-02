@@ -20,11 +20,30 @@ export async function searchRole(roleName) {
 }
 
 export async function getRoleRightsByRoleId(roleId) {
-  debugger;
   return axios
     .get(apiUrl + "/rolerights/get?roleId=" + roleId)
     .then((response) => response.data);
 }
+
+export function addRole(roleName) {
+  var details = {
+    'roleName': roleName,
+  };
+  try {
+    return axios.post("http://192.168.1.106:8080/hrm/role/save",
+      details,
+      {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      }
+    ).then((res) => res.data);
+  }
+  catch (error) {
+    return error;
+  }
+}
+
 
 export async function deleteManageRoleRights(roleId) {
   try {
@@ -37,7 +56,6 @@ export async function deleteManageRoleRights(roleId) {
 }
 
 export function updateMenuAccessRights(MenuAccessRightList) {
-  debugger;
   try {
     return axios
       .post(

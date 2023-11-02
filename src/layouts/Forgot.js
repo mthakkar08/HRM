@@ -47,7 +47,7 @@ export default function Forgot() {
             result = response?.data
         }
         catch (error) {
-            console.log("error > " > error)
+          //  console.log("error > " > error)
         }
         finally {
             if (result == 'SUCCESS') {

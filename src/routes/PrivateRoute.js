@@ -20,7 +20,6 @@ useEffect(() => {
     if (!token) {
       navigate('/');
     }
-    // debugger;
     // token ? <Navigate to="/" />: <></>;
   }, []);
 

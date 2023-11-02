@@ -132,7 +132,6 @@ export function addCompoffLeave(compoffLeave, employeeId, reportingEmployee) {
 }
 
 export async function getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, employeeId) {
-  debugger
   var details = {
     'leaveSubject': leaveSubject,
     'leaveStatus': leaveStatus,
@@ -155,7 +154,6 @@ export async function getSortedLeaveList(leaveSubject, leaveStatus, leaveDate, e
 }
 
 export async function getLeaveHistory(leaveId) {
-  debugger
   try {
     return await axios.get("http://192.168.1.106:8080/hrm/leave/history?LeaveId="+leaveId).then((res) => res.data);
   }

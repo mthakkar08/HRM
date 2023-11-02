@@ -17,7 +17,7 @@ import { object } from 'yup';
 import { ToastContainer } from 'react-toastify';
 
 export default function AddEditRoleRights() {
-  
+
   const location = useLocation();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -32,13 +32,13 @@ export default function AddEditRoleRights() {
   const [RoleName, setRoleName] = useState("");
   const { setLoading } = useLoading();
   const [dataLoading, setDataLoading] = useState(false);
-  
+
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
         setDataLoading(true);
-        let currentRoleId=location.state.id;
+        let currentRoleId = location.state.id;
         if (currentRoleId != null && currentRoleId != 0) {
           await getRoleRightsByRoleId(currentRoleId).then(res => {
             setRoleRightList(res);
@@ -57,25 +57,25 @@ export default function AddEditRoleRights() {
     })();
   }, [currentRoleId])
 
-  async function handleSave(e){
+  async function handleSave(e) {
 
     let MenuAccessRightList = [];
     var element = document.getElementById('tbl_employee');
     var checkboxes = element.getElementsByTagName('input');
-    let message='';
+    let message = '';
     for (var i = 0; i < checkboxes.length; i++) {
-      if(checkboxes[i].checked){
+      if (checkboxes[i].checked) {
         var splrow = checkboxes[i].value.split("_");
-        const jsonObj={
-          "RoleId" : location.state.id,
-          "MenuId" : splrow[0],
-          "AccessId" : splrow[1]
+        const jsonObj = {
+          "RoleId": location.state.id,
+          "MenuId": splrow[0],
+          "AccessId": splrow[1]
         }
         MenuAccessRightList.push(jsonObj);
       }
     }
 
-    try{
+    try {
       await updateMenuAccessRights(MenuAccessRightList).then(res => {
         message = res;
       });
@@ -95,9 +95,9 @@ export default function AddEditRoleRights() {
         navigate("/manageRole");
         Notification(message, 'ERROR')
       }
-    } 
+    }
   }
-  
+
   const columns = [
     {
       dataField: "MenuId",
@@ -128,11 +128,11 @@ export default function AddEditRoleRights() {
         width: '15%',
         textAlign: 'center'
       },
-      headerStyle: { textAlign : 'center' },
+      headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
-          <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-            <Form.Check inline name="group1" type="checkbox" value={columns.MenuId+"_1"} defaultChecked={cell} id={`viewId`}  /> 
+          <a href={roleRightList.value} style={{ display: 'inline-flex', padding: "4px" }} >
+            <Form.Check inline name="group1" type="checkbox" value={columns.MenuId + "_1"} defaultChecked={cell} id={`viewId`} />
           </a>
         </div>
       )
@@ -150,9 +150,9 @@ export default function AddEditRoleRights() {
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
-        {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
-        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_2"} defaultChecked={cell} id={`viewId`}  />
-        {/* </a> */}
+          {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
+          <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_2"} defaultChecked={cell} id={`viewId`} />
+          {/* </a> */}
         </div>
       )
     },
@@ -168,11 +168,11 @@ export default function AddEditRoleRights() {
       },
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-       
+
         <div>
-        <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_3"} defaultChecked={cell} id={`viewId`}  />
-        </a>
+          <a href={roleRightList.value} style={{ display: 'inline-flex', padding: "4px" }} >
+            <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_3"} defaultChecked={cell} id={`viewId`} />
+          </a>
         </div>
       )
     },
@@ -189,9 +189,9 @@ export default function AddEditRoleRights() {
       headerStyle: { textAlign: 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
-       <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_4"} defaultChecked={cell} id={`viewId`}  />
-       </a>
+          <a href={roleRightList.value} style={{ display: 'inline-flex', padding: "4px" }} >
+            <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId + "_4"} defaultChecked={cell} id={`viewId`} />
+          </a>
         </div>
       )
     }
@@ -216,7 +216,7 @@ export default function AddEditRoleRights() {
               <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Role Name</Form.Label>
-                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)} disabled />                 
+                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)} disabled />
                 </Col>
               </Row>
             </Form>
@@ -237,11 +237,11 @@ export default function AddEditRoleRights() {
                 sizePerPageList: [10, 20, 30, 50]
               })}
             />
-          </div>    
-          <div style={{textAlign:"right",paddingRight:"20px", paddingBottom:"20px"}}>
-          <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRole" style={{textDecoration:'none', color:"#333333"}}> Back</Link></Button>
-          <Button className='btn btn-primary' type="submit"  onClick={(e) => { handleSave(e)}}>Save</Button> 
-            </div>
+          </div>
+          <div style={{ textAlign: "right", paddingRight: "20px", paddingBottom: "20px" }}>
+            <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRole" style={{ textDecoration: 'none', color: "#333333" }}> Back</Link></Button>
+            <Button className='btn btn-primary' type="submit" onClick={(e) => { handleSave(e) }}>Save</Button>
+          </div>
         </ListGroup.Item>
       </ListGroup>
 

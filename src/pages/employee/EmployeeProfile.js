@@ -52,14 +52,12 @@ const [show, setShow] = useState(true);
   useEffect(() => {
     (async function () {
       try {
-        debugger;
         currentemployeeId =
           location.state != null ? location.state.id : currentemployeeId;
         let designationvalue;
         let reportingemployeeData;
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then((res) => {
-            debugger;
             setHiringDate(res.hiringDate);
             setJoiningDate(res.joiningDate);
             setTerminationDate(res.terminationDate);

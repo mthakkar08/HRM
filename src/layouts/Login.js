@@ -23,7 +23,7 @@ function Login() {
     localStorage.getItem('myapp-email') && setEmail(decryptData(localStorage.getItem('myapp-email')))
     localStorage.getItem('myapp-password') && setPasswrd(decryptData(localStorage.getItem('myapp-password')))
     const token = localStorage.getItem('accessToken')
-    console.log(token)
+  //  console.log(token)
     if (token) {
       navigate('/dashboard');
     }
@@ -58,7 +58,7 @@ function Login() {
       accessToken = response?.data?.jwttoken;
     }
     catch (error) {
-      console.log("error > " > error)
+    //  console.log("error > " > error)
     }
 
     if (accessToken) {
@@ -97,7 +97,7 @@ function Login() {
 
   const handleChange = (e) => {
     // console.log(e.target.value)
-    console.log("is > " + isRemember)
+   // console.log("is > " + isRemember)
     setIsRemember(!isRemember)
   }
 

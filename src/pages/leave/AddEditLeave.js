@@ -91,7 +91,6 @@ export default function AddEditLeave(props) {
     }
 
     function startDateHandler(e) {
-        debugger;
         let item = e.target.value;
         if (item == null || item == "") {
             setStartDateErr(true)
@@ -103,7 +102,6 @@ export default function AddEditLeave(props) {
     }
 
     function endDateHandler(e) {
-        debugger;
         let item = e.target.value;
         if (item == null || item == "") {
             setEndDateErr(true)

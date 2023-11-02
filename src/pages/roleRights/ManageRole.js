@@ -7,8 +7,8 @@ import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getRoleList,updateManageRoleRightsStatus, deleteManageRoleRights, searchRole} from "../../services/RoleService.js";
-import AddEditRoleRights from './AddEditRoleRights.js'
+import { getRoleList, updateManageRoleRightsStatus, deleteManageRoleRights, searchRole } from "../../services/RoleService.js";
+import AddEditRole from './AddEditRole.js'
 import Bootbox from 'bootbox-react';
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
@@ -41,8 +41,7 @@ export default function ManageRole() {
   }, []);
 
   const roleView = (roleId, roleName) => {
-    debugger;
-    navigate('../../AddEditRoleRights', { state: { id: roleId , roleName: roleName} });
+    navigate('../../AddEditRoleRights', { state: { id: roleId, roleName: roleName } });
   }
 
   const handleSearch = (e) => {
@@ -54,7 +53,7 @@ export default function ManageRole() {
     e.preventDefault();
     setRoleName("");
     setStatus({ label: "All", value: "-1" });
-    await getRoleList("",-1).then(res => { setRoleRightsList(res) });
+    await getRoleList("", -1).then(res => { setRoleRightsList(res) });
 
   }
 
@@ -81,7 +80,7 @@ export default function ManageRole() {
   }
 
 
-  
+
   async function getRoleRightList() {
     setLoading(true);
     try {
@@ -97,7 +96,6 @@ export default function ManageRole() {
   }
 
   async function searchRoleList() {
-    debugger
     setLoading(true);
     try {
       await searchRole(roleName).then(res => {
@@ -160,12 +158,12 @@ export default function ManageRole() {
           </a>
         </div>
       )
-    }   
+    }
   ]
 
   return (
     <>
-      {show && <AddEditRoleRights onDataSave={onDataSave} roleId={currentRoleId} />}
+      {show && <AddEditRole onDataSave={onDataSave} roleId={currentRoleId} />}
       <ToastContainer />
       <ListGroup>
         <ListGroup.Item>
@@ -175,7 +173,8 @@ export default function ManageRole() {
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role</Button></Navbar.Brand>
+                {/* <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role</Button></Navbar.Brand> */}
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); handleShow() }} >+ Add Role </Button></Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
           </Navbar >
@@ -183,10 +182,10 @@ export default function ManageRole() {
         <ListGroup.Item>
           <Card className="search-panel-card">
             <Form onSubmit={(event) => handleSearch(event)}>
-            <Row className="main-class">
+              <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Role Name</Form.Label>
-                  <Form.Control type="text" value={roleName} onChange={(e) => setRoleName(e.target.value)}  />
+                  <Form.Control type="text" value={roleName} onChange={(e) => setRoleName(e.target.value)} />
                 </Col>
                 <Col xs={8} className='display-inline pl-2'>
                   <Button type="submit" className='btn btn-primary mr-5' onClick={(event) => handleSearch(event)} >Search</Button>

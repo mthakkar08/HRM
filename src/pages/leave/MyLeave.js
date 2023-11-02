@@ -113,7 +113,6 @@ export default function MyLeave() {
   }
 
   async function handleConfirmStatus() {
-    debugger;
     let message = '';
     const userId = localStorage.getItem('employeeId');
     const leaveStatus=4;

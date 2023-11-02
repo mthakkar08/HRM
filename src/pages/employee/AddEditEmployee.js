@@ -141,7 +141,6 @@ export default function AddEditEmployee(props) {
   }
 
   async function bindReportingEmployeeList() {
-    debugger;
     setLoading(true);
     try {
       await bindReportingEmployee().then((res) => {
@@ -261,7 +260,6 @@ export default function AddEditEmployee(props) {
   }
 
   function reportingEmployeeHandler(e) {
-    debugger;
     var reportingIds = '';
     e.map(repData => {
       reportingIds +=',' + repData.value;

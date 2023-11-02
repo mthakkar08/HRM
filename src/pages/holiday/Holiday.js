@@ -79,7 +79,6 @@ export default function Holiday() {
 
 
   async function handleConfirmStatus() {
-    debugger
     let message = '';
     let userId = localStorage.getItem('employeeId');
     setShowConfirmStatus(false);
@@ -88,7 +87,6 @@ export default function Holiday() {
       await changeHolidayStatus(employeeStatus, currentHolidayId, userId).then(res => { message = res });
     }
     catch (error) {
-      debugger
       message = error.message;
     }
     finally {

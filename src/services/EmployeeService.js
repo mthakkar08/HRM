@@ -71,7 +71,6 @@ export async function updateEmployeesStatus(employeeId, status) {
 
 
 export function addEmployee(employeeId, employeeName, dob, gender, phoneNumber, email, address, designationId, reportingEmployeeIds, experience, status, hiringDate, joiningDate, terminationDate) {
-  debugger
   var details = {
     'employeeId': employeeId,
     'employeeName': employeeName,

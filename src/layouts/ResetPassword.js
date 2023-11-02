@@ -25,7 +25,6 @@ export default function ResetPassword() {
 
   
   useEffect(() => {
-    debugger
     let decodedJwt = "";
     if (resetToken) {
       decodedJwt = JSON.parse(atob(resetToken.split(".")[1]));
@@ -37,8 +36,7 @@ export default function ResetPassword() {
   }, []);
 
   const handleSubmit = async (e) => {
-    debugger
-    console.log("inside handleSubmit");
+   // console.log("inside handleSubmit");
     e.preventDefault();
     setIsSubmitted(true);
 
@@ -58,10 +56,9 @@ export default function ResetPassword() {
             },
           }
         );
-        debugger
         result = response?.data;
       } catch (error) {
-        console.log("error in reset");
+      //  console.log("error in reset");
       }
     }
 

@@ -31,7 +31,7 @@ export default function Header() {
     // const cryptoEmail = ReactSession.get('email');
     email = decryptData(cryptoEmail);
 
-    console.log("email > " + email)
+   // console.log("email > " + email)
   }
 
   //const [employeeName, setEmployeeName] = useState("");
@@ -46,7 +46,7 @@ export default function Header() {
   async function getEmployeeDataList() {
     try {
       await getEmployeesList("", "", "", email).then(res => {
-        console.log(res)
+     //   console.log(res)
         setCurrEmployee(res)
       });
     }
