@@ -35,16 +35,16 @@ export default function Dashboard() {
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
             <Navbar.Brand style={{ color: 'black' }}>
-              <div class="panel-body" style={{marginRight:"20px"}}>
+              <div className="panel-body" style={{marginRight:"20px"}}>
 
-                <div class="row" style={{ display: "flex" }}>
+                <div className="row" style={{ display: "flex" }}>
 
                   <Col sm={2}>
                   <Card style={{ width:'18rem' }}>
                       <Card.Body style={{ backgroundColor: "#fe555a" }}>
                       <Link to="/Employee" style={{ textDecoration: "none", textAlign:"center" }}>        
                       
-                      <i class="icon-2x dashboard-icone" ><FaUserFriends /></i>
+                      <i className="icon-2x dashboard-icone" ><FaUserFriends /></i>
                           <Card.Subtitle className="mb-2 dashboard-card dashboard-card"> Employee</Card.Subtitle>
                           </Link>
                       </Card.Body>
@@ -55,7 +55,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#ffa948" }}>
                         <Link to="/holiday" style={{ textDecoration: "none" }}>
-                          <i class="icon-2x dashboard-icone" ><FaSafari /></i>
+                          <i className="icon-2x dashboard-icone" ><FaSafari /></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Holiday</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -65,7 +65,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#00d2a5" }}>
                         <Link to="/MyLeave" style={{ textDecoration: "none" }}>
-                          <i class="icon-2x dashboard-icone" ><IoIosBed /></i>
+                          <i className="icon-2x dashboard-icone" ><IoIosBed /></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Leave</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -76,7 +76,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#00a0c4" }}>
                         <Link to="/manageLeave" style={{ textDecoration: "none" }}>
-                          <i class="icon-2x dashboard-icone" ><MdManageAccounts/></i>
+                          <i className="icon-2x dashboard-icone" ><MdManageAccounts/></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Manage Leave</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -87,7 +87,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#8660b7" }}>
                         <Link to="/manageRoleRights" style={{ textDecoration: "none" }}>
-                          <i class="icon-2x dashboard-icone" ><FaUserLock/></i>
+                          <i className="icon-2x dashboard-icone" ><FaUserLock/></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Manage RoleRights</Card.Subtitle>
                         </Link>
                       </Card.Body>
@@ -98,7 +98,7 @@ export default function Dashboard() {
                     <Card style={{ width: '18rem' }}>
                       <Card.Body style={{ backgroundColor: "#e44b9e" }}>
                         <Link to="/Finance" style={{ textDecoration: "none" }}>
-                          <i class="icon-2x dashboard-icone" ><BiCog /></i>
+                          <i className="icon-2x dashboard-icone" ><BiCog /></i>
                           <Card.Subtitle className="mb-2 dashboard-card"> Setting</Card.Subtitle>
                         </Link>
                       </Card.Body>

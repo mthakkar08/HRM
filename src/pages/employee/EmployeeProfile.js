@@ -141,7 +141,7 @@ const [show, setShow] = useState(true);
                       {employeeName}
                     </h3>
                     <table
-                      class="table table-borderless"
+                      className="table table-borderless"
                       style={{ backgroundColor: "white" }}
                     >
                       <tbody>
@@ -157,7 +157,7 @@ const [show, setShow] = useState(true);
                     </table>
                   </Col>
                   <Col sm={8}>
-                    <table class="table table-borderless">
+                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <th>Gender:</th>
@@ -239,7 +239,7 @@ const [show, setShow] = useState(true);
               <Card.Body>
                 <Row>
                   <Col sm={12}>
-                    <table class="table table-borderless">
+                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <th style={{ width: "140px" }}>Phone Number</th>
@@ -291,7 +291,7 @@ const [show, setShow] = useState(true);
               </Card.Header>
 
               <Card.Body>
-                <table class="table table-borderless">
+                <table className="table table-borderless">
                   <tbody>
                     <ul
                       className="list-group"
@@ -340,7 +340,7 @@ const [show, setShow] = useState(true);
               <Card.Body>
                 <Row>
                   <Col sm={12}>
-                    <table class="table table-borderless">
+                    <table className="table table-borderless">
                       <tbody>
                         <tr>
                           <th style={{ width: "140px" }}>Start From </th>

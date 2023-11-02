@@ -105,8 +105,8 @@ export default function Forgot() {
 
                         <Form ref={form} className='' onSubmit={handleSubmit}>
                             <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
-                            <h3 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Forgot Password?</h3><br></br>
-                            <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Enter your email to get a password reset link </h6>
+                            <h3 className="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Forgot Password?</h3><br></br>
+                            <h6 className="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Enter your email to get a password reset link </h6>
 
                             <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                                 <Form.Group className="mb-3">

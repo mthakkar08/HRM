@@ -37,7 +37,7 @@ export default function AddEditRoleRights() {
   const [RoleName, setRoleName] = useState("");
   const [MenuId, setMenuId] = useState("");
   const { setLoading } = useLoading();
-  const [ischecked, setChecked] = useState();
+  const [ischecked, setChecked] = useState(true);
   const [dataLoading, setDataLoading] = useState(false);
   const [currentMenuId, setCurrentMenuId] = useState(null);
   
@@ -89,10 +89,10 @@ export default function AddEditRoleRights() {
       try {
         setLoading(true);
         setDataLoading(true);
-        let id=location.state.id;
+        let currentRoleId=location.state.id;
     
-        if (id != null && id != 0) {
-          await getManageRoleRightsDetail(id).then(res => {
+        if (currentRoleId != null && currentRoleId != 0) {
+          await getManageRoleRightsDetail(currentRoleId).then(res => {
               setRoleRightList(res);
           });
         }
@@ -119,7 +119,7 @@ export default function AddEditRoleRights() {
 
   async function handleReset(e) {
     e.preventDefault();
-    setMenuName("");
+    setRoleName("");
     await getAccessRightsList("").then(res => { setEmployeeList(res) });
 
   }
@@ -257,7 +257,7 @@ export default function AddEditRoleRights() {
             <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Role Name</Form.Label>
-                  <Form.Control type="text" value={MenuName} onChange={(e) => setMenuName(e.target.value)}  />
+                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)}  />
                 </Col>
               </Row>
 

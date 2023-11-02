@@ -76,9 +76,37 @@ export function updateMenuAccessRights(MenuAccessRightList) {
   }
 }
 
-export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRightId, EditRightId, ViewRightId, DeleteRightId) {
+// export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRightId, EditRightId, ViewRightId, DeleteRightId) {
   
-  var details = {
+//   var details = {
+//     'RoleId': RoleId,
+//     'RoleName': RoleName,
+//     'MenuId': MenuId,
+//     'MenuName': MenuName,
+//     'CreateRightId': CreateRightId,
+//     'EditRightId': EditRightId,
+//     'ViewRightId': ViewRightId,
+//     'DeleteRightId': DeleteRightId
+//   };
+//   try {
+//     return axios.post("http://192.168.1.106:8080/hrm/rolerights/save",
+//       details,
+//       {
+//         headers: {
+//           'Content-Type': 'application/json',
+//         }
+//       }
+//     ).then((res) => res.data);
+//   }
+//   catch (error) {
+//     return error;
+//   }
+// }
+
+export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRightId, EditRightId, ViewRightId, DeleteRightId){
+
+  debugger;
+  var demo = {
     'RoleId': RoleId,
     'RoleName': RoleName,
     'MenuId': MenuId,
@@ -87,6 +115,10 @@ export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRi
     'EditRightId': EditRightId,
     'ViewRightId': ViewRightId,
     'DeleteRightId': DeleteRightId
+  };
+
+  var details = {
+    'demo': JSON.stringify(demo),
   };
   try {
     return axios.post("http://192.168.1.106:8080/hrm/rolerights/save",
@@ -102,3 +134,4 @@ export function getAccessRightsList(RoleId, RoleName, MenuId, MenuName, CreateRi
     return error;
   }
 }
+

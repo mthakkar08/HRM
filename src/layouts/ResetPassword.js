@@ -100,7 +100,7 @@ export default function ResetPassword() {
         >
           <Form style={{ textAlign: "center" }} onSubmit={handleSubmit}>
             <img src={hrmLogo} width={180} height={120} />
-            <h3 class="mb-0" style={{ color: "#383972" }}>
+            <h3 className="mb-0" style={{ color: "#383972" }}>
               Reset Password
             </h3>
             <br></br>

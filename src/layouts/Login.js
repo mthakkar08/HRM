@@ -137,8 +137,8 @@ function Login() {
           <Card className="login-form">
             <Form className='' onSubmit={handleSubmit}>
               <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
-              <h3 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Welcome to HRM!</h3><br></br>
-              <h6 class="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Please sign-in to your account and start your journey. </h6>
+              <h3 className="mb-0" style={{ marginLeft: "82px", marginRight: "82px", color: "#383972" }}>Welcome to HRM!</h3><br></br>
+              <h6 className="mb-0" style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "50px", color: "#383972" }}>Please sign-in to your account and start your journey. </h6>
               <div style={{ marginLeft: "82px", marginRight: "82px", marginBottom: "82px", marginTop: "30px" }} className='text-left' >
                 <Form.Group className="mb-3">
                   <Form.Label className="mb-1">Email</Form.Label>
@@ -176,7 +176,7 @@ function Login() {
                 <Form.Group className='m-0'>
                   <input type="checkbox" name="remember" id="remember" checked={isRemember} onChange={handleChange} />
                   {/* <input type="checkbox" name="remember" id="remember" value={isRemember} onChange={isRemember?setIsRemember(false):setIsRemember(true)} /> */}
-                  <label for="remember" class="ml-2">Remember me</label>
+                  <label htmlFor="remember" className="ml-2">Remember me</label>
                   <Button type="submit" className="btn btn-primary btn-block shadow-lg m-0" size="lg" disabled={!handleDisable()}>Login</Button>
                   <div className="text-right pt-4"><Link to="/Forgot">Forgot Password</Link>
                   </div>
