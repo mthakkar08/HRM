@@ -59,14 +59,11 @@ export async function updateManageRoleRightsStatus(roleId, status) {
   }
 }
 
-export function addManageRoleRights(roleId, roleName) {
-  var details = {
-    'roleId': roleId,
-    'roleName': roleName
-  };
+export function updateMenuAccessRights(MenuAccessRightList) {
+  debugger
   try {
-    return axios.post("http://192.168.1.106:8080/hrm/employee/save",
-      details,
+    return axios.post("http://192.168.1.106:8080/hrm/rolerights/save",
+    MenuAccessRightList,
       {
         headers: {
           'Content-Type': 'application/json',

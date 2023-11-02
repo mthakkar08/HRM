@@ -1,20 +1,20 @@
 import '../../assets/styles/App.css';
 import 'react-toastify/dist/ReactToastify.css';
 import ListGroup from 'react-bootstrap/ListGroup';
-import React, { useState, useEffect } from "react";
+
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+
 import { Link, Navigate, useNavigate } from 'react-router-dom';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getManageRoleRightsList, addManageRoleRights, getManageRoleRightsDetail, getAccessRightsList} from "../../services/ManageRoleRightsServices.js";
-
-import Select from 'react-select';
+import { getManageRoleRightsDetail, getAccessRightsList, updateMenuAccessRights } from "../../services/ManageRoleRightsServices.js";
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
-import { Checkbox } from 'semantic-ui-react';
 import { useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { object } from 'yup';
+import { ToastContainer } from 'react-toastify';
 
 export default function AddEditRoleRights() {
 
@@ -39,38 +39,50 @@ export default function AddEditRoleRights() {
   const { setLoading } = useLoading();
   const [ischecked, setChecked] = useState();
   const [dataLoading, setDataLoading] = useState(false);
-const [currentMenuId, setCurrentMenuId] = useState("");
-  let MenuAccessRightList = [];
-  function handleCreateRight(e){
+  const [currentMenuId, setCurrentMenuId] = useState(null);
+  
+  //const [accessRight, setAccessRight] = useState({})
+  async function handleSave(e){
     debugger
-    var accessRight = {
-      "menuId":currentMenuId,
-      "createRightId":e.target.checked
-    }
-    MenuAccessRightList.push(accessRight);
-  }
-
-  function handleViewRight(e){
-    debugger
-    var accessRight = {
-      "menuId":currentMenuId,
-      "viewRightId":e.target.checked
-    }
-    MenuAccessRightList.push(accessRight);
+    let MenuAccessRightList = [];
+    var element = document.getElementById('tbl_employee');
+    var checkboxes = element.getElementsByTagName('input');
+    
+    let message='';
+      for (var i = 0; i < checkboxes.length; i++) {
+        if(checkboxes[i].checked){
+          var splrow = checkboxes[i].value.split("_");
+          const jsonObj={
+            "RoleId" : location.state.id,
+            "MenuId" : splrow[0],
+            "AccessId" : splrow[1]
+          }
+          MenuAccessRightList.push(jsonObj);
+        }
+      }
+      try{
+        await updateMenuAccessRights(MenuAccessRightList).then(res => {
+          message = res;
+        });
+      }catch (error) {
+        message = error.message;
+      }
+      finally {
+        setLoading(false);
+        
+          if (message == "SUCCESS") {
+            Notification(message, "SUCCESS");
+          }
+          else {
+            Notification(message, 'ERROR')
+          }
+        
+      }
+      
     
   }
-
-  function handleEditRight(e){
-    debugger
-    setChecked(e.target.checked);
-    
-  }
-
-  function handleDeleteRight(e){
-    debugger
-    setChecked(e.target.checked);
-    
-  }
+  
+  
 
   useEffect(() => {
     (async function () {
@@ -81,15 +93,11 @@ const [currentMenuId, setCurrentMenuId] = useState("");
     
         if (id != null && id != 0) {
           await getManageRoleRightsDetail(id).then(res => {
-  debugger
-  setRoleRightList(res);
+              setRoleRightList(res);
           });
         }
- 
-
       }
       catch (error) {
-
       }
       finally {
         setTimeout(() => {
@@ -119,7 +127,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
   async function getEmployeeDataList() {
     setLoading(true);
     try {
-      await getAccessRightsList(currentRoleId, RoleName, MenuId,MenuName).then(res => {
+      await getAccessRightsList(currentRoleId, RoleName, MenuId, MenuName).then(res => {
         setEmployeeList(res)
       });
     }
@@ -129,18 +137,6 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       setLoading(false);
     }
   }
-
-  function onDataSave(isSubmitted, message) {
-    handleClose();
-    if (isSubmitted && message.toUpperCase() == 'SUCCESS') {
-      Notification('Employee saved successfully!', 'SUCCESS')
-      getEmployeeDataList();
-    }
-    else {
-      Notification(message, 'ERROR')
-    }
-  }
-  
 
   const columns = [
     {
@@ -172,12 +168,12 @@ const [currentMenuId, setCurrentMenuId] = useState("");
         width: '15%',
         textAlign: 'center'
       },
-      headerStyle: { textAlign: 'center' },
+      headerStyle: { textAlign : 'center' },
       formatter: (cell, columns, rowIndex, extraData) => (
-            <div>
-        {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
-        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleViewRight(e)}} id={`viewId`}  />
-        {/* </a> */}
+        <div>
+          <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
+            <Form.Check inline name="group1" type="checkbox" value={columns.MenuId+"_1"} defaultChecked={cell} id={`viewId`}  /> 
+          </a>
         </div>
       )
     },
@@ -195,7 +191,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
         {/* <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} > */}
-        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleCreateRight(e)}} id={`viewId`}  />
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_2"} defaultChecked={cell} id={`viewId`}  />
         {/* </a> */}
         </div>
       )
@@ -214,8 +210,8 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
        
         <div>
-        <a href={setChecked(roleRightList.EditRightId)} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleEditRight(e)}} id={`viewId`}  />
+        <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_3"} defaultChecked={cell} id={`viewId`}  />
         </a>
         </div>
       )
@@ -234,7 +230,7 @@ const [currentMenuId, setCurrentMenuId] = useState("");
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
        <a href={roleRightList.value} style={{ display: 'inline-flex', padding:"4px" }} >
-        <Form.Check inline name="group1" type="Checkbox" onClick={(e) => { setCurrentMenuId(columns.MenuId); handleDeleteRight(e)}} id={`viewId`}  />
+        <Form.Check inline name="group1" type="Checkbox" value={columns.MenuId+"_4"} defaultChecked={cell} id={`viewId`}  />
        </a>
         </div>
       )
@@ -286,14 +282,14 @@ const [currentMenuId, setCurrentMenuId] = useState("");
           </div>    
           <div style={{textAlign:"right",paddingRight:"20px", paddingBottom:"20px"}}>
           <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRoleRights" style={{textDecoration:'none', color:"#333333"}}> Back</Link></Button>
-            <Button className='btn btn-primary' type="submit">Save</Button> <ToastContainer />
+            <Button className='btn btn-primary' type="submit"  onClick={(e) => { handleSave(e)}}>Save</Button> 
             </div>
         </ListGroup.Item>
       </ListGroup>
 
     </>
   )
-}
 
+            }
 
 

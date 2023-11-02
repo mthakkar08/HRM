@@ -257,7 +257,7 @@ export default function Employee(props) {
       text: "Status",
       sort: true,
       style: {
-        width: '5%'
+        width: '6%'
       },
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
