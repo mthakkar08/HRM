@@ -14,7 +14,7 @@ import Holiday from '../pages/holiday/Holiday';
 import MyLeave from '../pages/leave/MyLeave';
 import LeavePolicy from '../pages/leave/LeavePolicy';
 import ManageLeave from '../pages/leave/ManageLeave';
-import ManageRoleRights from '../pages/roleRights/ManageRoleRights';
+import ManageRole from '../pages/roleRights/ManageRole';
 import AddEditRoleRights from '../pages/roleRights/AddEditRoleRights';
 import Saved from "../pages/Saved";
 import Setting from "../pages/Setting";
@@ -58,7 +58,7 @@ export default function Layout() {
                 <Route path="/myLeave" element={<MyLeave/>} />
                 <Route path="/leavePolicy" element={<LeavePolicy/>}  />
                 <Route path="/manageLeave" element={<ManageLeave />} />
-                <Route path="/manageRoleRights" element={<ManageRoleRights />} />
+                <Route path="/manageRole" element={<ManageRole />} />
                 <Route path="/addEditRoleRights"  element={<AddEditRoleRights />} />
                 <Route path="/saved" element={<Saved />} />
                 <Route path="/settings" element={<Setting />} />

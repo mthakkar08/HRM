@@ -8,7 +8,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getManageRoleRightsDetail, getAccessRightsList, updateMenuAccessRights } from "../../services/ManageRoleRightsServices.js";
+import { getRoleRightsByRoleId, updateMenuAccessRights } from "../../services/RoleService.js";
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useLocation } from 'react-router-dom';
@@ -17,83 +17,32 @@ import { object } from 'yup';
 import { ToastContainer } from 'react-toastify';
 
 export default function AddEditRoleRights() {
-
-
+  
   const location = useLocation();
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
   const [currentRoleId, setCurrentRoleId] = useState(null);
-  const [employeeList, setEmployeeList] = useState([]);
   const [roleRightList, setRoleRightList] = useState([]);
   const [showConfirm, setShowConfirm] = useState(false);
   const bootboxClose = () => setShowConfirm(false);
-
   const [showConfirmStatus, setShowConfirmStatus] = useState(false);
   const bootboxCloseStatus = () => setShowConfirmStatus(false);
-  const [MenuName, setMenuName] = useState("");
-  const [RoleId,setRoleId]  = useState("");
   const [RoleName, setRoleName] = useState("");
-  const [MenuId, setMenuId] = useState("");
   const { setLoading } = useLoading();
-  const [ischecked, setChecked] = useState(true);
   const [dataLoading, setDataLoading] = useState(false);
-  const [currentMenuId, setCurrentMenuId] = useState(null);
   
-  //const [accessRight, setAccessRight] = useState({})
-  async function handleSave(e){
-    debugger
-    let MenuAccessRightList = [];
-    var element = document.getElementById('tbl_employee');
-    var checkboxes = element.getElementsByTagName('input');
-    
-    let message='';
-      for (var i = 0; i < checkboxes.length; i++) {
-        if(checkboxes[i].checked){
-          var splrow = checkboxes[i].value.split("_");
-          const jsonObj={
-            "RoleId" : location.state.id,
-            "MenuId" : splrow[0],
-            "AccessId" : splrow[1]
-          }
-          MenuAccessRightList.push(jsonObj);
-        }
-      }
-      try{
-        await updateMenuAccessRights(MenuAccessRightList).then(res => {
-          message = res;
-        });
-      }catch (error) {
-        message = error.message;
-      }
-      finally {
-        setLoading(false);
-        
-          if (message == "SUCCESS") {
-            Notification(message, "SUCCESS");
-          }
-          else {
-            Notification(message, 'ERROR')
-          }
-        
-      }
-      
-    
-  }
-  
-  
-
   useEffect(() => {
     (async function () {
       try {
         setLoading(true);
         setDataLoading(true);
         let currentRoleId=location.state.id;
-    
         if (currentRoleId != null && currentRoleId != 0) {
-          await getManageRoleRightsDetail(currentRoleId).then(res => {
-              setRoleRightList(res);
+          await getRoleRightsByRoleId(currentRoleId).then(res => {
+            setRoleRightList(res);
+            setRoleName(location.state.roleName);
           });
         }
       }
@@ -108,36 +57,47 @@ export default function AddEditRoleRights() {
     })();
   }, [currentRoleId])
 
-  const handleSearch = (e) => {
-    e.preventDefault();
-    getEmployeeDataList();
-  };
+  async function handleSave(e){
 
-  useEffect(() => {
-    getEmployeeDataList();
-  }, [])
+    let MenuAccessRightList = [];
+    var element = document.getElementById('tbl_employee');
+    var checkboxes = element.getElementsByTagName('input');
+    let message='';
+    for (var i = 0; i < checkboxes.length; i++) {
+      if(checkboxes[i].checked){
+        var splrow = checkboxes[i].value.split("_");
+        const jsonObj={
+          "RoleId" : location.state.id,
+          "MenuId" : splrow[0],
+          "AccessId" : splrow[1]
+        }
+        MenuAccessRightList.push(jsonObj);
+      }
+    }
 
-  async function handleReset(e) {
-    e.preventDefault();
-    setRoleName("");
-    await getAccessRightsList("").then(res => { setEmployeeList(res) });
-
-  }
-
-  async function getEmployeeDataList() {
-    setLoading(true);
-    try {
-      await getAccessRightsList(currentRoleId, RoleName, MenuId, MenuName).then(res => {
-        setEmployeeList(res)
+    try{
+      await updateMenuAccessRights(MenuAccessRightList).then(res => {
+        message = res;
       });
     }
     catch (error) {
+      message = error.message;
     }
     finally {
       setLoading(false);
-    }
+      if (message == "SUCCESS") {
+        Notification("Role rights saved successfully!", "SUCCESS");
+        setTimeout(() => {
+          navigate("../../manageRole");
+        }, 3000);
+      }
+      else {
+        navigate("/manageRole");
+        Notification(message, 'ERROR')
+      }
+    } 
   }
-
+  
   const columns = [
     {
       dataField: "MenuId",
@@ -243,24 +203,22 @@ export default function AddEditRoleRights() {
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Edit Role</Navbar.Brand>
+            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Manage Role Rights</Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
-            
             </Navbar.Collapse>
           </Navbar >
         </ListGroup.Item>
         <ListGroup.Item>
           <Card className="search-panel-card">
-            <Form onSubmit={(event) => handleSearch(event)}>
-            <Row className="main-class">
+            <Form>
+              <Row className="main-class">
                 <Col xs={3} className='display-inline pl-0' >
                   <Form.Label className='display-inline search-label'>Role Name</Form.Label>
-                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)}  />
+                  <Form.Control type="text" value={RoleName} onChange={(e) => setRoleName(e.target.value)} disabled />                 
                 </Col>
               </Row>
-
             </Form>
           </Card>
           <div className='tablecard'>
@@ -281,15 +239,14 @@ export default function AddEditRoleRights() {
             />
           </div>    
           <div style={{textAlign:"right",paddingRight:"20px", paddingBottom:"20px"}}>
-          <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRoleRights" style={{textDecoration:'none', color:"#333333"}}> Back</Link></Button>
-            <Button className='btn btn-primary' type="submit"  onClick={(e) => { handleSave(e)}}>Save</Button> 
+          <Button className='btn btn-dft mr-2' type="submit"> <Link to="../../ManageRole" style={{textDecoration:'none', color:"#333333"}}> Back</Link></Button>
+          <Button className='btn btn-primary' type="submit"  onClick={(e) => { handleSave(e)}}>Save</Button> 
             </div>
         </ListGroup.Item>
       </ListGroup>
 
     </>
   )
-
-            }
+}
 
 

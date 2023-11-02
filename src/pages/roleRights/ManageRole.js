@@ -3,18 +3,19 @@ import 'react-toastify/dist/ReactToastify.css';
 import ListGroup from 'react-bootstrap/ListGroup';
 import React, { useState, useEffect } from "react";
 import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
-import { ToastContainer, toast } from 'react-toastify';
+
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getRoleList,updateManageRoleRightsStatus, deleteManageRoleRights } from "../../services/ManageRoleRightsServices.js";
+import { getRoleList,updateManageRoleRightsStatus, deleteManageRoleRights, searchRole} from "../../services/RoleService.js";
 import AddEditRoleRights from './AddEditRoleRights.js'
 import Bootbox from 'bootbox-react';
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
 
-export default function ManageRoleRights() {
+export default function ManageRole() {
 
   const navigate = useNavigate();
   const [show, setShow] = useState(false);
@@ -39,24 +40,14 @@ export default function ManageRoleRights() {
     getRoleRightList();
   }, []);
 
-  const roleView = (roleId) => {
+  const roleView = (roleId, roleName) => {
     debugger;
-    navigate('../../AddEditRoleRights', { state: { id: roleId } });
-  }
-  
-  const statusData = [
-    { label: "All", value: "-1" },
-    { label: "Active", value: "0" },
-    { label: "In-Active", value: "1" }
-  ];
-
-  function StatusHandler(e) {
-    setStatus(e);
+    navigate('../../AddEditRoleRights', { state: { id: roleId , roleName: roleName} });
   }
 
   const handleSearch = (e) => {
     e.preventDefault();
-    getRoleRightList();
+    searchRoleList();
   };
 
   async function handleReset(e) {
@@ -90,31 +81,7 @@ export default function ManageRoleRights() {
   }
 
 
-  async function handleConfirmStatus() {
-    let message = '';
-    setShowConfirmStatus(false);
-    setLoading(true);
-    try {
-      await updateManageRoleRightsStatus(roleId, status).then(res => { message = res });
-    }
-    catch (error) {
-      message = error.message;
-    }
-    finally {
-      if (message == 'SUCCESS') {
-        Notification('role Status update successfully!', 'success')
-      } else {
-        Notification(message, 'ERROR')
-      }
-      setRoleRightId(null);
-      setStatus({ label: "All", value: "-1" });
-      setLoading(false);
-    }
-    getRoleRightList();
-  }
-
   
-
   async function getRoleRightList() {
     setLoading(true);
     try {
@@ -129,6 +96,20 @@ export default function ManageRoleRights() {
     }
   }
 
+  async function searchRoleList() {
+    debugger
+    setLoading(true);
+    try {
+      await searchRole(roleName).then(res => {
+        setRoleRightsList(res)
+      });
+    }
+    catch (error) {
+    }
+    finally {
+      setLoading(false);
+    }
+  }
   function onDataSave(isSubmitted, message) {
     handleClose();
     if (isSubmitted && message.toUpperCase() == 'SUCCESS') {
@@ -173,7 +154,7 @@ export default function ManageRoleRights() {
       formatter: (cell, columns, rowIndex, extraData) => (
         <div>
           <a href={roleRightsList.value} style={{ display: 'inline-flex' }} >
-            <button title="Edit" type="button" onClick={() => { setCurrentRoleId(columns.roleId); roleView(columns.roleId) }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
+            <button title="Edit" type="button" onClick={() => { setCurrentRoleId(columns.roleId); roleView(columns.roleId, columns.roleName) }} size="sm" className="icone-button"><i className="icon-pencil3 dark-grey"></i></button>
             <button title='Delete' type="button" onClick={() => { setCurrentRoleId(columns.roleId); setShowConfirm(true) }} className="icone-button"><i className="icon-trash dark-grey"></i></button>
             {/* <button title='check' type="button" onClick={() => { setRoleRightId(columns.roleId); setStatus(columns.status == 0 ? 1 : 0); setShowConfirmStatus(true) }} className="icone-button"><i className="icon-checkmark dark-grey"></i></button> */}
           </a>
@@ -189,12 +170,12 @@ export default function ManageRoleRights() {
       <ListGroup>
         <ListGroup.Item>
           <Navbar collapseOnSelect expand="sm" variant="dark" className='search-card'>
-            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Manage Role Rights </Navbar.Brand>
+            <Navbar.Brand style={{ color: 'black' }}><BsFileEarmarkText /> Manage Role </Navbar.Brand>
             <Navbar.Toggle aria-controls="responsive-navbar-nav" />
             <Navbar.Collapse id="responsive-navbar-nav">
               <Nav className="me-auto"></Nav>
               <Nav>
-                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role Rights</Button></Navbar.Brand>
+                <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentRoleId(0); roleView(columns.roleId) }} >+ Add Role</Button></Navbar.Brand>
               </Nav>
             </Navbar.Collapse>
           </Navbar >
@@ -238,14 +219,6 @@ export default function ManageRoleRights() {
         onSuccess={handleConfirm}
         onCancel={bootboxClose}
         onClose={bootboxClose}
-      />
-
-      <Bootbox show={showConfirmStatus}
-        type={"confirm"}
-        message={"Are you sure you want to change this status?"}
-        onSuccess={handleConfirmStatus}
-        onCancel={bootboxCloseStatus}
-        onClose={bootboxCloseStatus}
       />
 
     </>

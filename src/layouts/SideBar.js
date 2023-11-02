@@ -65,7 +65,7 @@ const Routes = [
     icon: <MdHolidayVillage />,
   },
   {
-    path: "/manageRoleRights",
+    path: "/manageRole",
     name: "RoleRights",
     icon: <FaUserLock />,
   },
