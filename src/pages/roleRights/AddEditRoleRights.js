@@ -72,8 +72,15 @@ export default function AddEditRoleRights() {
         }
         MenuAccessRightList.push(jsonObj);
       }
-    }
 
+    }
+    debugger
+    if(MenuAccessRightList.length == 0){
+      const jsonObj = {
+        "RoleId": location.state.id
+      }
+      MenuAccessRightList.push(jsonObj);
+    }
     try {
       await updateMenuAccessRights(MenuAccessRightList).then(res => {
         message = res;
@@ -88,7 +95,7 @@ export default function AddEditRoleRights() {
         Notification("Role rights saved successfully!", "SUCCESS");
         setTimeout(() => {
           navigate("../../manageRole");
-        }, 3000);
+        }, 2000);
       }
       else {
         navigate("/manageRole");
