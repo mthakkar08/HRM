@@ -27,24 +27,13 @@ import LeaveHistory from '../pages/leave/LeaveHistory';
 import { useEffect } from 'react';
 import { ReactSession } from 'react-client-session';
 export default function Layout() {
- 
   const navigate = useNavigate();
-  
-  // useEffect(() => {
-  //   let token=ReactSession.get('accessToken');
-  //   console.log("token > " + !token && "is null")
-  //   if (!token) {
-  //     navigate('/');
-  //   }
-  // }, []);
-
   const { loading } = useLoading();
   return (
     <>
       {loading && <Loader />}
       <Header />
       <Row style={{ margin: 0 }}>
-
         <Col xs={12} style={{ padding: 0 }} >
           <SideBar>
             <Routes>
@@ -68,7 +57,6 @@ export default function Layout() {
                 {/* <Route path="*" element={<Navigate to="/" />} /> */}
             </Routes>
           </SideBar>
-
         </Col>
       </Row>
       <Footer />

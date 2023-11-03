@@ -133,7 +133,6 @@ function Login() {
           </div>
         </div>
         <div className="col-md-4 d-none d-md-flex" style={{ backgroundColor: "#dbdbf3" }}>
-
           <Card className="login-form">
             <Form className='' onSubmit={handleSubmit}>
               <img src={hrmLogo} width={180} height={120} style={{ marginLeft: "175px" }} />
@@ -185,7 +184,6 @@ function Login() {
             </Form>
           </Card>
         </div>
-
       </div>
     </div>
     </>

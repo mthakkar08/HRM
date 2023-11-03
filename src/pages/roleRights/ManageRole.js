@@ -7,7 +7,7 @@ import { Nav, Navbar, Button, Form, Col, Row, Card } from 'react-bootstrap';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getRoleList, updateManageRoleRightsStatus, deleteManageRoleRights, searchRole } from "../../services/RoleService.js";
+import { getRoleList, deleteRoleById, searchRole } from "../../services/RoleService.js";
 import AddEditRole from './AddEditRole.js'
 import Bootbox from 'bootbox-react';
 import { Notification } from "../../layouts/Notification.js";
@@ -62,7 +62,7 @@ export default function ManageRole() {
     setShowConfirm(false);
     setLoading(true);
     try {
-      await deleteManageRoleRights(currentRoleId).then(res => { message = res });
+      await deleteRoleById(currentRoleId).then(res => { message = res });
     }
     catch (error) {
       message = error.message;

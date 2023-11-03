@@ -17,12 +17,7 @@ export async function searchRole(roleName) {
   }
 }
 
-export async function getRoleRightsByRoleId(roleId) {
-  debugger;
-  return axios.get(apiUrl + "/rolerights/get?roleId=" + roleId).then((response) => response.data);
-}
-
-export function addRole(roleName) {
+export function addEditRole(roleName) {
   var details = {
     'roleName': roleName,
   };
@@ -41,8 +36,7 @@ export function addRole(roleName) {
   }
 }
 
-
-export async function deleteManageRoleRights(roleId) {
+export async function deleteRoleById(roleId) {
   try {
     return axios.delete(apiUrl + "/role/delete?roleId=" + roleId).then((res) => res.data);
   } catch (error) {
@@ -50,10 +44,15 @@ export async function deleteManageRoleRights(roleId) {
   }
 }
 
-export function updateMenuAccessRights(MenuAccessRightList) {
+export async function getRoleRightsByRoleId(roleId) {
+  debugger;
+  return axios.get(apiUrl + "/role/rights/get?roleId=" + roleId).then((response) => response.data);
+}
+
+export function updateRoleRights(RoleRightsList) {
   try {
-    return axios.post("http://192.168.1.106:8080/hrm/rolerights/save",
-      MenuAccessRightList,
+    return axios.post("http://192.168.1.106:8080/hrm/role/rights/save",
+    RoleRightsList,
       {
         headers: {
           "Content-Type": "application/json",

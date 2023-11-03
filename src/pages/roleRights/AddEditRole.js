@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Button, Form, Modal } from 'react-bootstrap';
 import { ToastContainer, toast } from 'react-toastify';
-import { addRole, getRoleList } from "../../services/RoleService.js";
+import { addEditRole, getRoleList } from "../../services/RoleService.js";
 import { useLoading } from '../../LoadingContext.js';
 import { Notification } from '../../layouts/Notification.js'
 import Select from 'react-select';
@@ -73,7 +73,7 @@ export default function AddEditRole(props) {
         setRoleNameErr(false);
       }
 
-      await addRole(roleName).then(res => {
+      await addEditRole(roleName).then(res => {
         message = res.toString();
       });
     }

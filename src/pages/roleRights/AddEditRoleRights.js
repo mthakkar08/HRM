@@ -8,7 +8,7 @@ import { Link, Navigate, useNavigate } from 'react-router-dom';
 import BootstrapTable from "react-bootstrap-table-next";
 import paginationFactory from "react-bootstrap-table2-paginator";
 import { BsFileEarmarkText } from "react-icons/bs";
-import { getRoleRightsByRoleId, updateMenuAccessRights } from "../../services/RoleService.js";
+import { getRoleRightsByRoleId, updateRoleRights } from "../../services/RoleService.js";
 import { Notification } from "../../layouts/Notification.js";
 import { useLoading } from '../../LoadingContext.js';
 import { useLocation } from 'react-router-dom';
@@ -57,6 +57,7 @@ export default function AddEditRoleRights() {
   }, [currentRoleId])
 
   async function handleSave(e) {
+    debugger
     let MenuAccessRightList = [];
     var element = document.getElementById('tbl_employee');
     var checkboxes = element.getElementsByTagName('input');
@@ -82,7 +83,7 @@ export default function AddEditRoleRights() {
     }
     
     try {
-      await updateMenuAccessRights(MenuAccessRightList).then(res => {
+      await updateRoleRights(MenuAccessRightList).then(res => {
         message = res;
       });
     }

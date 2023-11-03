@@ -62,7 +62,6 @@ export default function AddEditEmployee(props) {
   ];
 
   useEffect(() => {
-
     if (!show) {
       props.onDataSave(false);
     }
@@ -74,7 +73,6 @@ export default function AddEditEmployee(props) {
         setLoading(true);
         setDataLoading(true);
         let designationvalue = [];
-      
         if (currentemployeeId != null && currentemployeeId != 0) {
           await getEmployeeDetail(currentemployeeId).then(res => {
             setHiringDate(res.hiringDate)
@@ -93,12 +91,8 @@ export default function AddEditEmployee(props) {
             setDesignationId(res.designationId)
             setStatus(res.status)
             designationvalue = res.designationId
-         
-
             reportingemployeeData = res.reportingEmployeeIds.split(",");
             const gender = genderData?.find((x) => x.value == res.gender);
-
-       
             if (gender) {
               setDefaultGender(gender);
             }
@@ -106,9 +100,7 @@ export default function AddEditEmployee(props) {
         }
         await bindReportingEmployeeList();
         await bindDesignationList();
-        const designationListData = designationdata?.find(
-          (x) => x.designationId == designationvalue
-        );
+        const designationListData = designationdata?.find((x) => x.designationId == designationvalue);
         setDesignationName({
           label: designationListData.designationName,
           value: designationvalue,

@@ -338,7 +338,6 @@ export default function Employee(props) {
               <Nav className="me-auto"></Nav>
               <Nav>
                 <Navbar.Brand ><Button className='btn' type='button' size="sm" onClick={() => { setCurrentemployeeId(0); handleShow() }} >+ Add Employee</Button></Navbar.Brand>
-
               </Nav>
             </Navbar.Collapse>
           </Navbar >
