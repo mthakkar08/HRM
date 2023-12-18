@@ -11,8 +11,23 @@ import { useLoading } from "../../LoadingContext.js";
 import { useNavigate } from "react-router-dom";
 import { BsFillPencilFill } from "react-icons/bs";
 import { useLocation } from "react-router-dom";
+import { MDBCol, MDBContainer, MDBRow, MDBCard, MDBCardText, MDBCardBody, MDBCardImage, MDBTypography, MDBIcon } from 'mdb-react-ui-kit';
+
 
 export default function EmployeeProfile(props) {
+  // const navigate = useNavigate();
+  // useEffect(() => {
+  //   debugger;
+  //   const token = localStorage.getItem("accessToken");
+  //   let decodedJwt="";
+  //   if(token){
+  //      decodedJwt = JSON.parse(atob(token.split(".")[1]));
+  //      if (decodedJwt.exp * 1000 < Date.now()) {
+  //       delete localStorage.removeItem("accessToken");
+  //       navigate("/");
+  //     }
+  //   }
+  //  }, []);
   const location = useLocation();
 const [show, setShow] = useState(true);
  const [employeeName, setEmployeeName] = useState("");
@@ -33,14 +48,14 @@ const [show, setShow] = useState(true);
     { label: "Male", value: "1" },
     { label: "Female", value: "2" },
   ];
-  const navigate = useNavigate();
+  
 
-  let token = localStorage.getItem("accessToken");
-  let employeeId;
-  if (token) {
-    const cryptoEmail = localStorage.getItem("email");
-    employeeId = localStorage.getItem("employeeId");
-  }
+  // let token = localStorage.getItem("accessToken");
+  // let employeeId;
+  // if (token) {
+  //   const cryptoEmail = localStorage.getItem("email");
+  //   employeeId = localStorage.getItem("employeeId");
+  // }
 
   useEffect(() => {
     if (!show) {
@@ -102,7 +117,203 @@ const [show, setShow] = useState(true);
   }
   return (
     <>
-      <div className="card" style={{ padding: "20px", lineHeight: "32px" }}>
+    <section className="vh-25" >
+      <MDBContainer className="py-0 h-100">
+        <MDBRow className="justify-content-center align-items-center h-100">
+          <MDBCol lg="10" className="mb-4 vh-50 mb-lg-2">
+            <MDBCard className="mb-3" style={{ borderRadius: '.5rem' }}>
+              <MDBRow className="g-0">
+                <MDBCol md="12" className="gradient-custom text-center text-white"
+                  style={{ borderTopLeftRadius: '.5rem', borderBottomLeftRadius: '.5rem' }}>
+                  <MDBCardImage src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    alt="Avatar" className="my-3" style={{ width: '180px' }} fluid />
+                  <MDBTypography tag="h5">{employeeName}</MDBTypography>
+                  {/* <MDBCardText>{designationName}</MDBCardText> */}
+                  <div className="row">
+                  <MDBCardText className="col-4">{email}</MDBCardText>
+                  <MDBCardText className="col-4">{designationName}</MDBCardText>
+                  <MDBCardText className="col-4">{phoneNumber}</MDBCardText>
+                  </div>
+                  
+                  <MDBIcon far icon="edit mb-5" />
+                </MDBCol>
+                
+                <MDBCol md="12">
+                  <MDBCardBody className="p-4">
+                  <Col sm={12}>
+                      <Card style={{ height: "400px" }}>
+                        <Card.Header
+                          as="h6"
+                          style={{ backgroundColor: "#903ee7", color: "white" }}
+                        >
+                          <Navbar
+                            collapseOnSelect
+                            expand="sm"
+                            variant="dark"
+                            style={{ marginTop: "-8px", marginBottom: "-8px" }}
+                          >
+                            <Nav.Link style={{ color: "White", fontSize: "18px" }}>
+                              <BsFileEarmarkText /> Basic  Information{" "}
+                            </Nav.Link>
+                          </Navbar>
+                        </Card.Header>
+                        <Card.Body>
+                        <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Hiring Date</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{hiringDate}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Joining Date</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{joiningDate}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Termination Date</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{terminationDate}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Gender</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{gender == 1 ? (
+                                      <span
+                                        style={{
+                                          borderRadius: "2px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        Male
+                                      </span>
+                                    ) : (
+                                      <span
+                                        style={{
+                                          borderRadius: "2px",
+                                          border: "none",
+                                        }}
+                                      >
+                                        Female
+                                      </span>
+                                    )}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Dob</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{dob}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Experience</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{experience}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                          <MDBRow className="pt-1">
+                            <MDBCol size="6" className="mb-3">
+                              <MDBTypography tag="h6">Address</MDBTypography>
+                            </MDBCol>
+                            <MDBCol size="6" className="mb-3">
+                              <MDBCardText className="text-muted">{address}</MDBCardText>
+                            </MDBCol>
+                          </MDBRow>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <MDBRow className="pt-2 mt-3 px-3">
+                    <Col sm={6}>
+                      <Card style={{ height: "200px" }}>
+                        <Card.Header as="h6" style={{ backgroundColor: "#903ee7", color: "white" }} >
+                          <Navbar collapseOnSelect expand="sm" variant="dark" style={{ marginTop: "-8px", marginBottom: "-8px" }}>
+                            <Nav.Link style={{ color: "White", fontSize: "18px" }}>
+                              <BsFileEarmarkText /> Reporting Employee{" "}
+                            </Nav.Link>
+                          </Navbar>
+                        </Card.Header>
+
+                        <Card.Body>
+                          <Row>
+                            <Col sm={12}>
+                              <table className="table table-borderless">
+                                <tbody>
+                                  <tr>
+                                  {reportingEmployees
+                                    ?.split(",")
+                                    ?.map((reportingEmployees) => (
+                                      <li>{reportingEmployees} </li>
+                                    ))}
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    <Col sm={6}>
+                      <Card style={{ height: "200px" }}>
+                        <Card.Header as="h6" style={{ backgroundColor: "#903ee7", color: "white" }} >
+                          <Navbar collapseOnSelect expand="sm" variant="dark" style={{ marginTop: "-8px", marginBottom: "-8px" }} >
+                            <Nav.Link style={{ color: "White", fontSize: "18px" }}>
+                              <BsFileEarmarkText /> Leave Management{" "}
+                            </Nav.Link>
+                          </Navbar>
+                        </Card.Header>
+
+                        <Card.Body>
+                          <Row>
+                            <Col sm={12}>
+                              <table className="table table-borderless">
+                                <tbody>
+                                  <tr>
+                                    <th style={{ width: "140px" }}>Start From   :</th>
+                                    <td>31/04/2023</td>
+                                  </tr>
+                                  <tr>
+                                    <th>End To    :</th>
+                                    <td>01/05/2024</td>
+                                  </tr>
+                                  <tr>
+                                    <th>Leave Count    :</th>
+                                    <td>15</td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </Col>
+                          </Row>
+                        </Card.Body>
+                      </Card>
+                    </Col>
+                    </MDBRow>
+                    <div className="d-flex justify-content-start">
+                      <a href="#!"><MDBIcon fab icon="facebook me-3" size="lg" /></a>
+                      <a href="#!"><MDBIcon fab icon="twitter me-3" size="lg" /></a>
+                      <a href="#!"><MDBIcon fab icon="instagram me-3" size="lg" /></a>
+                    </div>
+                  </MDBCardBody>
+                </MDBCol>
+              </MDBRow>
+            </MDBCard>
+          </MDBCol>
+        </MDBRow>
+      </MDBContainer>
+    </section>
+      {/* <div className="card" style={{ padding: "20px", lineHeight: "32px" }}>
         <Row>
           <Col sm={8}>
             <Card>
@@ -360,7 +571,7 @@ const [show, setShow] = useState(true);
             </Card>
           </Col>
         </Row>
-      </div>
+      </div> */}
     </>
   );
 }

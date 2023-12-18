@@ -5,8 +5,26 @@ import { Nav, Navbar, Col, Row, Card } from "react-bootstrap";
 import { BsFileEarmarkText } from "react-icons/bs";
 import { BsFillPencilFill } from "react-icons/bs";
 import JoditEditor from 'jodit-react';
+import { useNavigate } from "react-router-dom";
+import { useEffect } from "react";
 
 export default function EmployeePolicy(props) {
+
+    // const navigate = useNavigate();
+    // useEffect(() => {
+    //     debugger;
+    //     const token = localStorage.getItem("accessToken");
+    //     let decodedJwt="";
+    //     if(token == ''  || token == null){
+    //         navigate("/");
+    //     }else{
+    //     decodedJwt = JSON.parse(atob(token.split(".")[1]));
+    //     if (decodedJwt.exp * 1000 < Date.now()) {
+    //         delete localStorage.removeItem("accessToken");
+    //         navigate("/");
+    //     }
+    //     }
+    // }, []);
 
     const editor = useRef(null);
     const [content, setContent] = useState('');

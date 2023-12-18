@@ -28,6 +28,20 @@ import { useEffect } from 'react';
 import { ReactSession } from 'react-client-session';
 export default function Layout() {
   const navigate = useNavigate();
+    useEffect(() => {
+        debugger;
+        const token = localStorage.getItem("accessToken");
+        let decodedJwt="";
+        if(token == ''  || token == null){
+            navigate("/");
+        }else{
+        decodedJwt = JSON.parse(atob(token.split(".")[1]));
+        if (decodedJwt.exp * 1000 < Date.now()) {
+            delete localStorage.removeItem("accessToken");
+            navigate("/");
+        }
+        }
+    }, []);
   const { loading } = useLoading();
   return (
     <>

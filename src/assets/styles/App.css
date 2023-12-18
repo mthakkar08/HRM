@@ -1171,3 +1171,14 @@ tr.selected-row,
 }
 
 
+.gradient-custom {
+  /* fallback for old browsers */
+  background: #f6d365;
+  background: rgb(2,0,36);
+background: radial-gradient(circle, rgba(2,0,36,1) 0%, rgba(144,62,231,0.9836309523809523) 35%, rgba(158,0,255,1) 100%);
+  /* Chrome 10-25, Safari 5.1-6 */
+  /*background: -webkit-linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1));*/
+
+  /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+ /* background: linear-gradient(to right bottom, rgba(246, 211, 101, 1), rgba(253, 160, 133, 1))*/
+}

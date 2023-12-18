@@ -9,6 +9,7 @@ import { alpha, styled } from "@mui/material/styles";
 import { TreeView } from "@mui/x-tree-view/TreeView";
 import { TreeItem, treeItemClasses } from "@mui/x-tree-view/TreeItem";
 import { useLoading } from "../../LoadingContext";
+import EmployeeProfile from "./EmployeeProfile";
 
 function MinusSquare(props) {
   return (
@@ -129,6 +130,8 @@ const ManageEmployee = () => {
     }
   }
   return (
+    <div className="row">
+      <div className="col col-md-2">
     <Box sx={{ minHeight: 270, flexGrow: 1, maxWidth: 300 }}>
       <TreeView
         aria-label="customized"
@@ -141,6 +144,11 @@ const ManageEmployee = () => {
         {GetEmployeesToManage(employeeList)}
       </TreeView>
     </Box>
+    </div>
+    <div className="col">
+    <EmployeeProfile />
+    </div>
+    </div>
   );
 };
 
